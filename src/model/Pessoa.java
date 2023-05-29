@@ -4,11 +4,11 @@ import java.util.Date;
 
 public class Pessoa {
     
-    public String nome;
-    public int id;
-    public String telefone;
-    public String email;
-    public Date dataAniversario;
+    private String nome;
+    private int id;
+    private String telefone;
+    private String email;
+    private Date dataAniversario;
 
 
     public Pessoa( ) {  }

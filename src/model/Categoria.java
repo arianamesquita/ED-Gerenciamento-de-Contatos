@@ -2,7 +2,7 @@ package model;
 
 public class Categoria {
 
-    public String categorias;
+    private String categorias;
 
     
     public Categoria( ) {  }
