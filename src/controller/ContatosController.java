@@ -18,6 +18,7 @@ public class ContatosController {
         this.pessoa = pessoa;
         this.categoria = categoria;
         this.contatoGUI = new ContatoGUI(pessoa, categoria);
+
         addMouseListener();
     }
 
@@ -48,10 +49,12 @@ public class ContatosController {
 
             @Override
             public void mouseEntered(MouseEvent e) {
+                contatoGUI.getPaintmenu().setBackground(Color.black);
                 contatoGUI.getNumerotelefone().setVisible(true);
                 contatoGUI.getPaintcategoria().setVisible(true);
                 contatoGUI.getEmail().setVisible(true);
-                selecionacor();
+
+                selecionacor(true);
                 contatoGUI.getPaintmenu().repaint();
             }
 
@@ -60,15 +63,19 @@ public class ContatosController {
                 contatoGUI.getEmail().setVisible(false);
                 contatoGUI.getNumerotelefone().setVisible(false);
                 contatoGUI.getPaintcategoria().setVisible(false);
-                selecionacor();
+                contatoGUI.getPaintmenu().setBackground(Color.darkGray);
+                selecionacor(false);
                 contatoGUI.getPaintmenu().repaint();
             }
 
         });
     }
 
-    public void selecionacor() {
+    public void selecionacor(boolean mouseEntered) {
         if (!contatoGUI.isSelect()) {
+            if (mouseEntered) {
+                contatoGUI.getPaintmenu().setBackground(new Color(79,79,79));
+            } else
             contatoGUI.getPaintmenu().setBackground(Color.darkGray);
             contatoGUI.setSelect(false);
         } else {
@@ -101,7 +108,5 @@ public class ContatosController {
     public void setContatoGUI(ContatoGUI contatoGUI) {
         this.contatoGUI = contatoGUI;
     }
-
-
 
 }

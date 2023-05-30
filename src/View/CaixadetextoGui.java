@@ -1,6 +1,7 @@
 package View;
 
-import java.awt.Dimension;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,18 +11,24 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import View.ComponentsCustomGUI.paintmenu;
+
 public class CaixadetextoGui extends JPanel{
     JLabel[] jl;
     JTextField[] jt;
     JButton[] jb;
+    paintmenu paintmenu;
 
     public CaixadetextoGui(){
         this.jt = new JTextField[4];
         this.jl = new JLabel[4];
         this.jb = new JButton[2];
+        this.paintmenu = new paintmenu();
+        paintmenu.setLayout(new GridBagLayout());
+        paintmenu.setOpaque(false);
+        paintmenu.setRounded(20);
         
-        setPreferredSize(new Dimension(300, 200));
-        setLayout(new GridBagLayout());
+        setLayout(new BorderLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
 
@@ -33,7 +40,11 @@ public class CaixadetextoGui extends JPanel{
         jl[0] = new JLabel("nome");
         jl[1] = new JLabel("telefone");
         jl[2] = new JLabel("email");
-        jl[3] = new JLabel("data");
+        jl[3] = new JLabel("data de aniversário");
+        for (JLabel jLabel : jl) {
+            jLabel.setForeground(Color.white);
+            
+        }
 
         jb[0] = new JButton("cancelar");
         jb[1] = new JButton("salvar");
@@ -41,36 +52,68 @@ public class CaixadetextoGui extends JPanel{
         c.weightx = 0.9;
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(10, 10, 0, 0);
-        add(jl[0],c);
+        c.insets = new Insets(0, 10, 0, 0);
+        paintmenu.add(jl[0],c);
+        c.insets = new Insets(10, 10, 0, 10);
         c.gridx = 1;
         c.gridy = 0;
-        add(jt[0],c);
+        paintmenu.add(jt[0],c);
         c.gridx = 0;
         c.gridy = 1;
-        add(jl[1],c);
+        paintmenu.add(jl[1],c);
         c.gridx = 1;
         c.gridy = 1;
-        add(jt[1],c);
+        paintmenu.add(jt[1],c);
         c.gridx = 0;
         c.gridy = 2;
-        add(jl[2],c);
+        paintmenu.add(jl[2],c);
         c.gridx = 1;
         c.gridy = 2;
-        add(jt[2],c);
+        paintmenu.add(jt[2],c);
         c.gridx = 0;
         c.gridy = 3;
-        add(jl[3],c);
+        paintmenu.add(jl[3],c);
         c.gridx = 1;
         c.gridy = 3;
-        add(jt[3],c);
+        paintmenu.add(jt[3],c);
         c.gridx = 0;
-        c.gridy = 4;
-        add(jb[0], c);
+        c.gridy = 4;        
+        c.insets = new Insets(20, 10, 10, 10);
+
+        paintmenu.add(jb[0], c);
         c.gridx = 1;
         c.gridy = 4;
-        add(jb[1], c);
+        paintmenu.add(jb[1], c);
+        paintmenu.setBackground(Color.darkGray);
+        setBackground(Color.gray);
+        setOpaque(true);
+        add(paintmenu,BorderLayout.CENTER);
+        setVisible(true);
         
+    }
+
+    public JLabel[] getJl() {
+        return jl;
+    }
+
+    public void setJl(JLabel[] jl) {
+        this.jl = jl;
+    }
+
+    public JTextField[] getJt() {
+        return jt;
+    }
+
+    public void setJt(JTextField[] jt) {
+        this.jt = jt;
+    }
+
+    public JButton[] getJb() {
+        return jb;
+    }
+
+    public void setJb(JButton[] jb) {
+        this.jb = jb;
     }
     
 }
