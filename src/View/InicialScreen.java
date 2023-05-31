@@ -14,20 +14,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-public class telinha extends JPanel {
+public class InicialScreen extends JPanel {
     private BoxLayout layout;
-    private JPanel panelcontatos,painelCategoria,paineleditar;
+    private JPanel panelContatos,painelCategoria, painelEditar;
     private JButton criar, editar, apagar, apagarTodos, adicionarCategoria, removerCategoria;
     private JScrollPane scrollPane;
-    private CaixadetextoGui caixadetextoGui;
+    private CaixaTextoGUI caixaTextoGui;
 
-    public telinha() {  
+    public InicialScreen() {
         setLayout(new BorderLayout());
 
-        this.caixadetextoGui = new CaixadetextoGui();
-        this.panelcontatos = new JPanel();
-        this.layout = new BoxLayout(panelcontatos, BoxLayout.Y_AXIS);
-        this.scrollPane = new JScrollPane(panelcontatos);
+        this.caixaTextoGui = new CaixaTextoGUI();
+        this.panelContatos = new JPanel();
+        this.layout = new BoxLayout(panelContatos, BoxLayout.Y_AXIS);
+        this.scrollPane = new JScrollPane(panelContatos);
         this.criar = new JButton("adicionar novo contato");
         this.editar = new JButton("editar");
         this.apagar = new JButton("apagar");
@@ -35,9 +35,9 @@ public class telinha extends JPanel {
         this.adicionarCategoria = new JButton("adicionar categoria");
         this.removerCategoria = new JButton("remover categoria");
         this.painelCategoria = new JPanel();
-        this.paineleditar = new JPanel();
-        panelcontatos.setLayout(layout);
-        panelcontatos.setBackground(Color.gray);
+        this.painelEditar = new JPanel();
+        panelContatos.setLayout(layout);
+        panelContatos.setBackground(Color.gray);
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
@@ -59,26 +59,26 @@ public class telinha extends JPanel {
         painelCategoria.add(adicionarCategoria);
         painelCategoria.add(removerCategoria);
 
-        paineleditar.setLayout(new BoxLayout(paineleditar, BoxLayout.Y_AXIS));
-        JPanel paintmenu = new JPanel(layout, isDoubleBuffered());
-        paintmenu.setBackground(Color.gray);
-        paintmenu.setLayout(new FlowLayout());
-        paintmenu.add(criar);
-        paintmenu.add(editar);
-        paintmenu.add(apagar);
-        paintmenu.add(apagarTodos);
-        paineleditar.add(paintmenu);
-        paineleditar.add(caixadetextoGui);
+        painelEditar.setLayout(new BoxLayout(painelEditar, BoxLayout.Y_AXIS));
+        JPanel panel = new JPanel(layout, isDoubleBuffered());
+        panel.setBackground(Color.gray);
+        panel.setLayout(new FlowLayout());
+        panel.add(criar);
+        panel.add(editar);
+        panel.add(apagar);
+        panel.add(apagarTodos);
+        painelEditar.add(panel);
+        painelEditar.add(caixaTextoGui);
 
         editar.setVisible(false);
         apagar.setVisible(false);
         apagarTodos.setVisible(false);
-        caixadetextoGui.setVisible(false);
+        caixaTextoGui.setVisible(false);
         adicionarCategoria.setVisible(false);
         removerCategoria.setVisible(false);
         
         add(painelCategoria,BorderLayout.NORTH);
-        add(paineleditar,BorderLayout.SOUTH);
+        add(painelEditar,BorderLayout.SOUTH);
         setBackground(Color.gray);
         setOpaque(true);
         setVisible(true);
@@ -92,12 +92,12 @@ public class telinha extends JPanel {
         this.layout = layout;
     }
 
-    public JPanel getPanelcontatos() {
-        return panelcontatos;
+    public JPanel getPanelContatos() {
+        return panelContatos;
     }
 
-    public void setPanelcontatos(JPanel panelcontatos) {
-        this.panelcontatos = panelcontatos;
+    public void setPanelContatos(JPanel panelContatos) {
+        this.panelContatos = panelContatos;
     }
 
     public JButton getCriar() {
@@ -164,20 +164,20 @@ public class telinha extends JPanel {
         this.painelCategoria = painelCategoria;
     }
 
-    public JPanel getPaineleditar() {
-        return paineleditar;
+    public JPanel getPainelEditar() {
+        return painelEditar;
     }
 
-    public void setPaineleditar(JPanel paineleditar) {
-        this.paineleditar = paineleditar;
+    public void setPainelEditar(JPanel painelEditar) {
+        this.painelEditar = painelEditar;
     }
 
-    public CaixadetextoGui getCaixadetextoGui() {
-        return caixadetextoGui;
+    public CaixaTextoGUI getCaixaTextoGui() {
+        return caixaTextoGui;
     }
 
-    public void setCaixadetextoGui(CaixadetextoGui caixadetextoGui) {
-        this.caixadetextoGui = caixadetextoGui;
+    public void setCaixaTextoGui(CaixaTextoGUI caixaTextoGui) {
+        this.caixaTextoGui = caixaTextoGui;
     }
 
 }

@@ -28,10 +28,10 @@ public class ContatosController {
             @Override
             public void mouseClicked(MouseEvent e) {
                 if (contatoGUI.isSelect()) {
-                    contatoGUI.getPaintmenu().setBackground(Color.darkGray);
+                    contatoGUI.getPaintMenu().setBackground(Color.darkGray);
                     contatoGUI.setSelect(false);
                 } else {
-                    contatoGUI.getPaintmenu().setBackground(new Color(8, 77, 110));
+                    contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
                     contatoGUI.setSelect(true);
                 }
 
@@ -49,37 +49,39 @@ public class ContatosController {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-                contatoGUI.getPaintmenu().setBackground(Color.black);
-                contatoGUI.getNumerotelefone().setVisible(true);
-                contatoGUI.getPaintcategoria().setVisible(true);
+                contatoGUI.getPaintMenu().setBackground(Color.black);
+                contatoGUI.getNumeroTelefone().setVisible(true);
+                contatoGUI.getPaintCategoria().setVisible(true);
                 contatoGUI.getEmail().setVisible(true);
 
-                selecionacor(true);
-                contatoGUI.getPaintmenu().repaint();
+                SelecionaCor(true);
+                contatoGUI.getPaintMenu().repaint();
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 contatoGUI.getEmail().setVisible(false);
-                contatoGUI.getNumerotelefone().setVisible(false);
-                contatoGUI.getPaintcategoria().setVisible(false);
-                contatoGUI.getPaintmenu().setBackground(Color.darkGray);
-                selecionacor(false);
-                contatoGUI.getPaintmenu().repaint();
+                contatoGUI.getNumeroTelefone().setVisible(false);
+                contatoGUI.getPaintCategoria().setVisible(false);
+                contatoGUI.getPaintMenu().setBackground(Color.darkGray);
+                SelecionaCor(false);
+                contatoGUI.getPaintMenu().repaint();
             }
 
         });
     }
 
-    public void selecionacor(boolean mouseEntered) {
+    public void SelecionaCor(boolean mouseEntered) {
         if (!contatoGUI.isSelect()) {
-            if (mouseEntered) {
-                contatoGUI.getPaintmenu().setBackground(new Color(79,79,79));
-            } else
-            contatoGUI.getPaintmenu().setBackground(Color.darkGray);
+
             contatoGUI.setSelect(false);
+
+            if (mouseEntered) {
+                contatoGUI.getPaintMenu().setBackground(new Color(79,79,79));
+            } else contatoGUI.getPaintMenu().setBackground(Color.darkGray);
+
         } else {
-            contatoGUI.getPaintmenu().setBackground(new Color(8, 77, 110));
+            contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
             contatoGUI.setSelect(true);
         }
 

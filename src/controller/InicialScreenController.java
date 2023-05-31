@@ -1,20 +1,19 @@
 package controller;
 
-import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import View.InicialScreen;
+
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import View.telinha;
 
 public class InicialScreenController {
     private ContatosController[] contatosController;
-    private telinha inicialScreenGUI;
+    private InicialScreen inicialScreenGUI;
     public InicialScreenController(ContatosController[] contatosController) {
         this.contatosController = contatosController;
-        this.inicialScreenGUI = new telinha();
+        this.inicialScreenGUI = new InicialScreen();
         for (ContatosController contatosController2 : contatosController) {
-            inicialScreenGUI.getPanelcontatos().add(contatosController2.getContatoGUI());
+            inicialScreenGUI.getPanelContatos().add(contatosController2.getContatoGUI());
             contatosController2.getContatoGUI().addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
@@ -53,32 +52,22 @@ public class InicialScreenController {
             }});
         }
 
-        getInicialScreenGUI().getCriar().addActionListener(new ActionListener() {
+        getInicialScreenGUI().getCriar().addActionListener(e -> {
+            if (getInicialScreenGUI().getCaixaTextoGui().isVisible()){
+                 getInicialScreenGUI().getCriar().setVisible(true);
+                getInicialScreenGUI().getCaixaTextoGui().setVisible(true);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (getInicialScreenGUI().getCaixadetextoGui().isVisible()){                   
-                     getInicialScreenGUI().getCriar().setVisible(true);
-                    getInicialScreenGUI().getCaixadetextoGui().setVisible(true);
-
-                }else {getInicialScreenGUI().getCaixadetextoGui().setVisible(true);
-                    getInicialScreenGUI().getCriar().setVisible(false);
-
-                }
+            }else {getInicialScreenGUI().getCaixaTextoGui().setVisible(true);
+                getInicialScreenGUI().getCriar().setVisible(false);
 
             }
-            
+
         });
             
-        getInicialScreenGUI().getCaixadetextoGui().getJb()[0].addActionListener(new ActionListener() {
+        getInicialScreenGUI().getCaixaTextoGui().getJb()[0].addActionListener(e -> {
+        inicialScreenGUI.getCaixaTextoGui().setVisible(false);
+        getInicialScreenGUI().getCriar().setVisible(true);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-            inicialScreenGUI.getCaixadetextoGui().setVisible(false);
-            getInicialScreenGUI().getCriar().setVisible(true);
-
-            }
-            
         });
         inicialScreenGUI.add(inicialScreenGUI.getScrollPane(),BorderLayout.CENTER);
     }
@@ -88,10 +77,10 @@ public class InicialScreenController {
     public void setContatosController(ContatosController[] contatosController) {
         this.contatosController = contatosController;
     }
-    public telinha getInicialScreenGUI() {
+    public InicialScreen getInicialScreenGUI() {
         return inicialScreenGUI;
     }
-    public void setInicialScreenGUI(telinha inicialScreen) {
+    public void setInicialScreenGUI(InicialScreen inicialScreen) {
         this.inicialScreenGUI = inicialScreen;
     }
 

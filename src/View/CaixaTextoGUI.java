@@ -11,19 +11,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import View.ComponentsCustomGUI.paintmenu;
+import View.ComponentsCustomGUI.PaintMenu;
 
-public class CaixadetextoGui extends JPanel{
+public class CaixaTextoGUI extends JPanel{
     JLabel[] jl;
     JTextField[] jt;
     JButton[] jb;
-    paintmenu paintmenu;
+    PaintMenu paintmenu;
 
-    public CaixadetextoGui(){
+    public CaixaTextoGUI(){
         this.jt = new JTextField[4];
         this.jl = new JLabel[4];
         this.jb = new JButton[2];
-        this.paintmenu = new paintmenu();
+        this.paintmenu = new PaintMenu();
         paintmenu.setLayout(new GridBagLayout());
         paintmenu.setOpaque(false);
         paintmenu.setRounded(20);

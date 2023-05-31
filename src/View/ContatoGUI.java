@@ -12,45 +12,45 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import View.ComponentsCustomGUI.paintmenu;
+import View.ComponentsCustomGUI.PaintMenu;
 import model.Categoria;
 import model.Pessoa;
 
 public class ContatoGUI extends JPanel {
 
-    private JLabel fotodeperfil, nome, numerotelefone, email, data;
-    private paintmenu paintcategoria, paintmenu;
+    private JLabel fotoPerfil, nome, numeroTelefone, email, data;
+    private PaintMenu paintCategoria, paintMenu;
     private boolean select;
 
     public ContatoGUI(Pessoa pessoa, Categoria categoria) {
         this.select = false;
         setLayout(new BorderLayout());
 
-        paintmenu = new paintmenu();
-        paintmenu.setBackground(getBackground());
-        paintmenu.setLayout(new GridBagLayout());
-        paintmenu.setOpaque(false);
-        paintmenu.setRounded(20);
+        paintMenu = new PaintMenu();
+        paintMenu.setBackground(getBackground());
+        paintMenu.setLayout(new GridBagLayout());
+        paintMenu.setOpaque(false);
+        paintMenu.setRounded(20);
         Icon icon = new ImageIcon("C:\\Users\\pedro\\Downloads\\imagemuser.png");
 
-        fotodeperfil = new JLabel();
-        fotodeperfil.setOpaque(false);
-        fotodeperfil.setIcon(icon);
+        fotoPerfil = new JLabel();
+        fotoPerfil.setOpaque(false);
+        fotoPerfil.setIcon(icon);
         email = new JLabel(pessoa.getEmail());
-        numerotelefone = new JLabel(pessoa.getTelefone());
+        numeroTelefone = new JLabel(pessoa.getTelefone());
         nome = new JLabel(pessoa.getNome());
         nome.setHorizontalAlignment(JLabel.LEFT);
 
-        paintcategoria = new paintmenu();
-        paintcategoria.setBackground(Color.lightGray);
-        paintcategoria.setLayout(new FlowLayout());
-        paintcategoria.setOpaque(false);
+        paintCategoria = new PaintMenu();
+        paintCategoria.setBackground(Color.lightGray);
+        paintCategoria.setLayout(new FlowLayout());
+        paintCategoria.setOpaque(false);
         JLabel texto = new JLabel("categoria: " + categoria.getCategorias());
-        paintcategoria.add(texto);
+        paintCategoria.add(texto);
 
-        fotodeperfil.setForeground(Color.white);
+        fotoPerfil.setForeground(Color.white);
         email.setForeground(Color.white);
-        numerotelefone.setForeground(Color.white);
+        numeroTelefone.setForeground(Color.white);
         nome.setForeground(Color.white);
 
         GridBagConstraints c = new GridBagConstraints();
@@ -60,32 +60,32 @@ public class ContatoGUI extends JPanel {
         c.gridx = 0;
         c.gridy = 0;
         c.weightx = 0.1;
-        paintmenu.add(fotodeperfil, c);
+        paintMenu.add(fotoPerfil, c);
         c.gridx = 1;
         c.gridy = 0;
         c.weightx = 1;
-        paintmenu.add(nome, c);
+        paintMenu.add(nome, c);
         c.insets = new Insets(10, 10, 0, 10);
         c.gridx = 0;
         c.gridy = 1;
         c.gridwidth = 2;
         c.anchor = GridBagConstraints.CENTER;
-        paintmenu.add(email, c);
+        paintMenu.add(email, c);
         c.gridx = 0;
         c.gridy = 2;
-        paintmenu.add(numerotelefone, c);
+        paintMenu.add(numeroTelefone, c);
         c.insets = new Insets(10, 10, 10, 10);
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 3;
-        paintmenu.add(paintcategoria, c);
+        paintMenu.add(paintCategoria, c);
 
-        paintcategoria.setVisible(false);
+        paintCategoria.setVisible(false);
         email.setVisible(false);
-        numerotelefone.setVisible(false);
-        paintmenu.setBackground(Color.darkGray);
+        numeroTelefone.setVisible(false);
+        paintMenu.setBackground(Color.darkGray);
         setOpaque(false);
-        add(paintmenu, BorderLayout.CENTER);
+        add(paintMenu, BorderLayout.CENTER);
         setVisible(true);
 
     }
@@ -98,12 +98,12 @@ public class ContatoGUI extends JPanel {
         this.select = select;
     }
 
-    public JLabel getFotodeperfil() {
-        return fotodeperfil;
+    public JLabel getFotoPerfil() {
+        return fotoPerfil;
     }
 
-    public void setFotodeperfil(JLabel fotodeperfil) {
-        this.fotodeperfil = fotodeperfil;
+    public void setFotoPerfil(JLabel fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public JLabel getNome() {
@@ -114,12 +114,12 @@ public class ContatoGUI extends JPanel {
         this.nome = nome;
     }
 
-    public JLabel getNumerotelefone() {
-        return numerotelefone;
+    public JLabel getNumeroTelefone() {
+        return numeroTelefone;
     }
 
-    public void setNumerotelefone(JLabel numerotelefone) {
-        this.numerotelefone = numerotelefone;
+    public void setNumeroTelefone(JLabel numeroTelefone) {
+        this.numeroTelefone = numeroTelefone;
     }
 
     public JLabel getEmail() {
@@ -138,20 +138,20 @@ public class ContatoGUI extends JPanel {
         this.data = data;
     }
 
-    public paintmenu getPaintcategoria() {
-        return paintcategoria;
+    public PaintMenu getPaintCategoria() {
+        return paintCategoria;
     }
 
-    public void setPaintcategoria(paintmenu paintcategoria) {
-        this.paintcategoria = paintcategoria;
+    public void setPaintCategoria(PaintMenu paintCategoria) {
+        this.paintCategoria = paintCategoria;
     }
 
-    public paintmenu getPaintmenu() {
-        return paintmenu;
+    public PaintMenu getPaintMenu() {
+        return paintMenu;
     }
 
-    public void setPaintmenu(paintmenu paintmenu) {
-        this.paintmenu = paintmenu;
+    public void setPaintMenu(PaintMenu paintMenu) {
+        this.paintMenu = paintMenu;
     }
 
 }
