@@ -13,13 +13,13 @@ import javax.swing.JTextField;
 
 import View.ComponentsCustomGUI.PaintMenu;
 
-public class CaixaTextoGUI extends JPanel{
+public class CaixaTextoGUI extends JPanel {
     JLabel[] jl;
     JTextField[] jt;
     JButton[] jb;
     PaintMenu paintmenu;
 
-    public CaixaTextoGUI(){
+    public CaixaTextoGUI() {
         this.jt = new JTextField[4];
         this.jl = new JLabel[4];
         this.jb = new JButton[2];
@@ -27,7 +27,7 @@ public class CaixaTextoGUI extends JPanel{
         paintmenu.setLayout(new GridBagLayout());
         paintmenu.setOpaque(false);
         paintmenu.setRounded(20);
-        
+
         setLayout(new BorderLayout());
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -43,7 +43,7 @@ public class CaixaTextoGUI extends JPanel{
         jl[3] = new JLabel("data de aniversário");
         for (JLabel jLabel : jl) {
             jLabel.setForeground(Color.white);
-            
+
         }
 
         jb[0] = new JButton("cancelar");
@@ -53,31 +53,31 @@ public class CaixaTextoGUI extends JPanel{
         c.gridx = 0;
         c.gridy = 0;
         c.insets = new Insets(0, 10, 0, 0);
-        paintmenu.add(jl[0],c);
+        paintmenu.add(jl[0], c);
         c.insets = new Insets(10, 10, 0, 10);
         c.gridx = 1;
         c.gridy = 0;
-        paintmenu.add(jt[0],c);
+        paintmenu.add(jt[0], c);
         c.gridx = 0;
         c.gridy = 1;
-        paintmenu.add(jl[1],c);
+        paintmenu.add(jl[1], c);
         c.gridx = 1;
         c.gridy = 1;
-        paintmenu.add(jt[1],c);
+        paintmenu.add(jt[1], c);
         c.gridx = 0;
         c.gridy = 2;
-        paintmenu.add(jl[2],c);
+        paintmenu.add(jl[2], c);
         c.gridx = 1;
         c.gridy = 2;
-        paintmenu.add(jt[2],c);
+        paintmenu.add(jt[2], c);
         c.gridx = 0;
         c.gridy = 3;
-        paintmenu.add(jl[3],c);
+        paintmenu.add(jl[3], c);
         c.gridx = 1;
         c.gridy = 3;
-        paintmenu.add(jt[3],c);
+        paintmenu.add(jt[3], c);
         c.gridx = 0;
-        c.gridy = 4;        
+        c.gridy = 4;
         c.insets = new Insets(20, 10, 10, 10);
 
         paintmenu.add(jb[0], c);
@@ -87,9 +87,9 @@ public class CaixaTextoGUI extends JPanel{
         paintmenu.setBackground(Color.darkGray);
         setBackground(Color.gray);
         setOpaque(true);
-        add(paintmenu,BorderLayout.CENTER);
+        add(paintmenu, BorderLayout.CENTER);
         setVisible(true);
-        
+
     }
 
     public JLabel[] getJl() {
@@ -115,5 +115,5 @@ public class CaixaTextoGUI extends JPanel{
     public void setJb(JButton[] jb) {
         this.jb = jb;
     }
-    
+
 }

@@ -7,7 +7,7 @@ import controller.InicialScreenController;
 import database.CategoriaDAO;
 import database.PessoaDAO;
 
-public class mainteste2 {
+public class MainTeste {
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setLayout(new BorderLayout());
@@ -15,7 +15,7 @@ public class mainteste2 {
         
         PessoaDAO pessoa = new PessoaDAO("pedro", 0, "61985439393", "pedrohenriquedejesus13@gmail.com",new java.util.Date());
         CategoriaDAO categoria = new CategoriaDAO("amigo");
-        ContatosController[] contato = new ContatosController[50];
+        ContatosController[] contato = new ContatosController[1000];
         
 
         for (int i = 0; i < contato.length; i++) {

@@ -20,7 +20,7 @@ public class ContatoGUI extends JPanel {
 
     private JLabel fotoPerfil, nome, numeroTelefone, email, data;
     private PaintMenu paintCategoria, paintMenu;
-    private boolean select;
+    private boolean select, mouseClicked;
 
     public ContatoGUI(Pessoa pessoa, Categoria categoria) {
         this.select = false;
@@ -152,6 +152,14 @@ public class ContatoGUI extends JPanel {
 
     public void setPaintMenu(PaintMenu paintMenu) {
         this.paintMenu = paintMenu;
+    }
+
+    public boolean isMouseClicked() {
+        return mouseClicked;
+    }
+
+    public void setMouseClicked(boolean mouseClicked) {
+        this.mouseClicked = mouseClicked;
     }
 
 }

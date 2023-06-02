@@ -27,6 +27,7 @@ public class ContatosController {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                if(contatoGUI.isMouseClicked()){
                 if (contatoGUI.isSelect()) {
                     contatoGUI.getPaintMenu().setBackground(Color.darkGray);
                     contatoGUI.setSelect(false);
@@ -35,7 +36,7 @@ public class ContatosController {
                     contatoGUI.setSelect(true);
                 }
 
-            }
+            }}
 
             @Override
             public void mousePressed(MouseEvent e) {

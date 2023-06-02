@@ -1,5 +1,7 @@
 package View;
 
+import controller.FiltroController;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -7,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -14,20 +17,21 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-public class InicialScreen extends JPanel {
+public class InicialScreen extends JPanel{
     private BoxLayout layout;
-    private JPanel panelContatos,painelCategoria, painelEditar;
+    private JPanel panelcontatos,painelCategoria,paineleditar;
     private JButton criar, editar, apagar, apagarTodos, adicionarCategoria, removerCategoria;
     private JScrollPane scrollPane;
-    private CaixaTextoGUI caixaTextoGui;
+    private CaixaTextoGUI caixadetextoGui;
+    private FiltroController filtro;
 
-    public InicialScreen() {
+    public InicialScreen() {  
         setLayout(new BorderLayout());
 
-        this.caixaTextoGui = new CaixaTextoGUI();
-        this.panelContatos = new JPanel();
-        this.layout = new BoxLayout(panelContatos, BoxLayout.Y_AXIS);
-        this.scrollPane = new JScrollPane(panelContatos);
+        this.caixadetextoGui = new CaixaTextoGUI();
+        this.panelcontatos = new JPanel();
+        this.layout = new BoxLayout(panelcontatos, BoxLayout.Y_AXIS);
+        this.scrollPane = new JScrollPane(panelcontatos);
         this.criar = new JButton("adicionar novo contato");
         this.editar = new JButton("editar");
         this.apagar = new JButton("apagar");
@@ -35,9 +39,10 @@ public class InicialScreen extends JPanel {
         this.adicionarCategoria = new JButton("adicionar categoria");
         this.removerCategoria = new JButton("remover categoria");
         this.painelCategoria = new JPanel();
-        this.painelEditar = new JPanel();
-        panelContatos.setLayout(layout);
-        panelContatos.setBackground(Color.gray);
+        this.paineleditar = new JPanel();
+        this.filtro = new FiltroController();
+        panelcontatos.setLayout(layout);
+        panelcontatos.setBackground(Color.gray);
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
@@ -59,26 +64,29 @@ public class InicialScreen extends JPanel {
         painelCategoria.add(adicionarCategoria);
         painelCategoria.add(removerCategoria);
 
-        painelEditar.setLayout(new BoxLayout(painelEditar, BoxLayout.Y_AXIS));
-        JPanel panel = new JPanel(layout, isDoubleBuffered());
-        panel.setBackground(Color.gray);
-        panel.setLayout(new FlowLayout());
-        panel.add(criar);
-        panel.add(editar);
-        panel.add(apagar);
-        panel.add(apagarTodos);
-        painelEditar.add(panel);
-        painelEditar.add(caixaTextoGui);
+        paineleditar.setLayout(new BoxLayout(paineleditar, BoxLayout.Y_AXIS));
+        JPanel paintmenu = new JPanel(layout, isDoubleBuffered());
+        paintmenu.setBackground(Color.gray);
+        paintmenu.setLayout(new FlowLayout());
+        paintmenu.add(criar);
+        paintmenu.add(editar);
+        paintmenu.add(apagar);
+        paintmenu.add(apagarTodos);
+
+        paineleditar.add(paintmenu);
+        paineleditar.add(painelCategoria);
+        caixadetextoGui.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        paineleditar.add(caixadetextoGui,BorderLayout.CENTER);
 
         editar.setVisible(false);
         apagar.setVisible(false);
         apagarTodos.setVisible(false);
-        caixaTextoGui.setVisible(false);
+        caixadetextoGui.setVisible(false);
         adicionarCategoria.setVisible(false);
         removerCategoria.setVisible(false);
-        
-        add(painelCategoria,BorderLayout.NORTH);
-        add(painelEditar,BorderLayout.SOUTH);
+
+        add(filtro.getFiltro(),BorderLayout.NORTH);
+        add(paineleditar,BorderLayout.SOUTH);
         setBackground(Color.gray);
         setOpaque(true);
         setVisible(true);
@@ -92,12 +100,28 @@ public class InicialScreen extends JPanel {
         this.layout = layout;
     }
 
-    public JPanel getPanelContatos() {
-        return panelContatos;
+    public JPanel getPanelcontatos() {
+        return panelcontatos;
     }
 
-    public void setPanelContatos(JPanel panelContatos) {
-        this.panelContatos = panelContatos;
+    public void setPanelcontatos(JPanel panelcontatos) {
+        this.panelcontatos = panelcontatos;
+    }
+
+    public JPanel getPainelCategoria() {
+        return painelCategoria;
+    }
+
+    public void setPainelCategoria(JPanel painelCategoria) {
+        this.painelCategoria = painelCategoria;
+    }
+
+    public JPanel getPaineleditar() {
+        return paineleditar;
+    }
+
+    public void setPaineleditar(JPanel paineleditar) {
+        this.paineleditar = paineleditar;
     }
 
     public JButton getCriar() {
@@ -156,28 +180,20 @@ public class InicialScreen extends JPanel {
         this.scrollPane = scrollPane;
     }
 
-    public JPanel getPainelCategoria() {
-        return painelCategoria;
+    public CaixaTextoGUI getCaixadetextoGui() {
+        return caixadetextoGui;
     }
 
-    public void setPainelCategoria(JPanel painelCategoria) {
-        this.painelCategoria = painelCategoria;
+    public void setCaixadetextoGui(CaixaTextoGUI caixadetextoGui) {
+        this.caixadetextoGui = caixadetextoGui;
     }
 
-    public JPanel getPainelEditar() {
-        return painelEditar;
+
+    public FiltroController getFiltro() {
+        return filtro;
     }
 
-    public void setPainelEditar(JPanel painelEditar) {
-        this.painelEditar = painelEditar;
+    public void setFiltro(FiltroController filtro) {
+        this.filtro = filtro;
     }
-
-    public CaixaTextoGUI getCaixaTextoGui() {
-        return caixaTextoGui;
-    }
-
-    public void setCaixaTextoGui(CaixaTextoGUI caixaTextoGui) {
-        this.caixaTextoGui = caixaTextoGui;
-    }
-
 }
