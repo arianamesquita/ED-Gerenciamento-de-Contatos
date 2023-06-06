@@ -4,22 +4,32 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import View.ContatoGUI;
+import View.ContatosScreenGUI;
 import model.Categoria;
 import model.Pessoa;
 
 public class ContatosController {
 
-    Pessoa pessoa;
-    Categoria categoria;
-    ContatoGUI contatoGUI;
+    private Pessoa pessoa;
+    private Categoria categoria;
+    private ContatosScreenGUI contatoGUI;
 
     public ContatosController(Pessoa pessoa, Categoria categoria) {
         this.pessoa = pessoa;
         this.categoria = categoria;
-        this.contatoGUI = new ContatoGUI(pessoa, categoria);
-
+        this.contatoGUI = new ContatosScreenGUI(pessoa, categoria);
         addMouseListener();
+    }
+    public  void updateGUI(){
+        setContatoGUI(new ContatosScreenGUI(getPessoa(),getCategoria()));
+        addMouseListener();
+    }
+    public void setVisibleGUI(boolean aFlag){
+        getContatoGUI().setVisible(aFlag);
+
+    }
+    public void repaint(){
+        getContatoGUI().repaint();
     }
 
     private void addMouseListener() {
@@ -54,6 +64,7 @@ public class ContatosController {
                 contatoGUI.getNumeroTelefone().setVisible(true);
                 contatoGUI.getPaintCategoria().setVisible(true);
                 contatoGUI.getEmail().setVisible(true);
+                contatoGUI.getData().setVisible(true);
 
                 SelecionaCor(true);
                 contatoGUI.getPaintMenu().repaint();
@@ -64,6 +75,7 @@ public class ContatosController {
                 contatoGUI.getEmail().setVisible(false);
                 contatoGUI.getNumeroTelefone().setVisible(false);
                 contatoGUI.getPaintCategoria().setVisible(false);
+                contatoGUI.getData().setVisible(false);
                 contatoGUI.getPaintMenu().setBackground(Color.darkGray);
                 SelecionaCor(false);
                 contatoGUI.getPaintMenu().repaint();
@@ -104,12 +116,13 @@ public class ContatosController {
         this.categoria = categoria;
     }
 
-    public ContatoGUI getContatoGUI() {
+    public ContatosScreenGUI getContatoGUI() {
         return contatoGUI;
     }
 
-    public void setContatoGUI(ContatoGUI contatoGUI) {
+    public void setContatoGUI(ContatosScreenGUI contatoGUI) {
         this.contatoGUI = contatoGUI;
     }
+
 
 }

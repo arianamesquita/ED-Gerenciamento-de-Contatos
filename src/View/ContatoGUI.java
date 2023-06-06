@@ -2,164 +2,204 @@ package View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.ParseException;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
 
 import View.ComponentsCustomGUI.PaintMenu;
-import model.Categoria;
-import model.Pessoa;
 
 public class ContatoGUI extends JPanel {
+    private JLabel[] jl;
+    private JTextField nomeField;
+    private JFormattedTextField telefoneField;
+    private JTextField emailField;
+    private JFormattedTextField dataField;
 
-    private JLabel fotoPerfil, nome, numeroTelefone, email, data;
-    private PaintMenu paintCategoria, paintMenu;
-    private boolean select, mouseClicked;
+    private MaskFormatter telefoneFormatter;
+    private MaskFormatter dataFormatter;
 
-    public ContatoGUI(Pessoa pessoa, Categoria categoria) {
-        this.select = false;
-        setLayout(new BorderLayout());
+    private JButton salvar,cancelar;
 
-        paintMenu = new PaintMenu();
-        paintMenu.setBackground(getBackground());
-        paintMenu.setLayout(new GridBagLayout());
-        paintMenu.setOpaque(false);
-        paintMenu.setRounded(20);
-        Icon icon = new ImageIcon("C:\\Users\\pedro\\Downloads\\imagemuser.png");
+    private PaintMenu paintmenu;
 
-        fotoPerfil = new JLabel();
-        fotoPerfil.setOpaque(false);
-        fotoPerfil.setIcon(icon);
-        email = new JLabel(pessoa.getEmail());
-        numeroTelefone = new JLabel(pessoa.getTelefone());
-        nome = new JLabel(pessoa.getNome());
-        nome.setHorizontalAlignment(JLabel.LEFT);
+    public ContatoGUI(){
+        setLayout(new BorderLayout());    
+        
+        this.paintmenu = new PaintMenu();
+        this.jl = new JLabel[4];
+        try {
+            this.telefoneFormatter = new MaskFormatter("(##) ####-####");
+            this.dataFormatter = new MaskFormatter("##/##/####");
+            telefoneFormatter.setPlaceholderCharacter('0');
+            dataFormatter.setPlaceholderCharacter('0');
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.nomeField = new JTextField("digite seu nome");
+        this.telefoneField = new JFormattedTextField(telefoneFormatter);
+        this.emailField = new JFormattedTextField("digite seu email");
+        this.dataField = new JFormattedTextField(dataFormatter);
+        this.salvar = new JButton("salvar");
+        this.cancelar = new JButton("cancelar");
 
-        paintCategoria = new PaintMenu();
-        paintCategoria.setBackground(Color.lightGray);
-        paintCategoria.setLayout(new FlowLayout());
-        paintCategoria.setOpaque(false);
-        JLabel texto = new JLabel("categoria: " + categoria.getCategorias());
-        paintCategoria.add(texto);
-
-        fotoPerfil.setForeground(Color.white);
-        email.setForeground(Color.white);
-        numeroTelefone.setForeground(Color.white);
-        nome.setForeground(Color.white);
+        paintmenu.setLayout(new GridBagLayout());
+        paintmenu.setOpaque(false);
+        paintmenu.setRounded(20);
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.WEST;
-        c.insets = new Insets(10, 10, 10, 10);
+
+    
+
+        jl[0] = new JLabel("nome");
+        jl[1] = new JLabel("telefone");
+        jl[2] = new JLabel("email");
+        jl[3] = new JLabel("data de nascimento");
+
+        for (JLabel jLabel : jl) {
+            jLabel.setForeground(Color.white);
+
+        }
+
+        c.weightx = 0.9;
         c.gridx = 0;
         c.gridy = 0;
-        c.weightx = 0.1;
-        paintMenu.add(fotoPerfil, c);
+        c.insets = new Insets(0, 10, 0, 0);
+        paintmenu.add(jl[0], c);
+        c.insets = new Insets(10, 10, 0, 10);
         c.gridx = 1;
         c.gridy = 0;
-        c.weightx = 1;
-        paintMenu.add(nome, c);
-        c.insets = new Insets(10, 10, 0, 10);
+        paintmenu.add(nomeField, c);
         c.gridx = 0;
         c.gridy = 1;
-        c.gridwidth = 2;
-        c.anchor = GridBagConstraints.CENTER;
-        paintMenu.add(email, c);
+        paintmenu.add(jl[1], c);
+        c.gridx = 1;
+        c.gridy = 1;
+        paintmenu.add(telefoneField, c);
         c.gridx = 0;
         c.gridy = 2;
-        paintMenu.add(numeroTelefone, c);
-        c.insets = new Insets(10, 10, 10, 10);
-        c.gridwidth = 2;
+        paintmenu.add(jl[2], c);
+        c.gridx = 1;
+        c.gridy = 2;
+        paintmenu.add(emailField, c);
         c.gridx = 0;
         c.gridy = 3;
-        paintMenu.add(paintCategoria, c);
+        paintmenu.add(jl[3], c);
+        c.gridx = 1;
+        c.gridy = 3;
+        paintmenu.add(dataField, c);
+        c.gridx = 0;
+        c.gridy = 4;
+        c.insets = new Insets(20, 10, 10, 10);
 
-        paintCategoria.setVisible(false);
-        email.setVisible(false);
-        numeroTelefone.setVisible(false);
-        paintMenu.setBackground(Color.darkGray);
-        setOpaque(false);
-        add(paintMenu, BorderLayout.CENTER);
+        paintmenu.add(cancelar, c);
+        c.gridx = 1;
+        c.gridy = 4;
+        paintmenu.add(salvar, c);
+        paintmenu.setBackground(Color.darkGray);
+        setBackground(Color.gray);
+        setOpaque(true);
+        add(paintmenu, BorderLayout.CENTER);
         setVisible(true);
 
     }
 
-    public boolean isSelect() {
-        return select;
+
+    public JLabel[] getJl() {
+        return jl;
     }
 
-    public void setSelect(boolean select) {
-        this.select = select;
+    public void setJl(JLabel[] jl) {
+        this.jl = jl;
     }
 
-    public JLabel getFotoPerfil() {
-        return fotoPerfil;
+    public JTextField getNomeField() {
+        return nomeField;
     }
 
-    public void setFotoPerfil(JLabel fotoPerfil) {
-        this.fotoPerfil = fotoPerfil;
+    public void setNomeField(JTextField nomeField) {
+        this.nomeField = nomeField;
     }
 
-    public JLabel getNome() {
-        return nome;
+    public JFormattedTextField getTelefoneField() {
+        return telefoneField;
     }
 
-    public void setNome(JLabel nome) {
-        this.nome = nome;
+    public void setTelefoneField(JFormattedTextField telefoneField) {
+        this.telefoneField = telefoneField;
     }
 
-    public JLabel getNumeroTelefone() {
-        return numeroTelefone;
+
+
+    public void setEmailField(JFormattedTextField emailField) {
+        this.emailField = emailField;
     }
 
-    public void setNumeroTelefone(JLabel numeroTelefone) {
-        this.numeroTelefone = numeroTelefone;
+    public JFormattedTextField getDataField() {
+        return dataField;
     }
 
-    public JLabel getEmail() {
-        return email;
+    public void setDataField(JFormattedTextField dataField) {
+        this.dataField = dataField;
     }
 
-    public void setEmail(JLabel email) {
-        this.email = email;
+    public MaskFormatter getTelefoneFormatter() {
+        return telefoneFormatter;
     }
 
-    public JLabel getData() {
-        return data;
+    public void setTelefoneFormatter(MaskFormatter telefoneFormatter) {
+        this.telefoneFormatter = telefoneFormatter;
     }
 
-    public void setData(JLabel data) {
-        this.data = data;
+
+
+
+    public MaskFormatter getDataFormatter() {
+        return dataFormatter;
     }
 
-    public PaintMenu getPaintCategoria() {
-        return paintCategoria;
+    public void setDataFormatter(MaskFormatter dataFormatter) {
+        this.dataFormatter = dataFormatter;
     }
 
-    public void setPaintCategoria(PaintMenu paintCategoria) {
-        this.paintCategoria = paintCategoria;
+    public JButton getSalvar() {
+        return salvar;
     }
 
-    public PaintMenu getPaintMenu() {
-        return paintMenu;
+    public void setSalvar(JButton salvar) {
+        this.salvar = salvar;
     }
 
-    public void setPaintMenu(PaintMenu paintMenu) {
-        this.paintMenu = paintMenu;
+    public JButton getCancelar() {
+        return cancelar;
     }
 
-    public boolean isMouseClicked() {
-        return mouseClicked;
+    public void setCancelar(JButton cancelar) {
+        this.cancelar = cancelar;
     }
 
-    public void setMouseClicked(boolean mouseClicked) {
-        this.mouseClicked = mouseClicked;
+    public PaintMenu getPaintmenu() {
+        return paintmenu;
+    }
+
+    public void setPaintmenu(PaintMenu paintmenu) {
+        this.paintmenu = paintmenu;
+    }
+
+    public JTextField getEmailField() {
+        return emailField;
+    }
+
+    public void setEmailField(JTextField emailField) {
+        this.emailField = emailField;
     }
 
 }

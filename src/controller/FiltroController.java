@@ -12,72 +12,88 @@ public class FiltroController implements ActionListener {
 
     public FiltroController(){
         this.filtro = new FiltroGUI();
-        filtro.getFiltrarButton().addActionListener(this);
-        filtro.getAdicionarButton().addActionListener(this);
-        filtro.getRemoverButton().addActionListener(this);
+
+        getFiltro().getFiltrarButton().addActionListener(this);
+        getFiltro().getAdicionarButton().addActionListener(this);
+        getFiltro().getRemoverButton().addActionListener(this);
 
 
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == filtro.getAdicionarButton()) {
+        if (e.getSource() == getFiltro().getAdicionarButton()) {
             setVisibleAll(true);
             adicionarComboBox();
-        } else if (e.getSource() == filtro.getFiltrarButton()) {
+            if (!getFiltro().getFiltrarButton().isVisible()){
+                getFiltro().getRemoverButton().setVisible(true);
+                getFiltro().getFiltrarButton().setVisible(true);
+            }
+        } else if (e.getSource() == getFiltro().getFiltrarButton()) {
             filtrar();
-            filtro.getRemoverButton().setVisible(false);
-            filtro.getFiltrarButton().setVisible(false);
+            getFiltro().getRemoverButton().setVisible(false);
+            getFiltro().getFiltrarButton().setVisible(false);
             setVisibleAll(false);
-        } else if (e.getSource() == filtro.getRemoverButton()) {
+        } else if (e.getSource() == getFiltro().getRemoverButton()) {
             setVisibleAll(true);
             removerComboBox();
         }
     }
 
     private void adicionarComboBox() {
-        if (filtro.getComboBoxes().size() < filtro.getFiltroText().length) {
-            JComboBox<String> comboBox = new JComboBox<>(filtro.getFiltroText());
+        if (getFiltro().getComboBoxes().size() < getFiltro().getFiltroText().length) {
+            JComboBox<String> comboBox = new JComboBox<>(getFiltro().getFiltroText());
             comboBox.setBackground(Color.lightGray);
             comboBox.setForeground(Color.darkGray);
 
-            for (JComboBox<String> cb : filtro.getComboBoxes()) {
+            for (JComboBox<String> cb : getFiltro().getComboBoxes()) {
                 String itemSelecionado = (String) cb.getSelectedItem();
                 comboBox.removeItem(itemSelecionado);
             }
 
-            filtro.getRemoverButton().setVisible(true);
-            filtro.getFiltrarButton().setVisible(true);
-            filtro.getComboBoxes().add(comboBox);
-            filtro.add(comboBox);
-            filtro.revalidate(); // Atualiza o layout do painel
+            getFiltro().getRemoverButton().setVisible(true);
+            getFiltro().getFiltrarButton().setVisible(true);
+            getFiltro().getComboBoxes().add(comboBox);
+            getFiltro().add(comboBox);
+            for (JComboBox<String> combo: filtro.getComboBoxes()) {
+                combo.setEnabled(false);
+            }
+            comboBox.setEnabled(true);
+            getFiltro().revalidate(); // Atualiza o layout do painel
         }
     }
 
     private void removerComboBox() {
-        if (!filtro.getComboBoxes().isEmpty()) {
-            JComboBox<String> comboBox = filtro.getComboBoxes().remove(filtro.getComboBoxes().size() - 1);
-            filtro.remove(comboBox);
-            filtro.revalidate(); // Atualiza o layout do painel
-            filtro.repaint(); // Redesenha o painel
+        if (!getFiltro().getComboBoxes().isEmpty()) {
+            JComboBox<String> comboBox = getFiltro().getComboBoxes().remove(getFiltro().getComboBoxes().size() - 1);
+            getFiltro().remove(comboBox);
+            getFiltro().revalidate(); // Atualiza o layout do painel
+            getFiltro().repaint(); // Redesenha o painel
+            for (int i = 0; i < getFiltro().getComboBoxes().size(); i++) {
+                if( i ==getFiltro().getComboBoxes().size() - 1){
+                    JComboBox<String> comboBox1 = getFiltro().getComboBoxes().get(i);
+                    comboBox1.setEnabled(true);
+                }
+
+            }
         }
-        if (filtro.getComboBoxes().isEmpty()){
-            filtro.getRemoverButton().setVisible(false);
-            filtro.getFiltrarButton().setVisible(false);
+        if (getFiltro().getComboBoxes().isEmpty()){
+            getFiltro().getRemoverButton().setVisible(false);
+            getFiltro().getFiltrarButton().setVisible(false);
         }
     }
 
     private void filtrar() {
         StringBuilder filtroSelecionado = new StringBuilder();
-        for (JComboBox<String> comboBox : filtro.getComboBoxes()) {
+        for (JComboBox<String> comboBox : getFiltro().getComboBoxes()) {
             String itemSelecionado = (String) comboBox.getSelectedItem();
             filtroSelecionado.append(itemSelecionado).append(" , ");
         }
-        JOptionPane.showMessageDialog(filtro, "Filtro selecionado: " + filtroSelecionado);
+        JOptionPane.showMessageDialog(getFiltro(), "Filtro selecionado: " + filtroSelecionado);
     }
     private void setVisibleAll(boolean aFlag){
-        for (JComboBox<String> comboBox : filtro.getComboBoxes()) {
+        for (JComboBox<String> comboBox : getFiltro().getComboBoxes()) {
             comboBox.setVisible(aFlag);
-            filtro.repaint();
+            getFiltro().repaint();
         }
     }
 
@@ -89,3 +105,4 @@ public class FiltroController implements ActionListener {
         this.filtro = filtro;
     }
 }
+

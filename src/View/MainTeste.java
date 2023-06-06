@@ -12,18 +12,28 @@ public class MainTeste {
         JFrame frame = new JFrame();
         frame.setLayout(new BorderLayout());
         frame.setSize(400, 700);
-        
-        PessoaDAO pessoa = new PessoaDAO("pedro", 0, "61985439393", "pedrohenriquedejesus13@gmail.com",new java.util.Date());
-        CategoriaDAO categoria = new CategoriaDAO("amigo");
-        ContatosController[] contato = new ContatosController[1000];
-        
+        ContatosController[] contato = new ContatosController[200];
 
         for (int i = 0; i < contato.length; i++) {
+            PessoaDAO pessoa = new PessoaDAO("pedro"+i, i, "61985439393", "pedrohenriquedejesus13@gmail.com",new java.util.Date());
+            CategoriaDAO categoria = new CategoriaDAO("amigo");
             contato[i] =  new ContatosController(pessoa, categoria);
-            contato[i].getPessoa().setNome("pedro henrique de jesus ferreira" + i);
+
         }
+        int count = 0;
+        for (ContatosController con:contato) {
+        con.getPessoa().setNome("pedro"+count+"uma nova gostosa");
+        con.updateGUI();
+        count++;
+        }
+        for (ContatosController con:contato) {
+            System.out.println(con.getPessoa().getNome());
+
+        }
+
+
         InicialScreenController iController = new InicialScreenController(contato);
-      
+
 
         frame.add(iController.getInicialScreenGUI(),BorderLayout.CENTER);
 

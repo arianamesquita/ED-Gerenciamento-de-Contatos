@@ -1,5 +1,7 @@
 package View;
 
+import controller.ContatoScreenController;
+import controller.CategoriaController;
 import controller.FiltroController;
 
 import java.awt.BorderLayout;
@@ -9,40 +11,40 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-public class InicialScreen extends JPanel{
+public class InicialScreenGUI extends JPanel{
     private BoxLayout layout;
-    private JPanel panelcontatos,painelCategoria,paineleditar;
+    private CategoriaController categoriaController;
+    private JPanel panelContatos, painelEditar;
     private JButton criar, editar, apagar, apagarTodos, adicionarCategoria, removerCategoria;
+    private JLabel contador;
     private JScrollPane scrollPane;
-    private CaixaTextoGUI caixadetextoGui;
+    private ContatoScreenController caixaTextoGui;
     private FiltroController filtro;
 
-    public InicialScreen() {  
+    public InicialScreenGUI() {
         setLayout(new BorderLayout());
 
-        this.caixadetextoGui = new CaixaTextoGUI();
-        this.panelcontatos = new JPanel();
-        this.layout = new BoxLayout(panelcontatos, BoxLayout.Y_AXIS);
-        this.scrollPane = new JScrollPane(panelcontatos);
+        this.caixaTextoGui = new ContatoScreenController();
+        this.panelContatos = new JPanel();
+        this.layout = new BoxLayout(panelContatos, BoxLayout.Y_AXIS);
+        this.scrollPane = new JScrollPane(panelContatos);
         this.criar = new JButton("adicionar novo contato");
         this.editar = new JButton("editar");
         this.apagar = new JButton("apagar");
         this.apagarTodos = new JButton("apagar todos");
+        this.contador = new JLabel();
         this.adicionarCategoria = new JButton("adicionar categoria");
         this.removerCategoria = new JButton("remover categoria");
-        this.painelCategoria = new JPanel();
-        this.paineleditar = new JPanel();
+
+        this.painelEditar = new JPanel();
         this.filtro = new FiltroController();
-        panelcontatos.setLayout(layout);
-        panelcontatos.setBackground(Color.gray);
+        this.categoriaController = new CategoriaController();
+        contador.setForeground(Color.white);
+        panelContatos.setLayout(layout);
+        panelContatos.setBackground(Color.gray);
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void paintThumb(Graphics g, JComponent c, Rectangle thumbBounds) {
@@ -59,34 +61,33 @@ public class InicialScreen extends JPanel{
             }
         });
         scrollPane.setBackground(Color.lightGray);
-        painelCategoria.setLayout(new FlowLayout());
-        painelCategoria.setBackground(Color.gray);
-        painelCategoria.add(adicionarCategoria);
-        painelCategoria.add(removerCategoria);
 
-        paineleditar.setLayout(new BoxLayout(paineleditar, BoxLayout.Y_AXIS));
+        painelEditar.setLayout(new BoxLayout(painelEditar, BoxLayout.Y_AXIS));
         JPanel paintmenu = new JPanel(layout, isDoubleBuffered());
         paintmenu.setBackground(Color.gray);
         paintmenu.setLayout(new FlowLayout());
         paintmenu.add(criar);
         paintmenu.add(editar);
         paintmenu.add(apagar);
+        paintmenu.add(contador);
         paintmenu.add(apagarTodos);
 
-        paineleditar.add(paintmenu);
-        paineleditar.add(painelCategoria);
-        caixadetextoGui.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-        paineleditar.add(caixadetextoGui,BorderLayout.CENTER);
+        painelEditar.add(paintmenu);
+        painelEditar.add(categoriaController.getCategoriaGUI());
+        caixaTextoGui.getCaixaTexto().setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        painelEditar.add(caixaTextoGui.getCaixaTexto(),BorderLayout.CENTER);
 
         editar.setVisible(false);
         apagar.setVisible(false);
         apagarTodos.setVisible(false);
-        caixadetextoGui.setVisible(false);
+        caixaTextoGui.getCaixaTexto().setVisible(false);
         adicionarCategoria.setVisible(false);
         removerCategoria.setVisible(false);
+        contador.setVisible(false);
+        categoriaController.getCategoriaGUI().setVisible(false);
 
         add(filtro.getFiltro(),BorderLayout.NORTH);
-        add(paineleditar,BorderLayout.SOUTH);
+        add(painelEditar,BorderLayout.SOUTH);
         setBackground(Color.gray);
         setOpaque(true);
         setVisible(true);
@@ -100,28 +101,21 @@ public class InicialScreen extends JPanel{
         this.layout = layout;
     }
 
-    public JPanel getPanelcontatos() {
-        return panelcontatos;
+    public JPanel getPanelContatos() {
+        return panelContatos;
     }
 
-    public void setPanelcontatos(JPanel panelcontatos) {
-        this.panelcontatos = panelcontatos;
+    public void setPanelContatos(JPanel panelContatos) {
+        this.panelContatos = panelContatos;
     }
 
-    public JPanel getPainelCategoria() {
-        return painelCategoria;
+
+    public JPanel getPainelEditar() {
+        return painelEditar;
     }
 
-    public void setPainelCategoria(JPanel painelCategoria) {
-        this.painelCategoria = painelCategoria;
-    }
-
-    public JPanel getPaineleditar() {
-        return paineleditar;
-    }
-
-    public void setPaineleditar(JPanel paineleditar) {
-        this.paineleditar = paineleditar;
+    public void setPainelEditar(JPanel painelEditar) {
+        this.painelEditar = painelEditar;
     }
 
     public JButton getCriar() {
@@ -180,14 +174,6 @@ public class InicialScreen extends JPanel{
         this.scrollPane = scrollPane;
     }
 
-    public CaixaTextoGUI getCaixadetextoGui() {
-        return caixadetextoGui;
-    }
-
-    public void setCaixadetextoGui(CaixaTextoGUI caixadetextoGui) {
-        this.caixadetextoGui = caixadetextoGui;
-    }
-
 
     public FiltroController getFiltro() {
         return filtro;
@@ -195,5 +181,29 @@ public class InicialScreen extends JPanel{
 
     public void setFiltro(FiltroController filtro) {
         this.filtro = filtro;
+    }
+
+    public ContatoScreenController getCaixaTextoGui() {
+        return caixaTextoGui;
+    }
+
+    public JLabel getContador() {
+        return contador;
+    }
+
+    public void setContador(JLabel contador) {
+        this.contador = contador;
+    }
+
+    public CategoriaController getCategoriaController() {
+        return categoriaController;
+    }
+
+    public void setCategoriaController(CategoriaController categoriaController) {
+        this.categoriaController = categoriaController;
+    }
+
+    public void setCaixaTextoGui(ContatoScreenController caixaTextoGui) {
+        this.caixaTextoGui = caixaTextoGui;
     }
 }
