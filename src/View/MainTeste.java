@@ -15,9 +15,9 @@ public class MainTeste {
         ContatosController[] contato = new ContatosController[200];
 
         for (int i = 0; i < contato.length; i++) {
-            PessoaDAO pessoa = new PessoaDAO("pedro"+i, i, "61985439393", "pedrohenriquedejesus13@gmail.com",new java.util.Date());
-            CategoriaDAO categoria = new CategoriaDAO("amigo");
-            contato[i] =  new ContatosController(pessoa, categoria);
+            //PessoaDAO pessoa = new PessoaDAO("pedro"+i, i, "61985439393", "pedrohenriquedejesus13@gmail.com",new java.util.Date());
+            //CategoriaDAO categoria = new CategoriaDAO("amigo");
+            //contato[i] =  new ContatosController(pessoa, categoria);
 
         }
         int count = 0;

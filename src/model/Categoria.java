@@ -1,27 +1,51 @@
 package model;
 
-public class Categoria {
+import java.io.Serializable;
+import database.DAO;
 
-    private String categorias;
+public class Categoria implements DAO, Serializable{
+
+    private int id;
+    private String nome;
 
     
     public Categoria( ) {  }
-    public Categoria(String categorias) {
-        this.categorias = categorias;
+    public Categoria(int id, String nome) {
+        this.id = id;
+        this.nome = nome;
     }
 
 
-    public String getCategorias() {
-        return categorias;
+    public int getId() {
+        return id;
     }
-    public void setCategorias(String categorias) {
-        this.categorias = categorias;
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getNome() {
+        return nome;
+    }
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
 
     @Override
     public String toString() {
-        return "Categorias = " + categorias;
+        return "Categorias = " + nome;
     }
+
+    @Override
+	public void gravar() {	}
+
+	@Override
+	public void excluir() { 	}
+
+	@Override
+	public void ler() { 	}
+
+	@Override
+	public void atualizar() {	}
+
        
 }

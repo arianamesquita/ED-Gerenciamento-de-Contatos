@@ -53,6 +53,7 @@ public class Conexao {
 
         }
     }
+    
     public void ConfigUser(String user, String senha) {
 		setUser(user);
 		setSenha(senha);
@@ -61,56 +62,40 @@ public class Conexao {
     public String getjDBString() {
         return jDBString;
     }
-
     public void setjDBString(String jDBString) {
         this.jDBString = jDBString;
     }
-
     public String getUser() {
         return user;
     }
-
     public void setUser(String user) {
         this.user = user;
     }
-
     public String getSenha() {
         return senha;
     }
-
     public void setSenha(String senha) {
         this.senha = senha;
     }
-
     public Connection getConnection() {
         return connection;
     }
-
     public void setConnection(Connection connection) {
         this.connection = connection;
     }
-
     public Statement getStatement() {
         return statement;
     }
-
     public void setStatement(Statement statement) {
         this.statement = statement;
     }
-
     public ResultSet getResultSet() {
         return resultSet;
     }
-
     public void setResultSet(ResultSet resultSet) {
         this.resultSet = resultSet;
     }
-
     public String getDriver() {
         return driver;
-    }
-    
-
-
-    
+    }    
 }

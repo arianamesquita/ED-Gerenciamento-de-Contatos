@@ -1,8 +1,10 @@
 package model;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Date;
+import database.DAO;
 
-public class Pessoa {
+public class Pessoa implements DAO, Serializable{
     
     private String nome;
     private int id;
@@ -61,5 +63,17 @@ public class Pessoa {
                 ", email = " + email +
                 ", dataAniversario = " + dataAniversario;
     }
+
+    @Override
+	public void gravar() {	}
+
+	@Override
+	public void excluir() { 	}
+
+	@Override
+	public void ler() { 	}
+
+	@Override
+	public void atualizar() {	}
     
 }

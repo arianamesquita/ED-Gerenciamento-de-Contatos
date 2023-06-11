@@ -52,7 +52,7 @@ public class ContatosScreenGUI extends JPanel {
         paintCategoria.setBackground(Color.lightGray);
         paintCategoria.setLayout(new FlowLayout());
         paintCategoria.setOpaque(false);
-        JLabel texto = new JLabel("categoria: " + categoria.getCategorias());
+        JLabel texto = new JLabel("categoria: " + categoria.getNome());
         paintCategoria.add(texto);
 
         fotoPerfil.setForeground(Color.white);
