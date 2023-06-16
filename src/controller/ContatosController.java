@@ -5,23 +5,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import View.ContatosScreenGUI;
-import model.Categoria;
-import model.Pessoa;
+import model.Contato;
 
 public class ContatosController {
+    private Contato contato;
 
-    private Pessoa pessoa;
-    private Categoria categoria;
     private ContatosScreenGUI contatoGUI;
 
-    public ContatosController(Pessoa pessoa, Categoria categoria) {
-        this.pessoa = pessoa;
-        this.categoria = categoria;
-        this.contatoGUI = new ContatosScreenGUI(pessoa, categoria);
+    public ContatosController(Contato contato) {
+
+        this.contato = contato;
+        this.contatoGUI = new ContatosScreenGUI(getContato());
         addMouseListener();
     }
     public  void updateGUI(){
-        setContatoGUI(new ContatosScreenGUI(getPessoa(),getCategoria()));
+        setContatoGUI(new ContatosScreenGUI(getContato()));
         addMouseListener();
     }
     public void setVisibleGUI(boolean aFlag){
@@ -100,21 +98,6 @@ public class ContatosController {
 
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 
     public ContatosScreenGUI getContatoGUI() {
         return contatoGUI;
@@ -122,6 +105,12 @@ public class ContatosController {
 
     public void setContatoGUI(ContatosScreenGUI contatoGUI) {
         this.contatoGUI = contatoGUI;
+    }
+    public Contato getContato() {
+        return contato;
+    }
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 
 

@@ -4,7 +4,7 @@ import model.Categoria;
 
 public class No {
     
-    private final Categoria categoria;
+    private Categoria categoria;
     private No anterior;
     private No proximo;
 
@@ -13,6 +13,8 @@ public class No {
         this.anterior = null;
         this.proximo = null;
     }
+    
+  
 
 
     public Categoria getCategoria() {
@@ -33,6 +35,13 @@ public class No {
 
     public void setProximo(No proximo) {
         this.proximo = proximo;
+    }
+
+
+
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
     }
     
 }

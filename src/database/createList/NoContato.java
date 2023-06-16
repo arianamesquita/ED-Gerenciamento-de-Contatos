@@ -38,6 +38,5 @@ public class NoContato {
     public void setProximo(NoContato atual) {
         this.proximo = atual;
     }
-
     
 }

@@ -1,15 +1,8 @@
 package database;
 
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Arrays;
 import java.sql.Date;
-import java.util.List;
 
 import database.createList.ContatoList;
-import model.Categoria;
-import model.Contato;
-import model.Pessoa;
 
 public class Main {
     public static void main(String[] args) {
