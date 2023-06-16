@@ -1,6 +1,7 @@
 package controller;
 
 import View.FiltroGUI;
+import database.createList.ContatosControllerList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 
 public class FiltroController implements ActionListener {
     private FiltroGUI filtro;
+    private ContatosControllerList contatos;
 
     public FiltroController(){
         this.filtro = new FiltroGUI();
@@ -19,6 +21,8 @@ public class FiltroController implements ActionListener {
 
 
     }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == getFiltro().getAdicionarButton()) {
@@ -103,6 +107,11 @@ public class FiltroController implements ActionListener {
 
     public void setFiltro(FiltroGUI filtro) {
         this.filtro = filtro;
+    }
+
+
+    public void setContatos(ContatosControllerList contatos) {
+        this.contatos = contatos;
     }
 }
 
