@@ -14,27 +14,50 @@ import database.createList.NoContato;
 import database.createList.NoContatosControl;
 
 public class InicialScreenController {
+
+
     private ContatosControllerList cList;
+
     private ContatoList contatoList;
+
     private InicialScreenGUI inicialScreenGUI;
 
     public InicialScreenController(){
+
+
         this.contatoList = new ContatoDao().Listar();
+
+
+
         this.cList = new ContatosControllerList();
+
         this.inicialScreenGUI = new InicialScreenGUI();
+
         contatoList.imprimir();
+
         PreencherContatos();
+        System.out.println("1-------------------------------------");
         addContatoPanel();
-        
+        System.out.println("2------------------------------------");
+        getInicialScreenGUI().add(inicialScreenGUI.getScrollPane(),BorderLayout.CENTER);
+        System.out.println("3--------------------------------");
+        getInicialScreenGUI().getFiltro().setContatos(cList);
         getInicialScreenGUI().setVisible(true);
     }
 
     public void PreencherContatos() {
+
         NoContato atual = contatoList.getInicio();
+
+
         while (atual != null) {
+
             getcList().InsereNoFim(new ContatosController(atual.getContato()));
+
+            System.out.println(atual.getContato().getPessoa().getNome()+"vai");
             atual = atual.getProximo();
         }
+        getcList().imprimir();
 
     }
 
@@ -42,6 +65,7 @@ public class InicialScreenController {
         NoContatosControl atual = cList.getInicio();
         while (atual != null) {
            getInicialScreenGUI().getPanelContatos().add(atual.getContato().getContatoGUI());
+           atual = atual.getProximo();
         }
     }
 

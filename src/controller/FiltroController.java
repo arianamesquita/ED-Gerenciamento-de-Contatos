@@ -3,6 +3,7 @@ package controller;
 import View.FiltroGUI;
 import database.createList.ContatosControllerList;
 import database.createList.NoContato;
+import database.createList.NoContatosControl;
 import model.Contato;
 
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 
 public class FiltroController implements ActionListener {
     private FiltroGUI filtro;
+    private ContatosControllerList contatos;
 
     public FiltroController(){
         this.filtro = new FiltroGUI();
@@ -22,6 +24,8 @@ public class FiltroController implements ActionListener {
 
 
     }
+
+
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == getFiltro().getAdicionarButton()) {
@@ -109,31 +113,39 @@ public class FiltroController implements ActionListener {
     }
 
 
+    public void setContatos(ContatosControllerList contatos) {
+        this.contatos = contatos;
+    }
+
+
+
     public void quickSort(ContatosControllerList contatos) {
+        System.out.println(contatos.getController().getContato().getPessoa().getNome());
         quickSortRec(contatos, getInicio(), getFim());
     }
 
-    private NoContato getFim() {
+    private NoContatosControl getFim() {
         return null;
     }
-    private NoContato getInicio() {
+    private NoContatosControl getInicio() {
         return null;
     }
 
-    private void quickSortRec(ContatosControllerList contatos, NoContato inicio, NoContato fim) {
+    private void quickSortRec(ContatosControllerList contatos, NoContatosControl inicio, NoContatosControl fim) {
         if (inicio != null && fim != null && inicio != fim && inicio != fim.getProximo()) {
-            NoContato pivot = partition(inicio, fim);
+            NoContatosControl pivot = partition(inicio, fim);
             quickSortRec(contatos, inicio, pivot.getAnterior());
             quickSortRec(contatos, pivot.getProximo(), fim);
         }
     }
 
-    private NoContato partition(NoContato inicio, NoContato fim) {
-        Contato pivot = fim.getContato();
-        NoContato i = inicio.getAnterior();
+    private NoContatosControl partition(NoContatosControl inicio, NoContatosControl fim) {
+        ContatosController pivot = fim.getContato();
+        NoContatosControl i = inicio.getAnterior();
         
-        for (NoContato j = inicio; j != fim; j = j.getProximo()) {
-            if (j.getContato().getId() <= pivot.getId()) {
+        for (NoContatosControl j = inicio; j != fim; j = j.getProximo()) {
+
+            if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0, 1)) <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 1))) {
                 i = (i == null) ? inicio : i.getProximo();
                 swap(i, j);
             }
@@ -141,12 +153,14 @@ public class FiltroController implements ActionListener {
         
         i = (i == null) ? inicio : i.getProximo();
         swap(i, fim);
+
+        System.out.println(pivot);
         
         return i;
     }
 
-    private void swap(NoContato no1, NoContato no2) {
-        Contato temp = no1.getContato();
+    private void swap(NoContatosControl no1, NoContatosControl no2) {
+        ContatosController temp = no1.getContato();
         no1.setContato(no2.getContato());
         no2.setContato(temp);
     }

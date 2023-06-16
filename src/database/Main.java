@@ -2,8 +2,11 @@ package database;
 
 import java.sql.Date;
 
+import controller.ContatosController;
+import controller.FiltroController;
 import database.createList.ContatoList;
 import database.createList.ContatosControllerList;
+import database.createList.NoContato;
 
 public class Main {
     public static void main(String[] args) {
@@ -65,9 +68,26 @@ public class Main {
     ContatoList contatoList = novoContato.Listar();
     //Contato contato = new Contato(1, novoNome, pessoa);
     //novoContato.save(contato);
-    contatoList.imprimir();
-    //ContatosControllerList contatos = new ContatosControllerList();
+    //contatoList.imprimir();
+    ContatosControllerList contatos = new ContatosControllerList();
+    NoContato atual = contatoList.getInicio();
     //contatos.imprimir();
+
+    while(atual!=null){
+        contatos.InsereNoFim(new ContatosController(atual.getContato()));
+        atual = atual.getProximo();
+    }
+
+    //contatos.imprimir();
+
+    FiltroController filtro = new FiltroController();
+
+    filtro.quickSort(contatos);
+
+    //contatos.imprimir();
+    
+
+
 
     /*List<Pessoa> lista;
     lista = pessoaDAO.Listar();

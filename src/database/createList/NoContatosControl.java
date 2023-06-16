@@ -4,22 +4,22 @@ import controller.ContatosController;
 
 public class NoContatosControl {
     
-    private ContatosController contato;
+    private ContatosController contatoController;
     private NoContatosControl anterior;
     private NoContatosControl proximo;
 
-    public NoContatosControl(ContatosController contato) {
-        this.contato = contato;
+    public NoContatosControl(ContatosController contatoController) {
+        this.contatoController = contatoController;
         this.anterior = null;
         this.proximo = null;
     }
 
     public ContatosController getContato() {
-        return contato;
+        return contatoController;
     }
 
     public void setContato(ContatosController contato) {
-        this.contato = contato;
+        this.contatoController = contato;
     }
 
     public NoContatosControl getAnterior() {

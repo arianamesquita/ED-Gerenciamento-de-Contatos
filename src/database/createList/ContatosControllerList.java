@@ -116,6 +116,7 @@ public class ContatosControllerList {
         while (atual != null) {
             System.out.print(atual.getContato().getContato().getPessoa().getNome() + " ");
             atual = atual.getProximo();
+            System.out.println("\n");
         }
         System.out.println();
     }
