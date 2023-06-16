@@ -109,6 +109,7 @@ public class ContatoList {
         while (atual != null) {
             System.out.print(atual.getContato().getPessoa() + " - " + atual.getContato().getCategoria());
             atual = atual.getProximo();
+            System.out.println("\n");
         }
         System.out.println();
     }
