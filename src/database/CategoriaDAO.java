@@ -3,11 +3,10 @@ package database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import database.createList.CategoriaList;
 import model.Categoria;
 
 public class CategoriaDAO{
@@ -119,9 +118,9 @@ public class CategoriaDAO{
         }
     }
 
-    public List<Categoria> Listar(){
+    public CategoriaList Listar(){
         String sql = "Select * from categoria";
-        List<Categoria> lista = new ArrayList<Categoria>();
+        CategoriaList lista = new CategoriaList();
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -138,7 +137,8 @@ public class CategoriaDAO{
                 categoria.setId(rset.getInt("id"));
                 categoria.setNome(rset.getString("nome")); 
 
-                lista.add(categoria);
+                lista.InsereNoFim(categoria);
+
             }
         } catch (Exception e){
             e.printStackTrace();

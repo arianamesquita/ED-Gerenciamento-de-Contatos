@@ -1,19 +1,22 @@
 package database;
 
-import model.Pessoa;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 import javax.swing.JOptionPane;
 
+import database.createList.CategoriaList;
+import database.createList.ContatoList;
 import database.createList.PessoaList;
+import model.Categoria;
+import model.Contato;
+import model.Pessoa;
 
-public class PessoaDAO {
+public class ContatoDao {
 
-    public void save(Pessoa pessoa){
-        String sql = "insert into pessoa(id, nome, telefone, email, dataAniversario) values (?,?,?,?,?)";
+    public void save(Contato contato){
+        String sql = "insert into contatos(id, idPessoa, idCategoria) values (?,?,?)";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -22,11 +25,9 @@ public class PessoaDAO {
             conn = ConnectionFactory.createConnectionToMySQL();
             pstm = conn.prepareStatement(sql);
 
-            pstm.setInt(1, pessoa.getId());
-            pstm.setString(2, pessoa.getNome());
-            pstm.setString(3, pessoa.getTelefone());
-            pstm.setString(4, pessoa.getEmail());
-            pstm.setDate(5, pessoa.getDataAniversario());
+            pstm.setInt(1, contato.getId());
+            pstm.setInt(2, contato.getPessoa().getId());
+            pstm.setInt(3, contato.getCategoria().getId());
 
             pstm.execute();
 
@@ -52,7 +53,7 @@ public class PessoaDAO {
 
     public void removeById(int id){
 
-        String sql = "Delete from pessoa where id = ?";
+        String sql = "Delete from contatos where id = ?";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -86,8 +87,8 @@ public class PessoaDAO {
         }
     }
 
-    public void update(Pessoa pessoa){
-        String sql = "Update pessoa set nome = ?, telefone = ?,  email = ?, dataAniversario = ?";
+    public void update(Contato contato){
+        String sql = "Update contatos set categoria = ?";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -97,10 +98,7 @@ public class PessoaDAO {
 
             pstm = conn.prepareStatement(sql);
 
-            pstm.setString(1, pessoa.getNome());
-            pstm.setString(2, pessoa.getTelefone());
-            pstm.setString(3, pessoa.getEmail());
-            pstm.setDate(4, pessoa.getDataAniversario());
+            pstm.setInt(1, contato.getCategoria().getId());
 
             pstm.execute();
 
@@ -124,9 +122,9 @@ public class PessoaDAO {
         }
     }
 
-    public PessoaList Listar(){
-        String sql = "Select * from pessoa";
-        PessoaList lista = new PessoaList();
+    public ContatoList Listar(){
+        String sql = "Select * from contatos";
+        ContatoList lista = new ContatoList();
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -138,15 +136,19 @@ public class PessoaDAO {
             rset = pstm.executeQuery();
 
             while (rset.next()){
-                Pessoa pessoa = new Pessoa();
+                Contato contato = new Contato();
 
-                pessoa.setId(rset.getInt("id"));
-                pessoa.setNome(rset.getString("nome")); 
-                pessoa.setTelefone(rset.getString("telefone"));
-                pessoa.setEmail(rset.getString("email"));
-                pessoa.setDataAniversario(rset.getDate("dataAniversario"));
-                
-                lista.InsereNoFim(pessoa);
+                PessoaDAO pessoaDAO = new PessoaDAO();
+                CategoriaDAO categoriaDAO = new CategoriaDAO();
+
+                PessoaList pessoaList = pessoaDAO.Listar();
+                CategoriaList categoriaList = categoriaDAO.Listar();
+
+                contato = new Contato(rset.getInt("id"), 
+                        categoriaList.buscarPorID(rset.getInt("idCategoria")), 
+                        pessoaList.buscarPorID(rset.getInt("idPessoa")));
+     
+                lista.InsereNoFim(contato);
             }
         } catch (Exception e){
             e.printStackTrace();

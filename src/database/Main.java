@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.sql.Date;
 import java.util.List;
 
+import database.createList.ContatoList;
 import model.Categoria;
+import model.Contato;
 import model.Pessoa;
 
 public class Main {
@@ -54,18 +56,26 @@ public class Main {
     }*/
 
     CategoriaDAO novoNome = new CategoriaDAO();
-    /*Categoria categoria = new Categoria(1, "amigos");
-    novoNome.save(categoria);*/
+    //Categoria categoria = new Categoria(11, "melhores amigos");
+    //novoNome.save(categoria);
+    //novoNome.Listar();
 
     PessoaDAO pessoaDAO = new PessoaDAO();
-    String str = "1985-10-07";
+    String str = "1992-07-10";
     Date date = Date.valueOf(str);
-    Pessoa pessoa = new Pessoa("Ariana Mesquita", 1, "62993469911", "arianamesk@gmail.com", date);
-    pessoaDAO.save(pessoa);
+    //Pessoa pessoa = new Pessoa("Hayana", 13, "17996966699", "hayeva@teste.com", date);
+    //pessoaDAO.save(pessoa);
+    //pessoaDAO.Listar();
 
-    List<Pessoa> lista;
+    ContatoDao novoContato = new ContatoDao();
+    ContatoList contatoList = novoContato.Listar();
+    //Contato contato = new Contato(1, novoNome, pessoa);
+    //novoContato.save(contato);
+    contatoList.imprimir();
+
+    /*List<Pessoa> lista;
     lista = pessoaDAO.Listar();
-    System.out.println(lista);
+    System.out.println(lista);*/
 
     }
 }
