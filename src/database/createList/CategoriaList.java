@@ -1,7 +1,6 @@
 package database.createList;
 
 import model.Categoria;
-import model.Pessoa;
 
 public class CategoriaList {
 

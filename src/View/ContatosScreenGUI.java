@@ -16,20 +16,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import View.ComponentsCustomGUI.PaintMenu;
-import model.Categoria;
-import model.Pessoa;
+import model.Contato;
 
 public class ContatosScreenGUI extends JPanel {
 
     private JLabel fotoPerfil, nome, numeroTelefone, email, data;
     private PaintMenu paintCategoria, paintMenu;
     private boolean select, mouseClicked;
-    private Pessoa pessoa;
-    private Categoria categoria;
+    private Contato contato;
 
-    public ContatosScreenGUI(Pessoa pessoa, Categoria categoria) {
-        this.pessoa = pessoa;
-        this.categoria = categoria;
+    public ContatosScreenGUI(Contato contato) {
+        this.contato = contato;
         this.select = false;
         setLayout(new BorderLayout());
 
@@ -43,16 +40,16 @@ public class ContatosScreenGUI extends JPanel {
         fotoPerfil = new JLabel();
         fotoPerfil.setOpaque(false);
         fotoPerfil.setIcon(icon);
-        email = new JLabel(getPessoa().getEmail());
-        numeroTelefone = new JLabel(getPessoa().getTelefone());
-        nome = new JLabel(getPessoa().getNome());
+        email = new JLabel(getContato().getPessoa().getEmail());
+        numeroTelefone = new JLabel(getContato().getPessoa().getTelefone());
+        nome = new JLabel(getContato().getPessoa().getNome());
         nome.setHorizontalAlignment(JLabel.LEFT);
 
         paintCategoria = new PaintMenu();
         paintCategoria.setBackground(Color.lightGray);
         paintCategoria.setLayout(new FlowLayout());
         paintCategoria.setOpaque(false);
-        JLabel texto = new JLabel("categoria: " + categoria.getNome());
+        JLabel texto = new JLabel("categoria: " + getContato().getCategoria().getNome());
         paintCategoria.add(texto);
 
         fotoPerfil.setForeground(Color.white);
@@ -61,7 +58,7 @@ public class ContatosScreenGUI extends JPanel {
         nome.setForeground(Color.white);
 
 
-        Date dataAniversario = getPessoa().getDataAniversario();
+        Date dataAniversario = getContato().getPessoa().getDataAniversario();
         dataAniversario.setYear(Calendar.getInstance().get(Calendar.YEAR) - 1900);
         data = new JLabel("Data de Aniversario: "+new SimpleDateFormat("dd/MM/yyyy").format(dataAniversario));
         data.setForeground(Color.white);
@@ -180,19 +177,13 @@ public class ContatosScreenGUI extends JPanel {
         this.mouseClicked = mouseClicked;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Contato getContato() {
+        return contato;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
-    }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
 }

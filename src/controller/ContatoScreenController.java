@@ -41,20 +41,20 @@ public class ContatoScreenController implements FocusListener {
     }
     public void setEditarContato(ContatosController contato){
         setContatoEdicao(contato);
-        getCaixaTexto().getNomeField().setText(contato.getPessoa().getNome());
+        getCaixaTexto().getNomeField().setText(contato.getContato().getPessoa().getNome());
         getCaixaTexto().getNomeField().setBackground(Color.white);
         getCaixaTexto().getNomeField().setForeground(Color.darkGray);;
 
-        getCaixaTexto().getEmailField().setText(contato.getPessoa().getEmail());
+        getCaixaTexto().getEmailField().setText(contato.getContato().getPessoa().getEmail());
         getCaixaTexto().getEmailField().setBackground(Color.white);
         getCaixaTexto().getEmailField().setForeground(Color.darkGray);;
 
-        getCaixaTexto().getTelefoneField().setText(contato.getPessoa().getTelefone());
+        getCaixaTexto().getTelefoneField().setText(contato.getContato().getPessoa().getTelefone());
         getCaixaTexto().getTelefoneField().setBackground(Color.white);
         getCaixaTexto().getTelefoneField().setForeground(Color.darkGray);
      
 
-        getCaixaTexto().getDataField().setText(new SimpleDateFormat("dd/MM/yyyy").format(contato.getPessoa().getDataAniversario()));
+        getCaixaTexto().getDataField().setText(new SimpleDateFormat("dd/MM/yyyy").format(contato.getContato().getPessoa().getDataAniversario()));
         getCaixaTexto().getDataField().setBackground(Color.white);
         getCaixaTexto().getDataField().setForeground(Color.darkGray);
     }

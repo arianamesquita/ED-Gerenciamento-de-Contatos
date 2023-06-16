@@ -4,7 +4,7 @@ import model.Contato;
 
 public class NoContato {
 
-    private final Contato contato;
+    private Contato contato;
     private NoContato anterior;
     private NoContato proximo;
 
@@ -33,6 +33,11 @@ public class NoContato {
 
     public void setProximo(NoContato atual) {
         this.proximo = atual;
+    }
+
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
     
 }

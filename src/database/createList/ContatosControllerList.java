@@ -1,44 +1,54 @@
 package database.createList;
 
-import model.Categoria;
-import model.Contato;
+import controller.ContatosController;
 
-public class ContatoList {
+public class ContatosControllerList {
+    private ContatosController controller;
 
-    Contato contato;
+    private NoContatosControl inicio;
+    private NoContatosControl fim;
 
-    private NoContato inicio;
-    private NoContato fim;
-
-    public ContatoList() {
+    public ContatosControllerList() {
         this.inicio = null;
         this.fim = null;
     }
 
-    public NoContato getInicio() {
+    public ContatosController getController() {
+        return controller;
+    }
+
+    public void setController(ContatosController controller) {
+        this.controller = controller;
+    }
+
+
+
+    
+
+
+    public NoContatosControl getInicio() {
         return inicio;
     }
 
-    public void setInicio(NoContato inicio) {
+    public void setInicio(NoContatosControl inicio) {
         this.inicio = inicio;
     }
 
-    public NoContato getFim() {
+    public NoContatosControl getFim() {
         return fim;
     }
 
-    public void setFim(NoContato fim) {
+    public void setFim(NoContatosControl fim) {
         this.fim = fim;
     }
 
-    
     @Override
     public String toString() {
-        return "Contato = " + contato;
+        return "ContatosControllerList [controller=" + controller + ", inicio=" + inicio + ", fim=" + fim + "]";
     }
 
-    public void InsereNoFim(Contato contato) {
-        NoContato atual = new NoContato(contato);
+    public void InsereNoFim(ContatosController controller) {
+        NoContatosControl atual = new NoContatosControl(controller);
         if (getInicio() == null) {
             setInicio(atual);
         } else {
@@ -48,8 +58,8 @@ public class ContatoList {
         setFim(atual);
     }
 
-    public void InsereNoInicio(Contato contato) {
-        NoContato atual = new NoContato(contato);
+    public void InsereNoInicio(ContatosController controller) {
+        NoContatosControl atual = new NoContatosControl(controller);
         if (getInicio() == null) {
             setInicio(atual);
             setFim(atual);
@@ -85,10 +95,10 @@ public class ContatoList {
         }
     }
 
-    public void ApagaContato(Contato contato) {
-        NoContato atual = getInicio();
+    public void ApagaContatoController(ContatosController controller) {
+        NoContatosControl atual = getInicio();
         while (atual != null) {
-            if (atual.getContato().equals(contato)) {
+            if (atual.getContato()==controller) {
                 if (atual == getInicio()) {
                     ApagaNoInicio();
                 } else if (atual == getFim()) {
@@ -102,18 +112,17 @@ public class ContatoList {
             }
             atual = atual.getProximo();
         }
-        System.out.println("O contato '" + contato + "' não foi encontrada na lista.");
+        System.out.println("A categoria '" +controller + "' não foi encontrada na lista.");
     }
 
     public void imprimir() {
-        NoContato atual = getInicio();
+        NoContatosControl atual = getInicio();
         while (atual != null) {
-            System.out.print(atual.getContato().getPessoa() + " - " + atual.getContato().getCategoria());
+            System.out.print(atual.getContato().getContato().getPessoa().getNome() + " ");
             atual = atual.getProximo();
         }
         System.out.println();
     }
 
+
 }
-
-
