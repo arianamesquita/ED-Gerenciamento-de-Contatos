@@ -3,6 +3,7 @@ package database;
 import java.sql.Date;
 
 import database.createList.ContatoList;
+import database.createList.ContatosControllerList;
 
 public class Main {
     public static void main(String[] args) {
@@ -65,6 +66,8 @@ public class Main {
     //Contato contato = new Contato(1, novoNome, pessoa);
     //novoContato.save(contato);
     contatoList.imprimir();
+    //ContatosControllerList contatos = new ContatosControllerList();
+    //contatos.imprimir();
 
     /*List<Pessoa> lista;
     lista = pessoaDAO.Listar();

@@ -9,10 +9,7 @@ import javax.swing.JOptionPane;
 import database.createList.CategoriaList;
 import database.createList.ContatoList;
 import database.createList.PessoaList;
-import model.Categoria;
 import model.Contato;
-import model.Pessoa;
-
 public class ContatoDao {
 
     public void save(Contato contato){

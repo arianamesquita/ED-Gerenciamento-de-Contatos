@@ -22,10 +22,6 @@ public class ContatosControllerList {
     }
 
 
-
-    
-
-
     public NoContatosControl getInicio() {
         return inicio;
     }
@@ -123,6 +119,7 @@ public class ContatosControllerList {
         }
         System.out.println();
     }
+
 
 
 }

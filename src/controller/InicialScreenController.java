@@ -5,8 +5,6 @@ import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import View.InicialScreenGUI;
 import database.ContatoDao;
