@@ -84,7 +84,7 @@ public class Main {
 
     filtro.quickSort(contatos);
 
-    //contatos.imprimir();
+    contatos.imprimir();
     
 
 
