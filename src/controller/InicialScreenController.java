@@ -5,6 +5,9 @@ import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import View.InicialScreenGUI;
 import database.ContatoDao;
@@ -15,173 +18,112 @@ import database.createList.NoContatosControl;
 
 public class InicialScreenController {
 
-
     private ContatosControllerList cList;
 
     private ContatoList contatoList;
 
     private InicialScreenGUI inicialScreenGUI;
+    private int countMouseCliked = 0;
 
-    public InicialScreenController(){
-
-
+    public InicialScreenController() {
         this.contatoList = new ContatoDao().Listar();
-
-
-
         this.cList = new ContatosControllerList();
-
         this.inicialScreenGUI = new InicialScreenGUI();
-
-        contatoList.imprimir();
-
-        PreencherContatos();
-        System.out.println("1-------------------------------------");
+        PreencheContatos();
         addContatoPanel();
-        System.out.println("2------------------------------------");
-        getInicialScreenGUI().add(inicialScreenGUI.getScrollPane(),BorderLayout.CENTER);
-        System.out.println("3--------------------------------");
+        ConfgPanelContatos();
+        getInicialScreenGUI().add(inicialScreenGUI.getScrollPane(), BorderLayout.CENTER);
         getInicialScreenGUI().getFiltro().setContatos(cList);
         getInicialScreenGUI().setVisible(true);
     }
 
-    public void PreencherContatos() {
 
+    public void addActionListener(){
+
+    }
+
+    public void PreencheContatos() {
         NoContato atual = contatoList.getInicio();
-
-
         while (atual != null) {
-
             getcList().InsereNoFim(new ContatosController(atual.getContato()));
-
-            System.out.println(atual.getContato().getPessoa().getNome()+"vai");
             atual = atual.getProximo();
         }
-        getcList().imprimir();
-
     }
 
     public void addContatoPanel() {
         NoContatosControl atual = cList.getInicio();
         while (atual != null) {
-           getInicialScreenGUI().getPanelContatos().add(atual.getContato().getContatoGUI());
-           atual = atual.getProximo();
+            getInicialScreenGUI().getPanelContatos().add(atual.getContato().getContatoGUI());
+            atual = atual.getProximo();
         }
     }
 
-    public InicialScreenController(ContatosController[] contatosController) {
-        this.inicialScreenGUI = new InicialScreenGUI();
 
-        PercorreContato(true);
 
-        getInicialScreenGUI().getCriar().addActionListener(e -> {
-            if (getInicialScreenGUI().getCaixaTextoGui().getCaixaTexto().isVisible()) {
+    public void ConfgPanelContatos(){
+        NoContatosControl atual = cList.getInicio();
+        setMouseCliked(true);
+        while (atual != null) {
+            atual.getContato().getContatoGUI().addMouseListener(new MouseAdapter() {
 
-                getInicialScreenGUI().getCriar().setVisible(true);
-                getInicialScreenGUI().getCaixaTextoGui().getCaixaTexto().setVisible(true);
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                   PercorreContato(atual.getContato());
+                }
+                
+            });
+            atual = atual.getProximo();
+        }
 
-            } else {
-                getInicialScreenGUI().getCaixaTextoGui().setNovoContato();
-                getInicialScreenGUI().getCaixaTextoGui().getCaixaTexto().setVisible(true);
-                getInicialScreenGUI().getCriar().setVisible(false);
-                PercorreContato(false);
-
-            }
-
-        });
-        getInicialScreenGUI().getEditar().addActionListener(e -> {
-            if (getInicialScreenGUI().getCaixaTextoGui().getCaixaTexto().isVisible()) {
-
-                getInicialScreenGUI().getCriar().setVisible(true);
-                getInicialScreenGUI().getCaixaTextoGui().getCaixaTexto().setVisible(true);
-
-            } else {
-
-       //         getInicialScreenGUI().getCaixaTextoGui().setEditarContato(getContatoSelect());
-       //         clickPanel(getContatoSelect());
-                getInicialScreenGUI().getCaixaTextoGui().getCaixaTexto().setVisible(true);
-                getInicialScreenGUI().getCriar().setVisible(false);
-                PercorreContato(false);
-
-            }
-
-        });
-        getInicialScreenGUI().getCategoriaController().getCategoriaGUI().setVisible(true);
-
-        getInicialScreenGUI().getCaixaTextoGui().getCaixaTexto().getCancelar().addActionListener(e -> {
-
-            inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().setVisible(false);
-            getInicialScreenGUI().getCriar().setVisible(true);
-            PercorreContato(true);
-
-        });
-
-        inicialScreenGUI.add(inicialScreenGUI.getScrollPane(), BorderLayout.CENTER);
     }
 
-    public void PercorreContato(Boolean mouseClicked) {
-       // for (ContatosController contatosController2 : contatosController) {
-        //    inicialScreenGUI.getPanelContatos().add(contatosController2.getContatoGUI());
-        //    contatosController2.getContatoGUI().setMouseClicked(mouseClicked);
-         //   contatosController2.getContatoGUI().addMouseListener(new MouseAdapter() {
-          //      @Override
-           //     public void mouseClicked(MouseEvent e) {
-                    int count = 0;
-            //        for (ContatosController contatosController2 : contatosController) {
-           //             if (contatosController2.getContatoGUI().isSelect()
-            //                    && !inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible()) {
-            //                inicialScreenGUI.getEditar().setVisible(true);
-            //                inicialScreenGUI.getApagar().setVisible(true);
-            //                count++;
-            //            }
-           //         }
+    public void PercorreContato(ContatosController controller) {
+        if(controller.getContatoGUI().isSelect()){
+            countMouseCliked++;
+        }else countMouseCliked--;
 
-                    if (!inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible() && count == 1) {
-                        inicialScreenGUI.getAdicionarCategoria().setVisible(true);
-                        inicialScreenGUI.getRemoverCategoria().setVisible(true);
-                        inicialScreenGUI.getCriar().setVisible(false);
-                        inicialScreenGUI.getEditar().setVisible(true);
-                        inicialScreenGUI.getApagar().setVisible(true);
-                        inicialScreenGUI.getApagarTodos().setVisible(false);
-                    } else if (count == 1 && inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible()) {
-                        inicialScreenGUI.getAdicionarCategoria().setVisible(false);
-                        inicialScreenGUI.getRemoverCategoria().setVisible(false);
-                        inicialScreenGUI.getCriar().setVisible(false);
-                        inicialScreenGUI.getEditar().setVisible(false);
-                        inicialScreenGUI.getApagar().setVisible(false);
-                        inicialScreenGUI.getApagarTodos().setVisible(false);
 
-                    } else if (count == 0 && !inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible()) {
-                        inicialScreenGUI.getEditar().setVisible(false);
-                        inicialScreenGUI.getApagar().setVisible(false);
-                        inicialScreenGUI.getApagarTodos().setVisible(false);
-                        inicialScreenGUI.getAdicionarCategoria().setVisible(false);
-                        inicialScreenGUI.getRemoverCategoria().setVisible(false);
-                        inicialScreenGUI.getCriar().setVisible(true);
+        if (!inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible() && countMouseCliked == 1) {
+            inicialScreenGUI.getAdicionarCategoria().setVisible(true);
+            inicialScreenGUI.getRemoverCategoria().setVisible(true);
+            inicialScreenGUI.getCriar().setVisible(false);
+            inicialScreenGUI.getEditar().setVisible(true);
+            inicialScreenGUI.getApagar().setVisible(true);
+            inicialScreenGUI.getApagarTodos().setVisible(false);
+        } else if (countMouseCliked == 1 && inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible()) {
+            inicialScreenGUI.getAdicionarCategoria().setVisible(false);
+            inicialScreenGUI.getRemoverCategoria().setVisible(false);
+            inicialScreenGUI.getCriar().setVisible(false);
+            inicialScreenGUI.getEditar().setVisible(false);
+            inicialScreenGUI.getApagar().setVisible(false);
+            inicialScreenGUI.getApagarTodos().setVisible(false);
 
-                    } else if (count > 1 && !inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible()) {
-                        inicialScreenGUI.getAdicionarCategoria().setVisible(true);
-                        inicialScreenGUI.getRemoverCategoria().setVisible(true);
-                        inicialScreenGUI.getEditar().setVisible(false);
-                        inicialScreenGUI.getApagar().setVisible(false);
-                        inicialScreenGUI.getApagarTodos().setVisible(true);
-                        inicialScreenGUI.getCriar().setVisible(false);
+        } else if (countMouseCliked == 0 && !inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible()) {
+            inicialScreenGUI.getEditar().setVisible(false);
+            inicialScreenGUI.getApagar().setVisible(false);
+            inicialScreenGUI.getApagarTodos().setVisible(false);
+            inicialScreenGUI.getAdicionarCategoria().setVisible(false);
+            inicialScreenGUI.getRemoverCategoria().setVisible(false);
+            inicialScreenGUI.getCriar().setVisible(true);
 
-                    }
-                }
- //           });
-     //   }
- //   }
+        } else if (countMouseCliked > 1 && !inicialScreenGUI.getCaixaTextoGui().getCaixaTexto().isVisible()) {
+            inicialScreenGUI.getAdicionarCategoria().setVisible(true);
+            inicialScreenGUI.getRemoverCategoria().setVisible(true);
+            inicialScreenGUI.getEditar().setVisible(false);
+            inicialScreenGUI.getApagar().setVisible(false);
+            inicialScreenGUI.getApagarTodos().setVisible(true);
+            inicialScreenGUI.getCriar().setVisible(false);
 
-  //  public ContatosController getContatoSelect() {
-  //      for (ContatosController contatosController2 : contatosController) {
-    //        if (contatosController2.getContatoGUI().isSelect()) {
-   //             return contatosController2;
-  //          }
-  //      }
-   //     return null;
-
-    //}
+        }
+    }
+    public void setMouseCliked(boolean aFlag){
+        NoContatosControl atual = cList.getInicio();
+        while (atual != null) {
+            atual.getContato().getContatoGUI().setMouseClicked(aFlag);
+            atual = atual.getProximo();
+        }
+    }
+    
 
     public ContatosControllerList getcList() {
         return cList;
