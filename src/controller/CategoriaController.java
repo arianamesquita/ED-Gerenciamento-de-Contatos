@@ -12,6 +12,8 @@ import java.awt.event.FocusListener;
 public class CategoriaController implements ActionListener, FocusListener{
     private CategoriaGUI categoriaGUI;
 
+    private InicialScreenController inicialScreenController;
+
     public CategoriaController(){
 
         this.categoriaGUI = new CategoriaGUI();
@@ -56,6 +58,8 @@ public class CategoriaController implements ActionListener, FocusListener{
             getCategoriaGUI().getSalvar().setVisible(true);
             getCategoriaGUI().getCancelar().setVisible(true);
             getCategoriaGUI().getCategoriaText().setVisible(false);
+            getInicialScreenController().getTelaInicialGUI().getEditar().setVisible(false);
+            getInicialScreenController().getTelaInicialGUI().getApagar().setVisible(false);
 
         } else
         if (e.getSource() == getCategoriaGUI().getRemoverCategoria()) {
@@ -97,6 +101,8 @@ public class CategoriaController implements ActionListener, FocusListener{
             getCategoriaGUI().getSalvar().setVisible(false);
             getCategoriaGUI().getCancelar().setVisible(false);
             getCategoriaGUI().getCategoriaText().setVisible(false);
+            getInicialScreenController().getTelaInicialGUI().getEditar().setVisible(true);
+            getInicialScreenController().getTelaInicialGUI().getApagar().setVisible(true);
 
         }
 
@@ -130,5 +136,11 @@ public class CategoriaController implements ActionListener, FocusListener{
         this.categoriaGUI = categoriaGUI;
     }
 
+    public InicialScreenController getInicialScreenController() {
+        return inicialScreenController;
+    }
 
+    public void setInicialScreenController(InicialScreenController inicialScreenController) {
+        this.inicialScreenController = inicialScreenController;
+    }
 }

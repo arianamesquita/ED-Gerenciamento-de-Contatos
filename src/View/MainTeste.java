@@ -12,7 +12,7 @@ public class MainTeste {
 
         InicialScreenController iController = new InicialScreenController();
      
-        frame.add(iController.getInicialScreenGUI(),BorderLayout.CENTER);
+        frame.add(iController.getTelaInicialGUI(),BorderLayout.CENTER);
         frame.setVisible(true);
         System.out.println("tudo certo!!");
 

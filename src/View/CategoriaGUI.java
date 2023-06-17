@@ -7,7 +7,7 @@ public class CategoriaGUI extends JPanel {
     private JButton adicionarCategoria,removerCategoria,novaCategoria,salvar,cancelar;
     private JLabel categoriaText;
     private JComboBox<String> categoriaExistente;
-    private String[] textCategorias = {"amigos","familia","faculdade"};
+    private String[] textCategorias = {"amigos","familia","faculdade","sem Categoria"};
     private JTextField categoriaField;
     private JPanel categoriasButton,controleButtons, panel;
 

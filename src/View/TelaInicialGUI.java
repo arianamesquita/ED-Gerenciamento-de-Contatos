@@ -87,7 +87,7 @@ public class TelaInicialGUI extends JPanel{
         contador.setVisible(false);
         categoriaController.getCategoriaGUI().setVisible(false);
 
-        add(filtro.getFiltro(),BorderLayout.NORTH);
+        add(filtro.getFiltroGUI(),BorderLayout.NORTH);
         add(painelEditar,BorderLayout.SOUTH);
         setBackground(Color.gray);
         setOpaque(true);

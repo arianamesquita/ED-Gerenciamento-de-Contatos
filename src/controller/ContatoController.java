@@ -9,19 +9,21 @@ import model.Contato;
 
 public class ContatoController {
     private Contato contato;
-
-    private InicialScreenController inicialScreenController;
-
     private ContatosGUI contatoGUI;
+    private boolean select, mouseClicked;
+    private InicialScreenController inicialScreenController;
 
     public ContatoController(Contato contato) {
 
         this.contato = contato;
         this.contatoGUI = new ContatosGUI(getContato());
+        this.mouseClicked = false;
+        this.select = false;
         addMouseListener();
     }
     public  void updateGUI(){
         setContatoGUI(new ContatosGUI(getContato()));
+        setSelect(false);
         addMouseListener();
     }
     public void setVisibleGUI(boolean aFlag){
@@ -37,15 +39,15 @@ public class ContatoController {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(contatoGUI.isMouseClicked()){
-                if (contatoGUI.isSelect()) {
-                   getInicialScreenController().setCountMouseCliked(getInicialScreenController().getCountMouseCliked()-1);
-                    contatoGUI.getPaintMenu().setBackground(Color.darkGray);
-                    contatoGUI.setSelect(false);
+                if(isMouseClicked()){
+                if (isSelect()) {
+                   getInicialScreenController().setCountMouseClicked(getInicialScreenController().getCountMouseClicked()-1);
+                   contatoGUI.getPaintMenu().setBackground(Color.darkGray);
+                   setSelect(false);
                 } else {
                     contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
-                    contatoGUI.setSelect(true);
-                    getInicialScreenController().setCountMouseCliked(getInicialScreenController().getCountMouseCliked()+1);
+                    setSelect(true);
+                    getInicialScreenController().setCountMouseClicked(getInicialScreenController().getCountMouseClicked()+1);
 
                 }
 
@@ -68,7 +70,6 @@ public class ContatoController {
                 contatoGUI.getPaintCategoria().setVisible(true);
                 contatoGUI.getEmail().setVisible(true);
                 contatoGUI.getData().setVisible(true);
-
                 SelecionaCor(true);
                 contatoGUI.getPaintMenu().repaint();
             }
@@ -88,19 +89,24 @@ public class ContatoController {
     }
 
     public void SelecionaCor(boolean mouseEntered) {
-        if (!contatoGUI.isSelect()) {
 
-            contatoGUI.setSelect(false);
-
+        if (!isSelect()) {
             if (mouseEntered) {
                 contatoGUI.getPaintMenu().setBackground(new Color(79,79,79));
             } else contatoGUI.getPaintMenu().setBackground(Color.darkGray);
-
         } else {
             contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
-            contatoGUI.setSelect(true);
+
         }
 
+    }
+
+    public Contato getContato() {
+        return contato;
+    }
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 
     public InicialScreenController getInicialScreenController() {
@@ -111,6 +117,22 @@ public class ContatoController {
         this.inicialScreenController = inicialScreenController;
     }
 
+    public boolean isSelect() {
+        return select;
+    }
+
+    public void setSelect(boolean select) {
+        this.select = select;
+    }
+
+    public boolean isMouseClicked() {
+        return mouseClicked;
+    }
+
+    public void setMouseClicked(boolean mouseClicked) {
+        this.mouseClicked = mouseClicked;
+    }
+
     public ContatosGUI getContatoGUI() {
         return contatoGUI;
     }
@@ -118,12 +140,4 @@ public class ContatoController {
     public void setContatoGUI(ContatosGUI contatoGUI) {
         this.contatoGUI = contatoGUI;
     }
-    public Contato getContato() {
-        return contato;
-    }
-    public void setContato(Contato contato) {
-        this.contato = contato;
-    }
-
-
 }
