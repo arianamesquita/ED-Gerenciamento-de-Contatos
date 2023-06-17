@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 
 import javax.swing.JOptionPane;
 
-import database.createList.CategoriaList;
-import database.createList.ContatoList;
-import database.createList.PessoaList;
+import database.createList.DoublyLinkedLists.CategoriaList;
+import database.createList.DoublyLinkedLists.ContatoList;
+import database.createList.DoublyLinkedLists.PessoaList;
 import model.Contato;
 public class ContatoDao {
 

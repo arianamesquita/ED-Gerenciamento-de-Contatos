@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 
 import javax.swing.JOptionPane;
 
-import database.createList.CategoriaList;
+import database.createList.DoublyLinkedLists.CategoriaList;
 import model.Categoria;
 
 public class CategoriaDAO{

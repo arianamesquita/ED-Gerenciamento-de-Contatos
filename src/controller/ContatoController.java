@@ -4,22 +4,24 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import View.ContatosScreenGUI;
+import View.ContatosGUI;
 import model.Contato;
 
-public class ContatosController {
+public class ContatoController {
     private Contato contato;
 
-    private ContatosScreenGUI contatoGUI;
+    private InicialScreenController inicialScreenController;
 
-    public ContatosController(Contato contato) {
+    private ContatosGUI contatoGUI;
+
+    public ContatoController(Contato contato) {
 
         this.contato = contato;
-        this.contatoGUI = new ContatosScreenGUI(getContato());
+        this.contatoGUI = new ContatosGUI(getContato());
         addMouseListener();
     }
     public  void updateGUI(){
-        setContatoGUI(new ContatosScreenGUI(getContato()));
+        setContatoGUI(new ContatosGUI(getContato()));
         addMouseListener();
     }
     public void setVisibleGUI(boolean aFlag){
@@ -37,11 +39,14 @@ public class ContatosController {
             public void mouseClicked(MouseEvent e) {
                 if(contatoGUI.isMouseClicked()){
                 if (contatoGUI.isSelect()) {
+                   getInicialScreenController().setCountMouseCliked(getInicialScreenController().getCountMouseCliked()-1);
                     contatoGUI.getPaintMenu().setBackground(Color.darkGray);
                     contatoGUI.setSelect(false);
                 } else {
                     contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
                     contatoGUI.setSelect(true);
+                    getInicialScreenController().setCountMouseCliked(getInicialScreenController().getCountMouseCliked()+1);
+
                 }
 
             }}
@@ -98,12 +103,19 @@ public class ContatosController {
 
     }
 
+    public InicialScreenController getInicialScreenController() {
+        return inicialScreenController;
+    }
 
-    public ContatosScreenGUI getContatoGUI() {
+    public void setInicialScreenController(InicialScreenController inicialScreenController) {
+        this.inicialScreenController = inicialScreenController;
+    }
+
+    public ContatosGUI getContatoGUI() {
         return contatoGUI;
     }
 
-    public void setContatoGUI(ContatosScreenGUI contatoGUI) {
+    public void setContatoGUI(ContatosGUI contatoGUI) {
         this.contatoGUI = contatoGUI;
     }
     public Contato getContato() {

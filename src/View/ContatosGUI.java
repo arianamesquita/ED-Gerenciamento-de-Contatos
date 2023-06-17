@@ -18,14 +18,14 @@ import javax.swing.JPanel;
 import View.ComponentsCustomGUI.PaintMenu;
 import model.Contato;
 
-public class ContatosScreenGUI extends JPanel {
+public class ContatosGUI extends JPanel {
 
     private JLabel fotoPerfil, nome, numeroTelefone, email, data;
     private PaintMenu paintCategoria, paintMenu;
     private boolean select, mouseClicked;
     private Contato contato;
 
-    public ContatosScreenGUI(Contato contato) {
+    public ContatosGUI(Contato contato) {
         this.contato = contato;
         this.select = false;
         setLayout(new BorderLayout());

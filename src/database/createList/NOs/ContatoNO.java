@@ -1,14 +1,14 @@
-package database.createList;
+package database.createList.NOs;
 
 import model.Contato;
 
-public class NoContato {
+public class ContatoNO {
 
     private Contato contato;
-    private NoContato anterior;
-    private NoContato proximo;
+    private ContatoNO anterior;
+    private ContatoNO proximo;
 
-    public NoContato(Contato contato) {
+    public ContatoNO(Contato contato) {
         this.contato = contato;
         this.anterior = null;
         this.proximo = null;
@@ -23,19 +23,19 @@ public class NoContato {
         this.contato = contato;
     }
 
-    public NoContato getAnterior() {
+    public ContatoNO getAnterior() {
         return anterior;
     }
 
-    public void setAnterior(NoContato anterior) {
+    public void setAnterior(ContatoNO anterior) {
         this.anterior = anterior;
     }
 
-    public NoContato getProximo() {
+    public ContatoNO getProximo() {
         return proximo;
     }
 
-    public void setProximo(NoContato atual) {
+    public void setProximo(ContatoNO atual) {
         this.proximo = atual;
     }
     

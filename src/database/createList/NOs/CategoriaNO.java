@@ -1,14 +1,14 @@
-package database.createList;
+package database.createList.NOs;
 
 import model.Categoria;
 
-public class No {
+public class CategoriaNO {
     
     private Categoria categoria;
-    private No anterior;
-    private No proximo;
+    private CategoriaNO anterior;
+    private CategoriaNO proximo;
 
-    public No(Categoria categoria) {
+    public CategoriaNO(Categoria categoria) {
         this.categoria = categoria;
         this.anterior = null;
         this.proximo = null;
@@ -21,19 +21,19 @@ public class No {
         return categoria;
     }
 
-    public No getAnterior() {
+    public CategoriaNO getAnterior() {
         return anterior;
     }
 
-    public void setAnterior(No anterior) {
+    public void setAnterior(CategoriaNO anterior) {
         this.anterior = anterior;
     }
 
-    public No getProximo() {
+    public CategoriaNO getProximo() {
         return proximo;
     }
 
-    public void setProximo(No proximo) {
+    public void setProximo(CategoriaNO proximo) {
         this.proximo = proximo;
     }
 

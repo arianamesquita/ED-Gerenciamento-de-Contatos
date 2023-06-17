@@ -1,6 +1,6 @@
 package View;
 
-import controller.ContatoScreenController;
+import controller.PessoaController;
 import controller.CategoriaController;
 import controller.FiltroController;
 
@@ -14,20 +14,21 @@ import java.awt.Rectangle;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-public class InicialScreenGUI extends JPanel{
+public class TelaInicialGUI extends JPanel{
     private BoxLayout layout;
     private CategoriaController categoriaController;
-    private JPanel panelContatos, painelEditar;
+    private JPanel  panelContatos,painelEditar;
+
     private JButton criar, editar, apagar, apagarTodos, adicionarCategoria, removerCategoria;
     private JLabel contador;
     private JScrollPane scrollPane;
-    private ContatoScreenController caixaTextoGui;
+    private PessoaController caixaTextoGui;
     private FiltroController filtro;
 
-    public InicialScreenGUI() {
+    public TelaInicialGUI() {
         setLayout(new BorderLayout());
 
-        this.caixaTextoGui = new ContatoScreenController();
+        this.caixaTextoGui = new PessoaController();
         this.panelContatos = new JPanel();
         this.layout = new BoxLayout(panelContatos, BoxLayout.Y_AXIS);
         this.scrollPane = new JScrollPane(panelContatos);
@@ -109,7 +110,6 @@ public class InicialScreenGUI extends JPanel{
         this.panelContatos = panelContatos;
     }
 
-
     public JPanel getPainelEditar() {
         return painelEditar;
     }
@@ -183,7 +183,7 @@ public class InicialScreenGUI extends JPanel{
         this.filtro = filtro;
     }
 
-    public ContatoScreenController getCaixaTextoGui() {
+    public PessoaController getCaixaTextoGui() {
         return caixaTextoGui;
     }
 
@@ -203,7 +203,7 @@ public class InicialScreenGUI extends JPanel{
         this.categoriaController = categoriaController;
     }
 
-    public void setCaixaTextoGui(ContatoScreenController caixaTextoGui) {
+    public void setCaixaTextoGui(PessoaController caixaTextoGui) {
         this.caixaTextoGui = caixaTextoGui;
     }
 }

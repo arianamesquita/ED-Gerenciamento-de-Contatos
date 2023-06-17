@@ -1,43 +1,44 @@
-package database.createList;
+package database.createList.DoublyLinkedLists;
 
-import model.Pessoa;
+import database.createList.NOs.CategoriaNO;
+import model.Categoria;
 
-public class PessoaList {
+public class CategoriaList {
 
-    Pessoa pessoa;
+    Categoria categoria;
 
-    private NoPessoa inicio;
-    private NoPessoa fim;
+    private CategoriaNO inicio;
+    private CategoriaNO fim;
 
-    public PessoaList() {
+    public CategoriaList() {
         this.inicio = null;
         this.fim = null;
     }
 
-    public NoPessoa getInicio() {
+    public CategoriaNO getInicio() {
         return inicio;
     }
 
-    public void setInicio(NoPessoa inicio) {
+    public void setInicio(CategoriaNO inicio) {
         this.inicio = inicio;
     }
 
-    public NoPessoa getFim() {
+    public CategoriaNO getFim() {
         return fim;
     }
 
-    public void setFim(NoPessoa fim) {
+    public void setFim(CategoriaNO fim) {
         this.fim = fim;
     }
 
     
     @Override
     public String toString() {
-        return "Pessoa = " + pessoa;
+        return "Categoria = " + categoria;
     }
 
-    public void InsereNoFim(Pessoa pessoa) {
-        NoPessoa atual = new NoPessoa(pessoa);
+    public void InsereNoFim(Categoria categoria) {
+        CategoriaNO atual = new CategoriaNO(categoria);
         if (getInicio() == null) {
             setInicio(atual);
         } else {
@@ -47,8 +48,8 @@ public class PessoaList {
         setFim(atual);
     }
 
-    public void InsereNoInicio(Pessoa pessoa) {
-        NoPessoa atual = new NoPessoa(pessoa);
+    public void InsereNoInicio(Categoria categoria) {
+        CategoriaNO atual = new CategoriaNO(categoria);
         if (getInicio() == null) {
             setInicio(atual);
             setFim(atual);
@@ -84,10 +85,10 @@ public class PessoaList {
         }
     }
 
-    public void ApagaCategoria(Pessoa pessoa) {
-        NoPessoa atual = getInicio();
+    public void ApagaCategoria(Categoria categoria) {
+        CategoriaNO atual = getInicio();
         while (atual != null) {
-            if (atual.getPessoa().equals(pessoa)) {
+            if (atual.getCategoria().equals(categoria)) {
                 if (atual == getInicio()) {
                     ApagaNoInicio();
                 } else if (atual == getFim()) {
@@ -101,28 +102,27 @@ public class PessoaList {
             }
             atual = atual.getProximo();
         }
-        System.out.println("A pessoa " + pessoa + "' não foi encontrada na lista.");
+        System.out.println("A categoria '" + categoria + "' não foi encontrada na lista.");
     }
 
     public void imprimir() {
-        NoPessoa atual = getInicio();
+        CategoriaNO atual = getInicio();
         while (atual != null) {
-            System.out.print(atual.getPessoa().getNome() + " ");
+            System.out.print(atual.getCategoria().getNome() + " ");
             atual = atual.getProximo();
         }
         System.out.println();
     }
 
-    public Pessoa buscarPorID(int id) {
-        NoPessoa atual = getInicio();
+    public Categoria buscarPorID(int id) {
+        CategoriaNO atual = getInicio();
         while (atual != null) {
-            if (atual.getPessoa().getId() == id){
-                return atual.getPessoa();
+            if (atual.getCategoria().getId() == id){
+                return atual.getCategoria();
             }
             atual = atual.getProximo();
         }
         return null;
     }
 
-    
 }

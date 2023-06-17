@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 
 import javax.swing.JOptionPane;
 
-import database.createList.PessoaList;
+import database.createList.DoublyLinkedLists.PessoaList;
 
 public class PessoaDAO {
 

@@ -1,10 +1,8 @@
 package controller;
 
 import View.FiltroGUI;
-import database.createList.ContatosControllerList;
-import database.createList.NoContato;
-import database.createList.NoContatosControl;
-import model.Contato;
+import database.createList.DoublyLinkedLists.ContControlList;
+import database.createList.NOs.ContControlNO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +11,7 @@ import java.awt.event.ActionListener;
 
 public class FiltroController implements ActionListener {
     private FiltroGUI filtro;
-    private ContatosControllerList contatos;
+    private InicialScreenController inicialScreenController;
 
     public FiltroController(){
         this.filtro = new FiltroGUI();
@@ -94,6 +92,8 @@ public class FiltroController implements ActionListener {
         for (JComboBox<String> comboBox : getFiltro().getComboBoxes()) {
             String itemSelecionado = (String) comboBox.getSelectedItem();
             filtroSelecionado.append(itemSelecionado).append(" , ");
+            quickSort(getInicialScreenController().getcList());
+            getInicialScreenController().updateInterface();
         }
         JOptionPane.showMessageDialog(getFiltro(), "Filtro selecionado: " + filtroSelecionado);
     }
@@ -104,38 +104,26 @@ public class FiltroController implements ActionListener {
         }
     }
 
-    public FiltroGUI getFiltro() {
-        return filtro;
-    }
-
-    public void setFiltro(FiltroGUI filtro) {
-        this.filtro = filtro;
-    }
-
-
-    public void setContatos(ContatosControllerList contatos) {
-        this.contatos = contatos;
-    }
 
 
 
-    public void quickSort(ContatosControllerList contatos) {
+    public void quickSort(ContControlList contatos) {
         quickSortRec(contatos, contatos.getInicio(), contatos.getFim());
     }
 
-    private void quickSortRec(ContatosControllerList contatos, NoContatosControl inicio, NoContatosControl fim) {
+    private void quickSortRec(ContControlList contatos, ContControlNO inicio, ContControlNO fim) {
         if (inicio != null && fim != null && inicio != fim && inicio != fim.getProximo()) {
-            NoContatosControl pivot = partition(inicio, fim);
+            ContControlNO pivot = partition(inicio, fim);
             quickSortRec(contatos, inicio, pivot.getAnterior());
             quickSortRec(contatos, pivot.getProximo(), fim);
         }
     }
 
-    private NoContatosControl partition(NoContatosControl inicio, NoContatosControl fim) {
-        ContatosController pivot = fim.getContato();
-        NoContatosControl i = inicio.getAnterior();
+    private ContControlNO partition(ContControlNO inicio, ContControlNO fim) {
+        ContatoController pivot = fim.getContato();
+        ContControlNO i = inicio.getAnterior();
         
-        for (NoContatosControl j = inicio; j != fim; j = j.getProximo()) {
+        for (ContControlNO j = inicio; j != fim; j = j.getProximo()) {
 
             if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0,2)) <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
                 i = (i == null) ? inicio : i.getProximo();
@@ -149,10 +137,28 @@ public class FiltroController implements ActionListener {
         return i;
     }
 
-    private void swap(NoContatosControl no1, NoContatosControl no2) {
-        ContatosController temp = no1.getContato();
+    private void swap(ContControlNO no1, ContControlNO no2) {
+        ContatoController temp = no1.getContato();
         no1.setContato(no2.getContato());
         no2.setContato(temp);
+    }
+
+
+    public FiltroGUI getFiltro() {
+        return filtro;
+    }
+
+    public void setFiltro(FiltroGUI filtro) {
+        this.filtro = filtro;
+    }
+
+
+    public InicialScreenController getInicialScreenController() {
+        return inicialScreenController;
+    }
+
+    public void setInicialScreenController(InicialScreenController inicialScreenController) {
+        this.inicialScreenController = inicialScreenController;
     }
 }
 

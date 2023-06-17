@@ -16,7 +16,7 @@ import javax.swing.text.MaskFormatter;
 
 import View.ComponentsCustomGUI.PaintMenu;
 
-public class ContatoGUI extends JPanel {
+public class PessoaGUI extends JPanel {
     private JLabel[] jl;
     private JTextField nomeField;
     private JFormattedTextField telefoneField;
@@ -30,7 +30,7 @@ public class ContatoGUI extends JPanel {
 
     private PaintMenu paintmenu;
 
-    public ContatoGUI(){
+    public PessoaGUI(){
         setLayout(new BorderLayout());    
         
         this.paintmenu = new PaintMenu();

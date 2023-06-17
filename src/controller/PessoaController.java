@@ -7,15 +7,15 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JOptionPane;
 
-import View.ContatoGUI;
+import View.PessoaGUI;
 
-public class ContatoScreenController implements FocusListener {
+public class PessoaController implements FocusListener {
 
-    private ContatoGUI caixaTexto;
-    private ContatosController contatoEdicao;
+    private PessoaGUI caixaTexto;
+    private ContatoController contatoEdicao;
 
-    public ContatoScreenController() {
-        this.caixaTexto = new ContatoGUI();
+    public PessoaController() {
+        this.caixaTexto = new PessoaGUI();
 
         caixaTexto.getNomeField().addFocusListener(this);
         caixaTexto.getEmailField().addFocusListener(this);
@@ -39,7 +39,7 @@ public class ContatoScreenController implements FocusListener {
         getCaixaTexto().getDataField().setBackground(Color.white);
         getCaixaTexto().getDataField().setForeground(Color.darkGray);
     }
-    public void setEditarContato(ContatosController contato){
+    public void setEditarContato(ContatoController contato){
         setContatoEdicao(contato);
         getCaixaTexto().getNomeField().setText(contato.getContato().getPessoa().getNome());
         getCaixaTexto().getNomeField().setBackground(Color.white);
@@ -59,11 +59,11 @@ public class ContatoScreenController implements FocusListener {
         getCaixaTexto().getDataField().setForeground(Color.darkGray);
     }
 
-    public ContatoGUI getCaixaTexto() {
+    public PessoaGUI getCaixaTexto() {
         return caixaTexto;
     }
 
-    public void setCaixaTexto(ContatoGUI caixaTexto) {
+    public void setCaixaTexto(PessoaGUI caixaTexto) {
         this.caixaTexto = caixaTexto;
     }
 
@@ -116,11 +116,11 @@ public class ContatoScreenController implements FocusListener {
         }
     }
 
-    public ContatosController getContatoEdicao() {
+    public ContatoController getContatoEdicao() {
         return contatoEdicao;
     }
 
-    public void setContatoEdicao(ContatosController contatoEdicao) {
+    public void setContatoEdicao(ContatoController contatoEdicao) {
         this.contatoEdicao = contatoEdicao;
     }
 }

@@ -2,11 +2,11 @@ package database;
 
 import java.sql.Date;
 
-import controller.ContatosController;
+import controller.ContatoController;
 import controller.FiltroController;
-import database.createList.ContatoList;
-import database.createList.ContatosControllerList;
-import database.createList.NoContato;
+import database.createList.DoublyLinkedLists.ContatoList;
+import database.createList.DoublyLinkedLists.ContControlList;
+import database.createList.NOs.ContatoNO;
 
 public class Main {
     public static void main(String[] args) {
@@ -69,12 +69,12 @@ public class Main {
     //Contato contato = new Contato(1, novoNome, pessoa);
     //novoContato.save(contato);
     //contatoList.imprimir();
-    ContatosControllerList contatos = new ContatosControllerList();
-    NoContato atual = contatoList.getInicio();
+    ContControlList contatos = new ContControlList();
+    ContatoNO atual = contatoList.getInicio();
     //contatos.imprimir();
 
     while(atual!=null){
-        contatos.InsereNoFim(new ContatosController(atual.getContato()));
+        contatos.InsereNoFim(new ContatoController(atual.getContato()));
         atual = atual.getProximo();
     }
 

@@ -1,32 +1,33 @@
-package database.createList;
+package database.createList.DoublyLinkedLists;
 
+import database.createList.NOs.ContatoNO;
 import model.Contato;
 
 public class ContatoList {
 
     Contato contato;
 
-    private NoContato inicio;
-    private NoContato fim;
+    private ContatoNO inicio;
+    private ContatoNO fim;
 
     public ContatoList() {
         this.inicio = null;
         this.fim = null;
     }
 
-    public NoContato getInicio() {
+    public ContatoNO getInicio() {
         return inicio;
     }
 
-    public void setInicio(NoContato inicio) {
+    public void setInicio(ContatoNO inicio) {
         this.inicio = inicio;
     }
 
-    public NoContato getFim() {
+    public ContatoNO getFim() {
         return fim;
     }
 
-    public void setFim(NoContato fim) {
+    public void setFim(ContatoNO fim) {
         this.fim = fim;
     }
 
@@ -37,7 +38,7 @@ public class ContatoList {
     }
 
     public void InsereNoFim(Contato contato) {
-        NoContato atual = new NoContato(contato);
+        ContatoNO atual = new ContatoNO(contato);
         if (getInicio() == null) {
             setInicio(atual);
         } else {
@@ -48,7 +49,7 @@ public class ContatoList {
     }
 
     public void InsereNoInicio(Contato contato) {
-        NoContato atual = new NoContato(contato);
+        ContatoNO atual = new ContatoNO(contato);
         if (getInicio() == null) {
             setInicio(atual);
             setFim(atual);
@@ -85,7 +86,7 @@ public class ContatoList {
     }
 
     public void ApagaContato(Contato contato) {
-        NoContato atual = getInicio();
+        ContatoNO atual = getInicio();
         while (atual != null) {
             if (atual.getContato().equals(contato)) {
                 if (atual == getInicio()) {
@@ -105,7 +106,7 @@ public class ContatoList {
     }
 
     public void imprimir() {
-        NoContato atual = getInicio();
+        ContatoNO atual = getInicio();
         while (atual != null) {
             System.out.print(atual.getContato().getPessoa() + " - " + atual.getContato().getCategoria());
             atual = atual.getProximo();

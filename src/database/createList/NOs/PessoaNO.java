@@ -1,32 +1,32 @@
-package database.createList;
+package database.createList.NOs;
 
 import model.Pessoa;
 
-public class NoPessoa {
+public class PessoaNO {
 
     private final Pessoa pessoa;
-    private NoPessoa anterior;
-    private NoPessoa proximo;
+    private PessoaNO anterior;
+    private PessoaNO proximo;
 
-    public NoPessoa(Pessoa pessoa) {
+    public PessoaNO(Pessoa pessoa) {
         this.pessoa = pessoa;
         this.anterior = null;
         this.proximo = null;
     }
 
-    public NoPessoa getAnterior() {
+    public PessoaNO getAnterior() {
         return anterior;
     }
 
-    public void setAnterior(NoPessoa anterior) {
+    public void setAnterior(PessoaNO anterior) {
         this.anterior = anterior;
     }
 
-    public NoPessoa getProximo() {
+    public PessoaNO getProximo() {
         return proximo;
     }
 
-    public void setProximo(NoPessoa proximo) {
+    public void setProximo(PessoaNO proximo) {
         this.proximo = proximo;
     }
 

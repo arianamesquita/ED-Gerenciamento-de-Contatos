@@ -1,50 +1,51 @@
-package database.createList;
+package database.createList.DoublyLinkedLists;
 
-import controller.ContatosController;
+import controller.ContatoController;
+import database.createList.NOs.ContControlNO;
 
-public class ContatosControllerList {
-    private ContatosController controller;
+public class ContControlList {
+    private ContatoController controller;
 
-    private NoContatosControl inicio;
-    private NoContatosControl fim;
+    private ContControlNO inicio;
+    private ContControlNO fim;
 
-    public ContatosControllerList() {
+    public ContControlList() {
         this.inicio = null;
         this.fim = null;
     }
 
-    public ContatosController getController() {
+    public ContatoController getController() {
         return controller;
     }
 
-    public void setController(ContatosController controller) {
+    public void setController(ContatoController controller) {
         this.controller = controller;
     }
 
 
-    public NoContatosControl getInicio() {
+    public ContControlNO getInicio() {
         return inicio;
     }
 
-    public void setInicio(NoContatosControl inicio) {
+    public void setInicio(ContControlNO inicio) {
         this.inicio = inicio;
     }
 
-    public NoContatosControl getFim() {
+    public ContControlNO getFim() {
         return fim;
     }
 
-    public void setFim(NoContatosControl fim) {
+    public void setFim(ContControlNO fim) {
         this.fim = fim;
     }
 
     @Override
     public String toString() {
-        return "ContatosControllerList [controller=" + controller + ", inicio=" + inicio + ", fim=" + fim + "]";
+        return "ContControlList [controller=" + controller + ", inicio=" + inicio + ", fim=" + fim + "]";
     }
 
-    public void InsereNoFim(ContatosController controller) {
-        NoContatosControl atual = new NoContatosControl(controller);
+    public void InsereNoFim(ContatoController controller) {
+        ContControlNO atual = new ContControlNO(controller);
         if (getInicio() == null) {
             setInicio(atual);
         } else {
@@ -54,8 +55,8 @@ public class ContatosControllerList {
         setFim(atual);
     }
 
-    public void InsereNoInicio(ContatosController controller) {
-        NoContatosControl atual = new NoContatosControl(controller);
+    public void InsereNoInicio(ContatoController controller) {
+        ContControlNO atual = new ContControlNO(controller);
         if (getInicio() == null) {
             setInicio(atual);
             setFim(atual);
@@ -91,8 +92,8 @@ public class ContatosControllerList {
         }
     }
 
-    public void ApagaContatoController(ContatosController controller) {
-        NoContatosControl atual = getInicio();
+    public void ApagaContatoController(ContatoController controller) {
+        ContControlNO atual = getInicio();
         while (atual != null) {
             if (atual.getContato()==controller) {
                 if (atual == getInicio()) {
@@ -112,7 +113,7 @@ public class ContatosControllerList {
     }
 
     public void imprimir() {
-        NoContatosControl atual = getInicio();
+        ContControlNO atual = getInicio();
         while (atual != null) {
             System.out.print(atual.getContato().getContato().getPessoa().getNome() + "-> " +
             atual.getContato().getContato().getPessoa().getTelefone());
