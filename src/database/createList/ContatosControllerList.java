@@ -114,7 +114,8 @@ public class ContatosControllerList {
     public void imprimir() {
         NoContatosControl atual = getInicio();
         while (atual != null) {
-            System.out.print(atual.getContato().getContato().getPessoa().getNome() + " ");
+            System.out.print(atual.getContato().getContato().getPessoa().getNome() + "-> " +
+            atual.getContato().getContato().getPessoa().getTelefone());
             atual = atual.getProximo();
             System.out.println("\n");
         }

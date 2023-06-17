@@ -120,15 +120,7 @@ public class FiltroController implements ActionListener {
 
 
     public void quickSort(ContatosControllerList contatos) {
-        System.out.println(contatos.getController().getContato().getPessoa().getNome());
-        quickSortRec(contatos, getInicio(), getFim());
-    }
-
-    private NoContatosControl getFim() {
-        return null;
-    }
-    private NoContatosControl getInicio() {
-        return null;
+        quickSortRec(contatos, contatos.getInicio(), contatos.getFim());
     }
 
     private void quickSortRec(ContatosControllerList contatos, NoContatosControl inicio, NoContatosControl fim) {
@@ -145,7 +137,7 @@ public class FiltroController implements ActionListener {
         
         for (NoContatosControl j = inicio; j != fim; j = j.getProximo()) {
 
-            if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0, 1)) <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 1))) {
+            if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0,2)) <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
                 i = (i == null) ? inicio : i.getProximo();
                 swap(i, j);
             }
@@ -153,8 +145,6 @@ public class FiltroController implements ActionListener {
         
         i = (i == null) ? inicio : i.getProximo();
         swap(i, fim);
-
-        System.out.println(pivot);
         
         return i;
     }
