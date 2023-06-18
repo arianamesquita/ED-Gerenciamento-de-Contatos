@@ -83,7 +83,7 @@ public class CategoriaDAO{
     }
 
     public void update(Categoria categoria){
-        String sql = "Update categoria set nome = ? where id = ?";
+        String sql = "Update categoria set nome = ?";
 
         Connection conn = null;
         PreparedStatement pstm = null;

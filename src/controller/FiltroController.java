@@ -124,7 +124,6 @@ public class FiltroController implements ActionListener {
         ContControlNO i = inicio.getAnterior();
         
         for (ContControlNO j = inicio; j != fim; j = j.getProximo()) {
-
             if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0,2)) <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
                 i = (i == null) ? inicio : i.getProximo();
                 swap(i, j);
