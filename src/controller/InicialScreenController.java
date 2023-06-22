@@ -32,6 +32,7 @@ public class InicialScreenController implements ActionListener,MouseListener {
         PreencheContatos();
         addContatoPanel();
         addListener();
+        getTelaInicialGUI().getCaixaTextoGui().setInicialScreenController(this);
         getTelaInicialGUI().getFiltro().setInicialScreenController(this);
         getTelaInicialGUI().getCategoriaController().setInicialScreenController(this);
     }
@@ -91,9 +92,10 @@ public class InicialScreenController implements ActionListener,MouseListener {
             getTelaInicialGUI().getApagar().setVisible(false);
             getTelaInicialGUI().getApagarTodos().setVisible(false);
 
-        } else if (getCountMouseClicked() == 0 && !getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().isVisible()) {
+        } else if (getCountMouseClicked() == 0 ) {
             getTelaInicialGUI().getEditar().setVisible(false);
             getTelaInicialGUI().getApagar().setVisible(false);
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
             getTelaInicialGUI().getApagarTodos().setVisible(false);
             getTelaInicialGUI().getAdicionarCategoria().setVisible(false);
             getTelaInicialGUI().getRemoverCategoria().setVisible(false);
