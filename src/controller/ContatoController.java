@@ -21,6 +21,7 @@ public class ContatoController {
         this.select = false;
         addMouseListener();
     }
+   
     public  void updateGUI(){
         setContatoGUI(new ContatosGUI(getContato()));
         setSelect(false);

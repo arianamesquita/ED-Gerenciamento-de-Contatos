@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import database.DAO;
 
-public class Contato implements DAO, Serializable{
+public class  Contato implements DAO, Serializable{
 
     public int id;
     public Categoria categoria;

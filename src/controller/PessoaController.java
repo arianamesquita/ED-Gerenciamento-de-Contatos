@@ -1,18 +1,26 @@
 package controller;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JOptionPane;
 
 import View.PessoaGUI;
+import database.PessoaDAO;
+import model.Contato;
+import model.Pessoa;
 
-public class PessoaController implements FocusListener {
+public class PessoaController implements FocusListener, ActionListener {
 
     private PessoaGUI caixaTexto;
     private ContatoController contatoEdicao;
+    private InicialScreenController inicialScreenController;
 
     public PessoaController() {
         this.caixaTexto = new PessoaGUI();
@@ -21,15 +29,38 @@ public class PessoaController implements FocusListener {
         caixaTexto.getEmailField().addFocusListener(this);
 
     }
-    
-    public void setNovoContato(){
+
+    private void salvar(){
+        String nome = getCaixaTexto().getNomeField().getText();
+        String email = getCaixaTexto().getEmailField().getText();
+        String numero = getCaixaTexto().getTelefoneField().getText();
+        String data = getCaixaTexto().getDataField().getText();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+java.util.Date parsedDate;
+       try {
+         parsedDate = dateFormat.parse(data);
+       } catch (ParseException e) {
+    // Trate qualquer erro de análise aqui
+          e.printStackTrace();
+         return;
+       }
+        Pessoa pessoa = new Pessoa(nome, 0, data, email, new java.sql.Date(parsedDate.getTime()));
+        PessoaDAO pessoaDAO = new PessoaDAO();
+        pessoaDAO.save(pessoa);
+        Contato contato = new Contato(0, null, pessoa);
+        ContatoController contatoController = new ContatoController(null);
+    }
+
+    public void setNovoContato() {
         getCaixaTexto().getNomeField().setText("digite seu nome");
         getCaixaTexto().getNomeField().setBackground(Color.white);
-        getCaixaTexto().getNomeField().setForeground(Color.darkGray);;
+        getCaixaTexto().getNomeField().setForeground(Color.darkGray);
+        ;
 
         getCaixaTexto().getEmailField().setText("digite seu email");
         getCaixaTexto().getEmailField().setBackground(Color.white);
-        getCaixaTexto().getEmailField().setForeground(Color.darkGray);;
+        getCaixaTexto().getEmailField().setForeground(Color.darkGray);
+        ;
 
         getCaixaTexto().getTelefoneField().setText("");
         getCaixaTexto().getTelefoneField().setBackground(Color.white);
@@ -39,22 +70,25 @@ public class PessoaController implements FocusListener {
         getCaixaTexto().getDataField().setBackground(Color.white);
         getCaixaTexto().getDataField().setForeground(Color.darkGray);
     }
-    public void setEditarContato(ContatoController contato){
+
+    public void setEditarContato(ContatoController contato) {
         setContatoEdicao(contato);
         getCaixaTexto().getNomeField().setText(contato.getContato().getPessoa().getNome());
         getCaixaTexto().getNomeField().setBackground(Color.white);
-        getCaixaTexto().getNomeField().setForeground(Color.darkGray);;
+        getCaixaTexto().getNomeField().setForeground(Color.darkGray);
+        ;
 
         getCaixaTexto().getEmailField().setText(contato.getContato().getPessoa().getEmail());
         getCaixaTexto().getEmailField().setBackground(Color.white);
-        getCaixaTexto().getEmailField().setForeground(Color.darkGray);;
+        getCaixaTexto().getEmailField().setForeground(Color.darkGray);
+        ;
 
         getCaixaTexto().getTelefoneField().setText(contato.getContato().getPessoa().getTelefone());
         getCaixaTexto().getTelefoneField().setBackground(Color.white);
         getCaixaTexto().getTelefoneField().setForeground(Color.darkGray);
-     
 
-        getCaixaTexto().getDataField().setText(new SimpleDateFormat("dd/MM/yyyy").format(contato.getContato().getPessoa().getDataAniversario()));
+        getCaixaTexto().getDataField().setText(
+                new SimpleDateFormat("dd/MM/yyyy").format(contato.getContato().getPessoa().getDataAniversario()));
         getCaixaTexto().getDataField().setBackground(Color.white);
         getCaixaTexto().getDataField().setForeground(Color.darkGray);
     }
@@ -107,9 +141,9 @@ public class PessoaController implements FocusListener {
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
             if (!getCaixaTexto().getEmailField().getText().matches(EMAIL_PATTERN)) {
-                JOptionPane.showMessageDialog(caixaTexto,"email digitado de forma incorreta!!", "erro!!", 0);
-                getCaixaTexto().getEmailField().setText("digite seu email");       
-                 getCaixaTexto().getEmailField().setForeground(Color.white);
+                JOptionPane.showMessageDialog(caixaTexto, "email digitado de forma incorreta!!", "erro!!", 0);
+                getCaixaTexto().getEmailField().setText("digite seu email");
+                getCaixaTexto().getEmailField().setForeground(Color.white);
                 getCaixaTexto().getEmailField().setBackground(Color.red);
 
             }
@@ -122,5 +156,19 @@ public class PessoaController implements FocusListener {
 
     public void setContatoEdicao(ContatoController contatoEdicao) {
         this.contatoEdicao = contatoEdicao;
+    }
+
+    public InicialScreenController getInicialScreenController() {
+        return inicialScreenController;
+    }
+
+    public void setInicialScreenController(InicialScreenController inicialScreenController) {
+        this.inicialScreenController = inicialScreenController;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 }
