@@ -82,6 +82,7 @@ public class InicialScreenController implements ActionListener,MouseListener {
             getTelaInicialGUI().getEditar().setVisible(true);
             getTelaInicialGUI().getApagar().setVisible(true);
             getTelaInicialGUI().getApagarTodos().setVisible(false);
+
         } else if (getCountMouseClicked() == 1 && getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().isVisible()) {
             getTelaInicialGUI().getAdicionarCategoria().setVisible(false);
             getTelaInicialGUI().getRemoverCategoria().setVisible(false);
@@ -131,20 +132,23 @@ public class InicialScreenController implements ActionListener,MouseListener {
         });
         getTelaInicialGUI().getApagar().addActionListener(e -> {});
         getTelaInicialGUI().getApagarTodos().addActionListener(e -> {});
+
+
         getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().getCancelar().addActionListener(e -> {
             if (getCountMouseClicked() >=1){
             getTelaInicialGUI().getCriar().setVisible(false);
             getTelaInicialGUI().getEditar().setVisible(true);
             getTelaInicialGUI().getApagar().setVisible(true);
-
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(true);
+                System.out.println("a");
             }
             else {
                 getTelaInicialGUI().getCriar().setVisible(true);
                 getTelaInicialGUI().getEditar().setVisible(false);
                 getTelaInicialGUI().getApagar().setVisible(false);
+                getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
             }
             getTelaInicialGUI().getApagarTodos().setVisible(false);
-            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
             getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().setVisible(false);
             setMouseClicked(true);
 
@@ -166,6 +170,16 @@ public class InicialScreenController implements ActionListener,MouseListener {
             current = current.getProximo();
         }
         return null;
+    }
+
+    public String[] getContatosSelects(){
+        ContControlNO current = getListaContatoController().getInicio();
+        StringBuilder sb = new StringBuilder();
+        while (current != null){
+            sb.append(current.getContato().getContato().getId()).append(" - ");
+            current = current.getProximo();
+        }
+        return String.valueOf(sb).split(" - ");
     }
 
     public ContControlList getListaContatoController() {

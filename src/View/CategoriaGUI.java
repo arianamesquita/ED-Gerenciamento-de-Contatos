@@ -1,5 +1,7 @@
 package View;
 
+import controller.CategoriaController;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ public class CategoriaGUI extends JPanel {
     private JButton adicionarCategoria,removerCategoria,novaCategoria,salvar,cancelar;
     private JLabel categoriaText;
     private JComboBox<String> categoriaExistente;
-    private String[] textCategorias = {"amigos","familia","faculdade","sem Categoria"};
+    private String[] textCategorias;
     private JTextField categoriaField;
     private JPanel categoriasButton,controleButtons, panel;
 
@@ -19,7 +21,7 @@ public class CategoriaGUI extends JPanel {
         this.novaCategoria = new JButton("nova categoria");
         this.salvar = new JButton("salvar");
         this.cancelar = new JButton("cancelar");
-        this.categoriaExistente = new JComboBox<>(textCategorias);
+        this.categoriaExistente = new JComboBox<>(CategoriaController.buscarCategorias());
         this.categoriaText = new JLabel("nova categoria:");
         this.categoriaField = new JTextField();
         this.categoriasButton = new JPanel(new FlowLayout());

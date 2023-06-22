@@ -1,6 +1,9 @@
 package controller;
 
 import View.CategoriaGUI;
+import database.CategoriaDAO;
+import database.createList.DoublyLinkedLists.CategoriaList;
+import database.createList.NOs.CategoriaNO;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,11 +20,15 @@ public class CategoriaController implements ActionListener, FocusListener{
     public CategoriaController(){
 
         this.categoriaGUI = new CategoriaGUI();
+        addConfg();
+    }
+
+    public void  addConfg(){
         getCategoriaGUI().getPanel().setVisible(true);
         getCategoriaGUI().getCategoriaText().setVisible(false);
         getCategoriaGUI().getCategoriasButton().setVisible(false);
-        getCategoriaGUI().getControleButtons().setVisible(false);
         getCategoriaGUI().getAdicionarCategoria().setVisible(true);
+        getCategoriaGUI().getControleButtons().setVisible(false);
         getCategoriaGUI().getRemoverCategoria().setVisible(true);
         getCategoriaGUI().getCategoriaExistente().setVisible(false);
         getCategoriaGUI().getNovaCategoria().setVisible(false);
@@ -127,6 +134,26 @@ public class CategoriaController implements ActionListener, FocusListener{
             getCategoriaGUI().getCategoriaField().setText("digite uma categoria");
         }
     }
+    private void addNovaCategoria(){
+
+
+    }
+    public void updateCategoria(){
+        setCategoriaGUI(new CategoriaGUI());
+        addConfg();
+    }
+
+    public static String[] buscarCategorias(){
+        CategoriaList categoriaList = new CategoriaDAO().Listar();
+        CategoriaNO  current = categoriaList.getInicio();
+        StringBuilder sb = new StringBuilder();
+        while (current != null){
+            sb.append(current.getCategoria().getNome()).append(" - ");
+            current = current.getProximo();
+        }
+        return String.valueOf(sb).split(" - ");
+    }
+
 
     public CategoriaGUI getCategoriaGUI() {
         return categoriaGUI;

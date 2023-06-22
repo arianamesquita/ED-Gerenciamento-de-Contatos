@@ -1,7 +1,12 @@
 package View.ComponentsCustomGUI;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class PaintMenu extends JPanel{
@@ -9,8 +14,8 @@ public class PaintMenu extends JPanel{
   
     @Override
     public void paint(Graphics g) {
-        g.setColor(getBackground());
-        g.fillRoundRect(0, 0, getWidth(), getHeight(), getRounded(), getRounded());
+        g.setColor(Color.blue);
+        g.fillRoundRect(0, 0, 100, 100, getRounded(), getRounded());
         super.paint(g);
     }
 
@@ -21,4 +26,5 @@ public class PaintMenu extends JPanel{
     public void setRounded(int rounded) {
         this.rounded = rounded;
     }
+    
 }
