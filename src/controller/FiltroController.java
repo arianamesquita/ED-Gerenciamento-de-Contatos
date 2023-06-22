@@ -122,12 +122,22 @@ public class FiltroController implements ActionListener {
     private ContControlNO partition(ContControlNO inicio, ContControlNO fim) {
         ContatoController pivot = fim.getContato();
         ContControlNO i = inicio.getAnterior();
+
+        StringBuilder filtroSelecionado = new StringBuilder();
+        for (JComboBox<String> comboBox : getFiltroGUI().getComboBoxes()) {
+            String itemSelecionado = (String) comboBox.getSelectedItem();
+            filtroSelecionado.append(itemSelecionado).append(" , ");
+        }
         
         for (ContControlNO j = inicio; j != fim; j = j.getProximo()) {
-            if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0,2)) <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
+            if (filtroSelecionado.equals("ddd")){
+                if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0,2)) 
+                    <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
                 i = (i == null) ? inicio : i.getProximo();
                 swap(i, j);
             }
+            }
+
         }
         
         i = (i == null) ? inicio : i.getProximo();
