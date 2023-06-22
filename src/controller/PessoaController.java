@@ -12,7 +12,11 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 import View.PessoaGUI;
+import database.CategoriaDAO;
 import database.PessoaDAO;
+import database.createList.DoublyLinkedLists.CategoriaList;
+import database.createList.DoublyLinkedLists.PessoaList;
+import database.createList.NOs.PessoaNO;
 import model.Contato;
 import model.Pessoa;
 
@@ -27,6 +31,16 @@ public class PessoaController implements FocusListener, ActionListener {
 
         caixaTexto.getNomeField().addFocusListener(this);
         caixaTexto.getEmailField().addFocusListener(this);
+        caixaTexto.getSalvar().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            salvar();
+            getInicialScreenController().getTelaInicialGUI().getCaixaTextoGui().caixaTexto.setVisible(false);
+            getInicialScreenController().getTelaInicialGUI().getCriar().setVisible(true);
+            }
+            
+        });
 
     }
 
@@ -34,6 +48,7 @@ public class PessoaController implements FocusListener, ActionListener {
         String nome = getCaixaTexto().getNomeField().getText();
         String email = getCaixaTexto().getEmailField().getText();
         String numero = getCaixaTexto().getTelefoneField().getText();
+        numero = numero.replaceAll("[^0-9]", "");
         String data = getCaixaTexto().getDataField().getText();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 java.util.Date parsedDate;
@@ -44,11 +59,14 @@ java.util.Date parsedDate;
           e.printStackTrace();
          return;
        }
-        Pessoa pessoa = new Pessoa(nome, 0, data, email, new java.sql.Date(parsedDate.getTime()));
+        Pessoa pessoa = new Pessoa(nome, geraId(), data, email, new java.sql.Date(parsedDate.getTime()));
         PessoaDAO pessoaDAO = new PessoaDAO();
         pessoaDAO.save(pessoa);
-        Contato contato = new Contato(0, null, pessoa);
-        ContatoController contatoController = new ContatoController(null);
+    
+        ContatoController contatoController = new ContatoController(new Contato(ContatoController.geraId(), new CategoriaDAO().ler(12), pessoa));
+        getInicialScreenController().getListaContatoController().InsereNoInicio(contatoController);
+        getInicialScreenController().updateInterface();
+
     }
 
     public void setNovoContato() {
@@ -148,6 +166,22 @@ java.util.Date parsedDate;
 
             }
         }
+    }
+    
+    public static int geraId() {
+        int count = 0;
+        PessoaList pessoaList =  new PessoaDAO().Listar();
+        PessoaNO atual = pessoaList.getInicio();
+        while(atual!= null ){
+                    
+            if (count < atual.getPessoa().getId()) {
+                count = atual.getPessoa().getId();
+            }
+            atual = atual.getProximo();
+        
+     
+        }
+    return count + 1;
     }
 
     public ContatoController getContatoEdicao() {

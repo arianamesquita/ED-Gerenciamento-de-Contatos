@@ -5,6 +5,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import View.ContatosGUI;
+import database.ContatoDao;
+import database.PessoaDAO;
+import database.createList.DoublyLinkedLists.ContatoList;
+import database.createList.DoublyLinkedLists.PessoaList;
+import database.createList.NOs.ContatoNO;
+import database.createList.NOs.PessoaNO;
 import model.Contato;
 
 public class ContatoController {
@@ -140,5 +146,22 @@ public class ContatoController {
 
     public void setContatoGUI(ContatosGUI contatoGUI) {
         this.contatoGUI = contatoGUI;
+    }
+
+       
+    public static int geraId() {
+        int count = 0;
+        ContatoList contatoList =  new ContatoDao().Listar();
+        ContatoNO atual = contatoList.getInicio();
+        while(atual!= null ){
+                    
+            if (count < atual.getContato().getId()) {
+                count = atual.getContato().getId();
+            }
+            atual = atual.getProximo();
+        
+     
+        }
+    return count + 1;
     }
 }

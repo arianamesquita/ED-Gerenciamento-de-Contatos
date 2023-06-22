@@ -3,6 +3,7 @@ package database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
@@ -155,6 +156,51 @@ public class CategoriaDAO{
             }
         }
         return lista;
+    }
+        public Categoria ler(int id) {
+            String sql = "SELECT * FROM categoria WHERE id = ?";
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+        Categoria categoria;
+
+
+        try {
+            conn = ConnectionFactory.createConnectionToMySQL();
+            pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            rset = pstm.executeQuery();
+
+      
+
+            if (rset.next()) {
+                int ide = rset.getInt("id");
+                String nome = rset.getString("nome");
+                categoria = new Categoria(ide, nome);
+
+            } 
+              return categoria;
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+                        try {
+                if (pstm != null){
+                    pstm.close();
+                }
+                if (conn != null){
+                    conn.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+
+     
     }
 
 
