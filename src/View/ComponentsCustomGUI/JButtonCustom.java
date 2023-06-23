@@ -12,9 +12,9 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 
-public class JButtonCustom extends JButton{
-    
-    private  Color backgroundcolor,clicked,entered;
+public class JButtonCustom extends JButton {
+
+    private Color backgroundcolor, clicked, entered;
 
     public JButtonCustom() {
 
@@ -36,7 +36,6 @@ public class JButtonCustom extends JButton{
         setCustomConfig();
     }
 
-
     public JButtonCustom(String text, Icon icon) {
         super(text, icon);
 
@@ -46,7 +45,7 @@ public class JButtonCustom extends JButton{
 
     private void setCustomConfig() {
         setContentAreaFilled(false);
-        setBorder(new EmptyBorder(5,0,5,0));
+        setBorder(new EmptyBorder(5, 0, 5, 0));
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         addMouseListener(new MouseListener() {
             @Override
@@ -78,13 +77,12 @@ public class JButtonCustom extends JButton{
 
     }
 
-    public void setColors(Color background,Color entered, Color clicked){
+    public void setColors(Color background, Color entered, Color clicked) {
         this.clicked = clicked;
-        this.entered=entered;
-        this.backgroundcolor=background;
+        this.entered = entered;
+        this.backgroundcolor = background;
         setBackground(background);
     }
-
 
     public Color getClicked() {
         return clicked;
@@ -101,10 +99,10 @@ public class JButtonCustom extends JButton{
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2.setColor(getBackground());
-        g2.fillRoundRect(0, 0, getWidth()-1, getHeight()-1, 30, 30);
+        g2.fillRoundRect(0, 0, getWidth() - 1, getHeight() - 1, 30, 30);
         super.paintComponent(g);
     }
-    
+
 }

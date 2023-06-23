@@ -13,23 +13,21 @@ public class FiltroController implements ActionListener {
     private FiltroGUI filtroGUI;
     private InicialScreenController inicialScreenController;
 
-    public FiltroController(){
+    public FiltroController() {
         this.filtroGUI = new FiltroGUI();
 
         getFiltroGUI().getFiltrarButton().addActionListener(this);
         getFiltroGUI().getAdicionarButton().addActionListener(this);
         getFiltroGUI().getRemoverButton().addActionListener(this);
 
-
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == getFiltroGUI().getAdicionarButton()) {
             setVisibleAll(true);
             adicionarComboBox();
-            if (!getFiltroGUI().getFiltrarButton().isVisible()){
+            if (!getFiltroGUI().getFiltrarButton().isVisible()) {
                 getFiltroGUI().getRemoverButton().setVisible(true);
                 getFiltroGUI().getFiltrarButton().setVisible(true);
             }
@@ -59,7 +57,7 @@ public class FiltroController implements ActionListener {
             getFiltroGUI().getFiltrarButton().setVisible(true);
             getFiltroGUI().getComboBoxes().add(comboBox);
             getFiltroGUI().add(comboBox);
-            for (JComboBox<String> combo: filtroGUI.getComboBoxes()) {
+            for (JComboBox<String> combo : filtroGUI.getComboBoxes()) {
                 combo.setEnabled(false);
             }
             comboBox.setEnabled(true);
@@ -69,19 +67,20 @@ public class FiltroController implements ActionListener {
 
     private void removerComboBox() {
         if (!getFiltroGUI().getComboBoxes().isEmpty()) {
-            JComboBox<String> comboBox = getFiltroGUI().getComboBoxes().remove(getFiltroGUI().getComboBoxes().size() - 1);
+            JComboBox<String> comboBox = getFiltroGUI().getComboBoxes()
+                    .remove(getFiltroGUI().getComboBoxes().size() - 1);
             getFiltroGUI().remove(comboBox);
             getFiltroGUI().revalidate(); // Atualiza o layout do painel
             getFiltroGUI().repaint(); // Redesenha o painel
             for (int i = 0; i < getFiltroGUI().getComboBoxes().size(); i++) {
-                if( i == getFiltroGUI().getComboBoxes().size() - 1){
+                if (i == getFiltroGUI().getComboBoxes().size() - 1) {
                     JComboBox<String> comboBox1 = getFiltroGUI().getComboBoxes().get(i);
                     comboBox1.setEnabled(true);
                 }
 
             }
         }
-        if (getFiltroGUI().getComboBoxes().isEmpty()){
+        if (getFiltroGUI().getComboBoxes().isEmpty()) {
             getFiltroGUI().getRemoverButton().setVisible(false);
             getFiltroGUI().getFiltrarButton().setVisible(false);
         }
@@ -92,21 +91,18 @@ public class FiltroController implements ActionListener {
         for (JComboBox<String> comboBox : getFiltroGUI().getComboBoxes()) {
             String itemSelecionado = (String) comboBox.getSelectedItem();
             filtroSelecionado.append(itemSelecionado).append(" , ");
-            quickSort(getInicialScreenController().getListaContatoController(), filtroSelecionado.toString());
+            quickSort(getInicialScreenController().getListaContatoController(), itemSelecionado);
             getInicialScreenController().updateInterface();
         }
         JOptionPane.showMessageDialog(getFiltroGUI(), "Filtro selecionado: " + filtroSelecionado);
     }
-    private void setVisibleAll(boolean aFlag){
+
+    private void setVisibleAll(boolean aFlag) {
         for (JComboBox<String> comboBox : getFiltroGUI().getComboBoxes()) {
             comboBox.setVisible(aFlag);
             getFiltroGUI().repaint();
         }
     }
-
-
-
-
 
     public void quickSort(ContControlList contatos, String filtro) {
         quickSortRec(contatos, contatos.getInicio(), contatos.getFim(), filtro);
@@ -123,42 +119,38 @@ public class FiltroController implements ActionListener {
     private ContControlNO partition(ContControlNO inicio, ContControlNO fim, String filtro) {
         ContatoController pivot = fim.getContato();
         ContControlNO i = inicio.getAnterior();
-        
+
         for (ContControlNO j = inicio; j != fim; j = j.getProximo()) {
-            if (filtro.equals("ddd")){
-                if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0,2)) 
-                    <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
+            if (filtro.equals("ddd")) {
+                if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0, 2)) <= Integer
+                        .parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
                     i = (i == null) ? inicio : i.getProximo();
                     swap(i, j);
                 }
-            }
-            else if (filtro.equals("categoria")){
+            } else if (filtro.equals("categoria")) {
                 if (j.getContato().getContato().getCategoria().getId() <= pivot.getContato().getCategoria().getId()) {
                     i = (i == null) ? inicio : i.getProximo();
                     swap(i, j);
                 }
-            }
-            else if (filtro.equals("nome")){ //esse acho q não precisa né, amigo?
-                if (j.getContato().getContato().getPessoa().getNome().charAt(0) <= 
-                        pivot.getContato().getPessoa().getNome().charAt(0)){
+            } else if (filtro.equals("nome")) { // esse acho q não precisa né, amigo?
+                if (j.getContato().getContato().getPessoa().getNome().charAt(0) <= pivot.getContato().getPessoa()
+                        .getNome().charAt(0)) {
                     i = (i == null) ? inicio : i.getProximo();
-                    swap(i, j); 
+                    swap(i, j);
+                }
+            } else if (filtro.equals("email")) {
+                if (j.getContato().getContato().getPessoa().getEmail().charAt(0) <= pivot.getContato().getPessoa()
+                        .getEmail().charAt(0)) {
+                    i = (i == null) ? inicio : i.getProximo();
+                    swap(i, j);
                 }
             }
-            else if (filtro.equals("email")){ 
-                if (j.getContato().getContato().getPessoa().getEmail().charAt(0) <= 
-                        pivot.getContato().getPessoa().getEmail().charAt(0)){
-                    i = (i == null) ? inicio : i.getProximo();
-                    swap(i, j); 
-                }
-            }
-
 
         }
-        
+
         i = (i == null) ? inicio : i.getProximo();
         swap(i, fim);
-        
+
         return i;
     }
 
@@ -168,7 +160,6 @@ public class FiltroController implements ActionListener {
         no2.setContato(temp);
     }
 
-
     public FiltroGUI getFiltroGUI() {
         return filtroGUI;
     }
@@ -176,7 +167,6 @@ public class FiltroController implements ActionListener {
     public void setFiltroGUI(FiltroGUI filtroGUI) {
         this.filtroGUI = filtroGUI;
     }
-
 
     public InicialScreenController getInicialScreenController() {
         return inicialScreenController;
@@ -186,7 +176,4 @@ public class FiltroController implements ActionListener {
         this.inicialScreenController = inicialScreenController;
     }
 
-    
 }
-
-

@@ -4,6 +4,7 @@ import controller.ContatoController;
 import database.createList.NOs.ContControlNO;
 
 public class ContControlList {
+    
     private ContatoController controller;
 
     private ContControlNO inicio;
@@ -12,36 +13,6 @@ public class ContControlList {
     public ContControlList() {
         this.inicio = null;
         this.fim = null;
-    }
-
-    public ContatoController getController() {
-        return controller;
-    }
-
-    public void setController(ContatoController controller) {
-        this.controller = controller;
-    }
-
-
-    public ContControlNO getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(ContControlNO inicio) {
-        this.inicio = inicio;
-    }
-
-    public ContControlNO getFim() {
-        return fim;
-    }
-
-    public void setFim(ContControlNO fim) {
-        this.fim = fim;
-    }
-
-    @Override
-    public String toString() {
-        return "ContControlList [controller=" + controller + ", inicio=" + inicio + ", fim=" + fim + "]";
     }
 
     public void InsereNoFim(ContatoController controller) {
@@ -95,7 +66,7 @@ public class ContControlList {
     public void ApagaContatoController(ContatoController controller) {
         ContControlNO atual = getInicio();
         while (atual != null) {
-            if (atual.getContato()==controller) {
+            if (atual.getContato() == controller) {
                 if (atual == getInicio()) {
                     ApagaNoInicio();
                 } else if (atual == getFim()) {
@@ -109,20 +80,47 @@ public class ContControlList {
             }
             atual = atual.getProximo();
         }
-        System.out.println("A categoria '" +controller + "' não foi encontrada na lista.");
+        System.out.println("A categoria '" + controller + "' não foi encontrada na lista.");
     }
 
     public void imprimir() {
         ContControlNO atual = getInicio();
         while (atual != null) {
             System.out.print(atual.getContato().getContato().getPessoa().getNome() + "-> " +
-            atual.getContato().getContato().getPessoa().getTelefone());
+                    atual.getContato().getContato().getPessoa().getTelefone());
             atual = atual.getProximo();
             System.out.println("\n");
         }
         System.out.println();
     }
 
+    public ContatoController getController() {
+        return controller;
+    }
 
+    public void setController(ContatoController controller) {
+        this.controller = controller;
+    }
+
+    public ContControlNO getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(ContControlNO inicio) {
+        this.inicio = inicio;
+    }
+
+    public ContControlNO getFim() {
+        return fim;
+    }
+
+    public void setFim(ContControlNO fim) {
+        this.fim = fim;
+    }
+
+    @Override
+    public String toString() {
+        return "ContControlList [controller=" + controller + ", inicio=" + inicio + ", fim=" + fim + "]";
+    }
 
 }

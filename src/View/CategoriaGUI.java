@@ -6,13 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CategoriaGUI extends JPanel {
-    private JButton adicionarCategoria,removerCategoria,novaCategoria,salvar,cancelar;
+    private JButton adicionarCategoria, removerCategoria, novaCategoria, salvar, cancelar;
     private JLabel categoriaText;
     private JComboBox<String> categoriaExistente;
     private String[] textCategorias;
     private JTextField categoriaField;
-    private JPanel categoriasButton,controleButtons, panel;
-
+    private JPanel categoriasButton, controleButtons, panel;
 
     public CategoriaGUI() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -26,7 +25,7 @@ public class CategoriaGUI extends JPanel {
         this.categoriaField = new JTextField();
         this.categoriasButton = new JPanel(new FlowLayout());
         this.controleButtons = new JPanel(new FlowLayout());
-        this.panel= new JPanel(new FlowLayout());
+        this.panel = new JPanel(new FlowLayout());
         categoriaField.setForeground(Color.darkGray);
         categoriaText.setForeground(Color.white);
         categoriasButton.setOpaque(false);

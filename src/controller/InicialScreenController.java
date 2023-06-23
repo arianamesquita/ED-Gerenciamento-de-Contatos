@@ -10,11 +10,12 @@ import database.createList.DoublyLinkedLists.ContControlList;
 import database.createList.NOs.ContatoNO;
 import database.createList.NOs.ContControlNO;
 
-public class InicialScreenController implements ActionListener,MouseListener {
+public class InicialScreenController implements ActionListener, MouseListener {
     private ContControlList listaContatoController;
     private ContatoList listaContatos;
     private TelaInicialGUI telaInicialGUI;
     private int countMouseClicked;
+    private boolean mouseClicked;
 
     public InicialScreenController() {
         this.listaContatos = new ContatoDao().Listar();
@@ -22,23 +23,24 @@ public class InicialScreenController implements ActionListener,MouseListener {
         this.telaInicialGUI = new TelaInicialGUI();
         this.countMouseClicked = 0;
 
+        PreencheContatos();
+
         updateInterface();
 
         getTelaInicialGUI().add(telaInicialGUI.getScrollPane(), BorderLayout.CENTER);
         getTelaInicialGUI().setVisible(true);
     }
 
-    public void updateInterface(){
-        PreencheContatos();
+    public void updateInterface() {
+        getTelaInicialGUI().getPanelContatos().removeAll();
         addContatoPanel();
         addListener();
-        getTelaInicialGUI().getCaixaTextoGui().setInicialScreenController(this);
+        getTelaInicialGUI().getPessoaController().setInicialScreenController(this);
         getTelaInicialGUI().getFiltro().setInicialScreenController(this);
         getTelaInicialGUI().getCategoriaController().setInicialScreenController(this);
     }
 
-
-    public void addListener(){
+    public void addListener() {
         addMouseListenerContatos();
         ListenerButtons();
 
@@ -60,9 +62,7 @@ public class InicialScreenController implements ActionListener,MouseListener {
         }
     }
 
-
-
-    private void addMouseListenerContatos(){
+    private void addMouseListenerContatos() {
         ContControlNO current = getListaContatoController().getInicio();
         setMouseClicked(true);
         while (current != null) {
@@ -75,24 +75,25 @@ public class InicialScreenController implements ActionListener,MouseListener {
 
     private void mouseListenerContatos() {
 
-        if (!getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().isVisible() && getCountMouseClicked() == 1) {
+        if (!getTelaInicialGUI().getPessoaController().getPessoaGUI().isVisible() && getCountMouseClicked() == 1) {
             getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(true);
-            getTelaInicialGUI().getAdicionarCategoria().setVisible(true);
-            getTelaInicialGUI().getRemoverCategoria().setVisible(true);
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().getAdicionarCategoria().setVisible(true);
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().getRemoverCategoria().setVisible(true);
             getTelaInicialGUI().getCriar().setVisible(false);
             getTelaInicialGUI().getEditar().setVisible(true);
             getTelaInicialGUI().getApagar().setVisible(true);
             getTelaInicialGUI().getApagarTodos().setVisible(false);
 
-        } else if (getCountMouseClicked() == 1 && getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().isVisible()) {
-            getTelaInicialGUI().getAdicionarCategoria().setVisible(false);
-            getTelaInicialGUI().getRemoverCategoria().setVisible(false);
+        } else if (getCountMouseClicked() == 1
+                && getTelaInicialGUI().getPessoaController().getPessoaGUI().isVisible()) {
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().getAdicionarCategoria().setVisible(true);
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().getRemoverCategoria().setVisible(true);
             getTelaInicialGUI().getCriar().setVisible(false);
             getTelaInicialGUI().getEditar().setVisible(false);
             getTelaInicialGUI().getApagar().setVisible(false);
             getTelaInicialGUI().getApagarTodos().setVisible(false);
 
-        } else if (getCountMouseClicked() == 0 ) {
+        } else if (getCountMouseClicked() == 0) {
             getTelaInicialGUI().getEditar().setVisible(false);
             getTelaInicialGUI().getApagar().setVisible(false);
             getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
@@ -101,7 +102,8 @@ public class InicialScreenController implements ActionListener,MouseListener {
             getTelaInicialGUI().getRemoverCategoria().setVisible(false);
             getTelaInicialGUI().getCriar().setVisible(true);
 
-        } else if (getCountMouseClicked() > 1 && !getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().isVisible()) {
+        } else if (getCountMouseClicked() > 1
+                && !getTelaInicialGUI().getPessoaController().getPessoaGUI().isVisible()) {
             getTelaInicialGUI().getAdicionarCategoria().setVisible(true);
             getTelaInicialGUI().getRemoverCategoria().setVisible(true);
             getTelaInicialGUI().getEditar().setVisible(false);
@@ -111,15 +113,16 @@ public class InicialScreenController implements ActionListener,MouseListener {
 
         }
     }
-    private void ListenerButtons(){
+
+    private void ListenerButtons() {
         getTelaInicialGUI().getCriar().addActionListener(e -> {
             getTelaInicialGUI().getCriar().setVisible(false);
             getTelaInicialGUI().getEditar().setVisible(false);
             getTelaInicialGUI().getApagar().setVisible(false);
             getTelaInicialGUI().getApagarTodos().setVisible(false);
             getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
-            getTelaInicialGUI().getCaixaTextoGui().setNovoContato();
-            getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().setVisible(true);
+            getTelaInicialGUI().getPessoaController().setNovoContato();
+            getTelaInicialGUI().getPessoaController().getPessoaGUI().setVisible(true);
             setMouseClicked(false);
         });
         getTelaInicialGUI().getEditar().addActionListener(e -> {
@@ -128,45 +131,68 @@ public class InicialScreenController implements ActionListener,MouseListener {
             getTelaInicialGUI().getApagar().setVisible(false);
             getTelaInicialGUI().getApagarTodos().setVisible(false);
             getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
-            getTelaInicialGUI().getCaixaTextoGui().setEditarContato(getContatoSelect());
-            getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().setVisible(true);
+            getTelaInicialGUI().getPessoaController().setEditarContato(getContatoSelect());
+            getTelaInicialGUI().getPessoaController().getPessoaGUI().setVisible(true);
             setMouseClicked(false);
         });
-        getTelaInicialGUI().getApagar().addActionListener(e -> {});
-        getTelaInicialGUI().getApagarTodos().addActionListener(e -> {});
+        getTelaInicialGUI().getApagar().addActionListener(e -> {
+            getTelaInicialGUI().getPessoaController().apaga();
+            getTelaInicialGUI().getEditar().setVisible(false);
+            getTelaInicialGUI().getApagar().setVisible(false);
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
+            getTelaInicialGUI().getApagarTodos().setVisible(false);
+            getTelaInicialGUI().getAdicionarCategoria().setVisible(false);
+            getTelaInicialGUI().getRemoverCategoria().setVisible(false);
+            getTelaInicialGUI().getCriar().setVisible(true);
 
+            updateInterface();
+        });
+        getTelaInicialGUI().getApagarTodos().addActionListener(e -> {
+            getTelaInicialGUI().getPessoaController().apaga();
+            getTelaInicialGUI().getEditar().setVisible(false);
+            getTelaInicialGUI().getApagar().setVisible(false);
+            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
+            getTelaInicialGUI().getApagarTodos().setVisible(false);
+            getTelaInicialGUI().getAdicionarCategoria().setVisible(false);
+            getTelaInicialGUI().getRemoverCategoria().setVisible(false);
+            getTelaInicialGUI().getCriar().setVisible(true);
 
-        getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().getCancelar().addActionListener(e -> {
-            if (getCountMouseClicked() >=1){
-            getTelaInicialGUI().getCriar().setVisible(false);
-            getTelaInicialGUI().getEditar().setVisible(true);
-            getTelaInicialGUI().getApagar().setVisible(true);
-            getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(true);
+            updateInterface();
+        });
+
+        getTelaInicialGUI().getPessoaController().getPessoaGUI().getCancelar().addActionListener(e -> {
+            if (getCountMouseClicked() >= 1) {
+                getTelaInicialGUI().getCriar().setVisible(false);
+                getTelaInicialGUI().getEditar().setVisible(true);
+                getTelaInicialGUI().getApagar().setVisible(true);
+                getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(true);
                 System.out.println("a");
-            }
-            else {
+            } else {
                 getTelaInicialGUI().getCriar().setVisible(true);
                 getTelaInicialGUI().getEditar().setVisible(false);
                 getTelaInicialGUI().getApagar().setVisible(false);
                 getTelaInicialGUI().getCategoriaController().getCategoriaGUI().setVisible(false);
             }
             getTelaInicialGUI().getApagarTodos().setVisible(false);
-            getTelaInicialGUI().getCaixaTextoGui().getCaixaTexto().setVisible(false);
+            getTelaInicialGUI().getPessoaController().getPessoaGUI().setVisible(false);
             setMouseClicked(true);
 
         });
     }
-    public void setMouseClicked(boolean aFlag){
+
+    public void setMouseClicked(boolean aFlag) {
+        this.mouseClicked = aFlag;
         ContControlNO current = getListaContatoController().getInicio();
         while (current != null) {
             current.getContato().setMouseClicked(aFlag);
             current = current.getProximo();
         }
     }
-    public ContatoController getContatoSelect(){
+
+    public ContatoController getContatoSelect() {
         ContControlNO current = getListaContatoController().getInicio();
         while (current != null) {
-            if(current.getContato().isSelect()){
+            if (current.getContato().isSelect()) {
                 return current.getContato();
             }
             current = current.getProximo();
@@ -174,10 +200,10 @@ public class InicialScreenController implements ActionListener,MouseListener {
         return null;
     }
 
-    public String[] getContatosSelects(){
+    public String[] getContatosSelects() {
         ContControlNO current = getListaContatoController().getInicio();
         StringBuilder sb = new StringBuilder();
-        while (current != null){
+        while (current != null) {
             sb.append(current.getContato().getContato().getId()).append(" - ");
             current = current.getProximo();
         }
@@ -213,12 +239,15 @@ public class InicialScreenController implements ActionListener,MouseListener {
     }
 
     public void setCountMouseClicked(int countMouseClicked) {
+        System.out.println(countMouseClicked);
         this.countMouseClicked = countMouseClicked;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        mouseListenerContatos();
+        if (isMouseClicked()) {
+            mouseListenerContatos();
+        }
 
     }
 
@@ -246,4 +275,9 @@ public class InicialScreenController implements ActionListener,MouseListener {
     public void actionPerformed(ActionEvent e) {
 
     }
+
+    public boolean isMouseClicked() {
+        return mouseClicked;
+    }
+
 }

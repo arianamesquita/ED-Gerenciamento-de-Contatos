@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -13,126 +12,191 @@ import javax.swing.JOptionPane;
 
 import View.PessoaGUI;
 import database.CategoriaDAO;
+import database.ContatoDao;
 import database.PessoaDAO;
-import database.createList.DoublyLinkedLists.CategoriaList;
 import database.createList.DoublyLinkedLists.PessoaList;
+import database.createList.NOs.ContControlNO;
 import database.createList.NOs.PessoaNO;
 import model.Contato;
 import model.Pessoa;
 
 public class PessoaController implements FocusListener, ActionListener {
 
-    private PessoaGUI caixaTexto;
+    private PessoaGUI pessoaGUI;
     private ContatoController contatoEdicao;
     private InicialScreenController inicialScreenController;
 
     public PessoaController() {
-        this.caixaTexto = new PessoaGUI();
+        this.pessoaGUI = new PessoaGUI();
 
-        caixaTexto.getNomeField().addFocusListener(this);
-        caixaTexto.getEmailField().addFocusListener(this);
-        caixaTexto.getSalvar().addActionListener(new ActionListener() {
+        pessoaGUI.getNomeField().addFocusListener(this);
+        pessoaGUI.getEmailField().addFocusListener(this);
+        pessoaGUI.getSalvar().addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-            salvar();
-            getInicialScreenController().getTelaInicialGUI().getCaixaTextoGui().caixaTexto.setVisible(false);
-            getInicialScreenController().getTelaInicialGUI().getCriar().setVisible(true);
+
+                getInicialScreenController().getTelaInicialGUI().getPessoaController().pessoaGUI.setVisible(false);
+                salvar();
+                getInicialScreenController().updateInterface();
+                getInicialScreenController().getTelaInicialGUI().getCriar().setVisible(true);
             }
-            
+
+        });
+        pessoaGUI.getAtualizar().addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                getInicialScreenController().getTelaInicialGUI().getPessoaController().pessoaGUI.setVisible(false);
+                atualiza();
+                getInicialScreenController().getTelaInicialGUI().getCriar().setVisible(true);
+            }
+
         });
 
     }
 
-    private void salvar(){
-        String nome = getCaixaTexto().getNomeField().getText();
-        String email = getCaixaTexto().getEmailField().getText();
-        String numero = getCaixaTexto().getTelefoneField().getText();
+    private void salvar() {
+        String nome = getPessoaGUI().getNomeField().getText();
+        String email = getPessoaGUI().getEmailField().getText();
+        String numero = getPessoaGUI().getTelefoneField().getText();
         numero = numero.replaceAll("[^0-9]", "");
-        String data = getCaixaTexto().getDataField().getText();
+        String data = getPessoaGUI().getDataField().getText();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-java.util.Date parsedDate;
-       try {
-         parsedDate = dateFormat.parse(data);
-       } catch (ParseException e) {
-    // Trate qualquer erro de análise aqui
-          e.printStackTrace();
-         return;
-       }
+        java.util.Date parsedDate;
+        try {
+            parsedDate = dateFormat.parse(data);
+        } catch (ParseException e) {
+            // Trate qualquer erro de análise aqui
+            e.printStackTrace();
+            return;
+        }
         Pessoa pessoa = new Pessoa(nome, geraId(), numero, email, new java.sql.Date(parsedDate.getTime()));
         PessoaDAO pessoaDAO = new PessoaDAO();
+
         pessoaDAO.save(pessoa);
-    
-        ContatoController contatoController = new ContatoController(new Contato(ContatoController.geraId(), new CategoriaDAO().searchById(12), pessoa));
-        getInicialScreenController().getListaContatoController().InsereNoInicio(contatoController);
+
+        System.out.println("1");
+        Contato contato = new Contato(ContatoController.geraId(), new CategoriaDAO().searchById(1), pessoa);
+        ContatoDao contatoDao = new ContatoDao();
+        contatoDao.save(contato);
+        System.out.println("2");
+
+        getInicialScreenController().getListaContatoController().InsereNoFim(new ContatoController(contato));
+
+    }
+
+    public void apaga() {
+        ContControlNO current = getInicialScreenController().getListaContatoController().getInicio();
+        while (current != null) {
+            if (current.getContato().isSelect()) {
+                new PessoaDAO().removeById(current.getContato().getContato().getPessoa().getId());
+                new ContatoDao().removeById(current.getContato().getContato().getId());
+                getInicialScreenController().getListaContatoController().ApagaContatoController(current.getContato());
+                getInicialScreenController()
+                        .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() - 1);
+
+            }
+            current = current.getProximo();
+        }
+
+    }
+
+    public void atualiza() {
+        int id = getContatoEdicao().getContato().getPessoa().getId();
+        String nome = getPessoaGUI().getNomeField().getText();
+        String email = getPessoaGUI().getEmailField().getText();
+        String numero = getPessoaGUI().getTelefoneField().getText();
+        numero = numero.replaceAll("[^0-9]", "");
+        String data = getPessoaGUI().getDataField().getText();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        java.util.Date parsedDate;
+        try {
+            parsedDate = dateFormat.parse(data);
+        } catch (ParseException e) {
+            // Trate qualquer erro de análise aqui
+            e.printStackTrace();
+            return;
+        }
+        Pessoa pessoa = new Pessoa(nome, id, numero, email, new java.sql.Date(parsedDate.getTime()));
+        PessoaDAO pessoaDAO = new PessoaDAO();
+
+        pessoaDAO.update(pessoa);
+        ContControlNO current = getInicialScreenController().getListaContatoController().getInicio();
+        while (current != null) {
+            if (current.getContato() == getContatoEdicao()) {
+                current.getContato().getContato().setPessoa(pessoa);
+                current.getContato().updateGUI();
+                getInicialScreenController()
+                        .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() - 1);
+            }
+            current = current.getProximo();
+
+        }
         getInicialScreenController().updateInterface();
 
     }
 
     public void setNovoContato() {
-        getCaixaTexto().getNomeField().setText("digite seu nome");
-        getCaixaTexto().getNomeField().setBackground(Color.white);
-        getCaixaTexto().getNomeField().setForeground(Color.darkGray);
+        getPessoaGUI().getSalvar().setVisible(true);
+        getPessoaGUI().getAtualizar().setVisible(false);
+        getPessoaGUI().getNomeField().setText("digite seu nome");
+        getPessoaGUI().getNomeField().setBackground(Color.white);
+        getPessoaGUI().getNomeField().setForeground(Color.darkGray);
         ;
 
-        getCaixaTexto().getEmailField().setText("digite seu email");
-        getCaixaTexto().getEmailField().setBackground(Color.white);
-        getCaixaTexto().getEmailField().setForeground(Color.darkGray);
+        getPessoaGUI().getEmailField().setText("digite seu email");
+        getPessoaGUI().getEmailField().setBackground(Color.white);
+        getPessoaGUI().getEmailField().setForeground(Color.darkGray);
         ;
 
-        getCaixaTexto().getTelefoneField().setText("");
-        getCaixaTexto().getTelefoneField().setBackground(Color.white);
-        getCaixaTexto().getTelefoneField().setForeground(Color.darkGray);
+        getPessoaGUI().getTelefoneField().setText("");
+        getPessoaGUI().getTelefoneField().setBackground(Color.white);
+        getPessoaGUI().getTelefoneField().setForeground(Color.darkGray);
 
-        getCaixaTexto().getDataField().setText("");
-        getCaixaTexto().getDataField().setBackground(Color.white);
-        getCaixaTexto().getDataField().setForeground(Color.darkGray);
+        getPessoaGUI().getDataField().setText("");
+        getPessoaGUI().getDataField().setBackground(Color.white);
+        getPessoaGUI().getDataField().setForeground(Color.darkGray);
     }
 
     public void setEditarContato(ContatoController contato) {
         setContatoEdicao(contato);
-        getCaixaTexto().getNomeField().setText(contato.getContato().getPessoa().getNome());
-        getCaixaTexto().getNomeField().setBackground(Color.white);
-        getCaixaTexto().getNomeField().setForeground(Color.darkGray);
+        getPessoaGUI().getSalvar().setVisible(false);
+        getPessoaGUI().getAtualizar().setVisible(true);
+        getPessoaGUI().getNomeField().setText(contato.getContato().getPessoa().getNome());
+        getPessoaGUI().getNomeField().setBackground(Color.white);
+        getPessoaGUI().getNomeField().setForeground(Color.darkGray);
         ;
 
-        getCaixaTexto().getEmailField().setText(contato.getContato().getPessoa().getEmail());
-        getCaixaTexto().getEmailField().setBackground(Color.white);
-        getCaixaTexto().getEmailField().setForeground(Color.darkGray);
+        getPessoaGUI().getEmailField().setText(contato.getContato().getPessoa().getEmail());
+        getPessoaGUI().getEmailField().setBackground(Color.white);
+        getPessoaGUI().getEmailField().setForeground(Color.darkGray);
         ;
 
-        getCaixaTexto().getTelefoneField().setText(contato.getContato().getPessoa().getTelefone());
-        getCaixaTexto().getTelefoneField().setBackground(Color.white);
-        getCaixaTexto().getTelefoneField().setForeground(Color.darkGray);
+        getPessoaGUI().getTelefoneField().setText(contato.getContato().getPessoa().getTelefone());
+        getPessoaGUI().getTelefoneField().setBackground(Color.white);
+        getPessoaGUI().getTelefoneField().setForeground(Color.darkGray);
 
-        getCaixaTexto().getDataField().setText(
+        getPessoaGUI().getDataField().setText(
                 new SimpleDateFormat("dd/MM/yyyy").format(contato.getContato().getPessoa().getDataAniversario()));
-        getCaixaTexto().getDataField().setBackground(Color.white);
-        getCaixaTexto().getDataField().setForeground(Color.darkGray);
-    }
-
-    public PessoaGUI getCaixaTexto() {
-        return caixaTexto;
-    }
-
-    public void setCaixaTexto(PessoaGUI caixaTexto) {
-        this.caixaTexto = caixaTexto;
+        getPessoaGUI().getDataField().setBackground(Color.white);
+        getPessoaGUI().getDataField().setForeground(Color.darkGray);
     }
 
     @Override
     public void focusGained(FocusEvent e) {
-        if (e.getSource() == getCaixaTexto().getNomeField()) {
-            if (getCaixaTexto().getNomeField().getText().equals("digite seu nome")) {
-                getCaixaTexto().getNomeField().setBackground(Color.white);
-                getCaixaTexto().getNomeField().setForeground(Color.darkGray);
+        if (e.getSource() == getPessoaGUI().getNomeField()) {
+            if (getPessoaGUI().getNomeField().getText().equals("digite seu nome")) {
+                getPessoaGUI().getNomeField().setBackground(Color.white);
+                getPessoaGUI().getNomeField().setForeground(Color.darkGray);
 
-                getCaixaTexto().getNomeField().setText("");
+                getPessoaGUI().getNomeField().setText("");
             }
-        } else if (e.getSource() == getCaixaTexto().getEmailField()) {
-            if (getCaixaTexto().getEmailField().getText().equals("digite seu email")) {
-                getCaixaTexto().getEmailField().setBackground(Color.white);
-                getCaixaTexto().getNomeField().setForeground(Color.darkGray);
-                getCaixaTexto().getEmailField().setText("");
+        } else if (e.getSource() == getPessoaGUI().getEmailField()) {
+            if (getPessoaGUI().getEmailField().getText().equals("digite seu email")) {
+                getPessoaGUI().getEmailField().setBackground(Color.white);
+                getPessoaGUI().getNomeField().setForeground(Color.darkGray);
+                getPessoaGUI().getEmailField().setText("");
             }
         }
 
@@ -140,48 +204,47 @@ java.util.Date parsedDate;
 
     @Override
     public void focusLost(FocusEvent e) {
-        if (e.getSource() == getCaixaTexto().getNomeField()) {
-            if (getCaixaTexto().getNomeField().getText().equals("")
-                    || getCaixaTexto().getNomeField().getText().isEmpty()) {
-                getCaixaTexto().getNomeField().setBackground(Color.red);
-                getCaixaTexto().getNomeField().setForeground(Color.white);
-                getCaixaTexto().getNomeField().setText("digite seu nome");
+        if (e.getSource() == getPessoaGUI().getNomeField()) {
+            if (getPessoaGUI().getNomeField().getText().equals("")
+                    || getPessoaGUI().getNomeField().getText().isEmpty()) {
+                getPessoaGUI().getNomeField().setBackground(Color.red);
+                getPessoaGUI().getNomeField().setForeground(Color.white);
+                getPessoaGUI().getNomeField().setText("digite seu nome");
             }
-        } else if (e.getSource() == getCaixaTexto().getEmailField()) {
-            if (getCaixaTexto().getEmailField().getText().equals(" ")
-                    || getCaixaTexto().getEmailField().getText().isEmpty()) {
-                getCaixaTexto().getEmailField().setBackground(Color.red);
-                getCaixaTexto().getEmailField().setForeground(Color.darkGray);
+        } else if (e.getSource() == getPessoaGUI().getEmailField()) {
+            if (getPessoaGUI().getEmailField().getText().equals(" ")
+                    || getPessoaGUI().getEmailField().getText().isEmpty()) {
+                getPessoaGUI().getEmailField().setBackground(Color.red);
+                getPessoaGUI().getEmailField().setForeground(Color.darkGray);
 
-                getCaixaTexto().getEmailField().setText("digite seu email");
+                getPessoaGUI().getEmailField().setText("digite seu email");
             }
             String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                     + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-            if (!getCaixaTexto().getEmailField().getText().matches(EMAIL_PATTERN)) {
-                JOptionPane.showMessageDialog(caixaTexto, "email digitado de forma incorreta!!", "erro!!", 0);
-                getCaixaTexto().getEmailField().setText("digite seu email");
-                getCaixaTexto().getEmailField().setForeground(Color.white);
-                getCaixaTexto().getEmailField().setBackground(Color.red);
+            if (!getPessoaGUI().getEmailField().getText().matches(EMAIL_PATTERN)) {
+                JOptionPane.showMessageDialog(getPessoaGUI(), "email digitado de forma incorreta!!", "erro!!", 0);
+                getPessoaGUI().getEmailField().setText("digite seu email");
+                getPessoaGUI().getEmailField().setForeground(Color.white);
+                getPessoaGUI().getEmailField().setBackground(Color.red);
 
             }
         }
     }
-    
+
     public static int geraId() {
         int count = 0;
-        PessoaList pessoaList =  new PessoaDAO().List();
+        PessoaList pessoaList = new PessoaDAO().List();
         PessoaNO atual = pessoaList.getInicio();
-        while(atual!= null ){
-                    
+        while (atual != null) {
+
             if (count < atual.getPessoa().getId()) {
                 count = atual.getPessoa().getId();
             }
             atual = atual.getProximo();
-        
-     
+
         }
-    return count + 1;
+        return count + 1;
     }
 
     public ContatoController getContatoEdicao() {
@@ -200,9 +263,18 @@ java.util.Date parsedDate;
         this.inicialScreenController = inicialScreenController;
     }
 
+    public PessoaGUI getPessoaGUI() {
+        return pessoaGUI;
+    }
+
+    public void setPessoaGUI(PessoaGUI pessoaGUI) {
+        this.pessoaGUI = pessoaGUI;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
+
 }

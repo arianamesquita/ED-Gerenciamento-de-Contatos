@@ -24,17 +24,19 @@ public class ContatoController {
         this.select = false;
         addMouseListener();
     }
-   
-    public  void updateGUI(){
+
+    public void updateGUI() {
         setContatoGUI(new ContatosGUI(getContato()));
         setSelect(false);
         addMouseListener();
     }
-    public void setVisibleGUI(boolean aFlag){
+
+    public void setVisibleGUI(boolean aFlag) {
         getContatoGUI().setVisible(aFlag);
 
     }
-    public void repaint(){
+
+    public void repaint() {
         getContatoGUI().repaint();
     }
 
@@ -43,19 +45,22 @@ public class ContatoController {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if(isMouseClicked()){
-                if (isSelect()) {
-                   getInicialScreenController().setCountMouseClicked(getInicialScreenController().getCountMouseClicked()-1);
-                   contatoGUI.getPaintMenu().setBackground(Color.darkGray);
-                   setSelect(false);
-                } else {
-                    contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
-                    setSelect(true);
-                    getInicialScreenController().setCountMouseClicked(getInicialScreenController().getCountMouseClicked()+1);
+                if (isMouseClicked()) {
+                    if (isSelect()) {
+                        getInicialScreenController()
+                                .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() - 1);
+                        contatoGUI.getPaintMenu().setBackground(Color.darkGray);
+                        setSelect(false);
+                    } else {
+                        contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
+                        setSelect(true);
+                        getInicialScreenController()
+                                .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() + 1);
+
+                    }
 
                 }
-
-            }}
+            }
 
             @Override
             public void mousePressed(MouseEvent e) {
@@ -96,8 +101,9 @@ public class ContatoController {
 
         if (!isSelect()) {
             if (mouseEntered) {
-                contatoGUI.getPaintMenu().setBackground(new Color(79,79,79));
-            } else contatoGUI.getPaintMenu().setBackground(Color.darkGray);
+                contatoGUI.getPaintMenu().setBackground(new Color(79, 79, 79));
+            } else
+                contatoGUI.getPaintMenu().setBackground(Color.darkGray);
         } else {
             contatoGUI.getPaintMenu().setBackground(new Color(8, 77, 110));
 
@@ -145,18 +151,17 @@ public class ContatoController {
         this.contatoGUI = contatoGUI;
     }
 
-       
     public static int geraId() {
         int count = 0;
-        ContatoList contatoList =  new ContatoDao().Listar();
+        ContatoList contatoList = new ContatoDao().Listar();
         ContatoNO atual = contatoList.getInicio();
-        while(atual!= null ){
-                    
+        while (atual != null) {
+
             if (count < atual.getContato().getId()) {
                 count = atual.getContato().getId();
             }
             atual = atual.getProximo();
         }
-    return count + 1;
+        return count + 1;
     }
 }

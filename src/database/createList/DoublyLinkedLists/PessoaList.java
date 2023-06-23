@@ -5,7 +5,7 @@ import model.Pessoa;
 
 public class PessoaList {
 
-    Pessoa pessoa;
+    private Pessoa pessoa;
 
     private PessoaNO inicio;
     private PessoaNO fim;
@@ -15,23 +15,6 @@ public class PessoaList {
         this.fim = null;
     }
 
-    public PessoaNO getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(PessoaNO inicio) {
-        this.inicio = inicio;
-    }
-
-    public PessoaNO getFim() {
-        return fim;
-    }
-
-    public void setFim(PessoaNO fim) {
-        this.fim = fim;
-    }
-
-    
     @Override
     public String toString() {
         return "Pessoa = " + pessoa;
@@ -117,7 +100,7 @@ public class PessoaList {
     public Pessoa buscarPorID(int id) {
         PessoaNO atual = getInicio();
         while (atual != null) {
-            if (atual.getPessoa().getId() == id){
+            if (atual.getPessoa().getId() == id) {
                 return atual.getPessoa();
             }
             atual = atual.getProximo();
@@ -125,5 +108,28 @@ public class PessoaList {
         return null;
     }
 
-    
+    public PessoaNO getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(PessoaNO inicio) {
+        this.inicio = inicio;
+    }
+
+    public PessoaNO getFim() {
+        return fim;
+    }
+
+    public void setFim(PessoaNO fim) {
+        this.fim = fim;
+    }
+
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
+
 }

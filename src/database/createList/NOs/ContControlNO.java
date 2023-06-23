@@ -3,7 +3,7 @@ package database.createList.NOs;
 import controller.ContatoController;
 
 public class ContControlNO {
-    
+
     private ContatoController contatoController;
     private ContControlNO anterior;
     private ContControlNO proximo;
@@ -37,7 +37,5 @@ public class ContControlNO {
     public void setProximo(ContControlNO proximo) {
         this.proximo = proximo;
     }
-
-
 
 }

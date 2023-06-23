@@ -11,7 +11,7 @@ public class FiltroGUI extends JPanel {
     private JButton removerButton;
     private JPanel panelButtons;
     private ArrayList<JComboBox<String>> comboBoxes;
-    private String[] filtroText = { "A->Z", "Z->A", "ddd", "categoria" };
+    private String[] filtroText = { "ddd", "categoria", "nome", "email" };
 
     public FiltroGUI() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -81,6 +81,4 @@ public class FiltroGUI extends JPanel {
         this.panelButtons = panelButtons;
     }
 
-
 }
-

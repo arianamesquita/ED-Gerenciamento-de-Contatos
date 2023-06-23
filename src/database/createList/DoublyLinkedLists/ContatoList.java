@@ -5,7 +5,7 @@ import model.Contato;
 
 public class ContatoList {
 
-    Contato contato;
+    private Contato contato;
 
     private ContatoNO inicio;
     private ContatoNO fim;
@@ -13,28 +13,6 @@ public class ContatoList {
     public ContatoList() {
         this.inicio = null;
         this.fim = null;
-    }
-
-    public ContatoNO getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(ContatoNO inicio) {
-        this.inicio = inicio;
-    }
-
-    public ContatoNO getFim() {
-        return fim;
-    }
-
-    public void setFim(ContatoNO fim) {
-        this.fim = fim;
-    }
-
-    
-    @Override
-    public String toString() {
-        return "Contato = " + contato;
     }
 
     public void InsereNoFim(Contato contato) {
@@ -115,6 +93,32 @@ public class ContatoList {
         System.out.println();
     }
 
+    public ContatoNO getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(ContatoNO inicio) {
+        this.inicio = inicio;
+    }
+
+    public ContatoNO getFim() {
+        return fim;
+    }
+
+    public void setFim(ContatoNO fim) {
+        this.fim = fim;
+    }
+
+    public Contato getContato() {
+        return contato;
+    }
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
+    }
+
+    @Override
+    public String toString() {
+        return "Contato = " + contato;
+    }
 }
-
-

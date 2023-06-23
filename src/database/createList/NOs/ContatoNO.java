@@ -14,7 +14,6 @@ public class ContatoNO {
         this.proximo = null;
     }
 
-
     public Contato getContato() {
         return contato;
     }
@@ -38,5 +37,5 @@ public class ContatoNO {
     public void setProximo(ContatoNO atual) {
         this.proximo = atual;
     }
-    
+
 }

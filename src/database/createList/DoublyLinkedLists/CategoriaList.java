@@ -15,28 +15,6 @@ public class CategoriaList {
         this.fim = null;
     }
 
-    public CategoriaNO getInicio() {
-        return inicio;
-    }
-
-    public void setInicio(CategoriaNO inicio) {
-        this.inicio = inicio;
-    }
-
-    public CategoriaNO getFim() {
-        return fim;
-    }
-
-    public void setFim(CategoriaNO fim) {
-        this.fim = fim;
-    }
-
-    
-    @Override
-    public String toString() {
-        return "Categoria = " + categoria;
-    }
-
     public void InsereNoFim(Categoria categoria) {
         CategoriaNO atual = new CategoriaNO(categoria);
         if (getInicio() == null) {
@@ -117,12 +95,41 @@ public class CategoriaList {
     public Categoria buscarPorID(int id) {
         CategoriaNO atual = getInicio();
         while (atual != null) {
-            if (atual.getCategoria().getId() == id){
+            if (atual.getCategoria().getId() == id) {
                 return atual.getCategoria();
             }
             atual = atual.getProximo();
         }
         return null;
+    }
+
+    public CategoriaNO getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(CategoriaNO inicio) {
+        this.inicio = inicio;
+    }
+
+    public CategoriaNO getFim() {
+        return fim;
+    }
+
+    public void setFim(CategoriaNO fim) {
+        this.fim = fim;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    @Override
+    public String toString() {
+        return "Categoria = " + categoria;
     }
 
 }

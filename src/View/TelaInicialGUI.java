@@ -14,21 +14,21 @@ import java.awt.Rectangle;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 
-public class TelaInicialGUI extends JPanel{
+public class TelaInicialGUI extends JPanel {
     private BoxLayout layout;
     private CategoriaController categoriaController;
-    private JPanel  panelContatos,painelEditar;
+    private JPanel panelContatos, painelEditar;
 
     private JButton criar, editar, apagar, apagarTodos, adicionarCategoria, removerCategoria;
     private JLabel contador;
     private JScrollPane scrollPane;
-    private PessoaController caixaTextoGui;
+    private PessoaController pessoaController;
     private FiltroController filtro;
 
     public TelaInicialGUI() {
         setLayout(new BorderLayout());
 
-        this.caixaTextoGui = new PessoaController();
+        this.pessoaController = new PessoaController();
         this.panelContatos = new JPanel();
         this.layout = new BoxLayout(panelContatos, BoxLayout.Y_AXIS);
         this.scrollPane = new JScrollPane(panelContatos);
@@ -75,20 +75,20 @@ public class TelaInicialGUI extends JPanel{
 
         painelEditar.add(paintmenu);
         painelEditar.add(categoriaController.getCategoriaGUI());
-        caixaTextoGui.getCaixaTexto().setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-        painelEditar.add(caixaTextoGui.getCaixaTexto(),BorderLayout.CENTER);
+        pessoaController.getPessoaGUI().setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+        painelEditar.add(pessoaController.getPessoaGUI(), BorderLayout.CENTER);
 
         editar.setVisible(false);
         apagar.setVisible(false);
         apagarTodos.setVisible(false);
-        caixaTextoGui.getCaixaTexto().setVisible(false);
+        pessoaController.getPessoaGUI().setVisible(false);
         adicionarCategoria.setVisible(false);
         removerCategoria.setVisible(false);
         contador.setVisible(false);
         categoriaController.getCategoriaGUI().setVisible(false);
 
-        add(filtro.getFiltroGUI(),BorderLayout.NORTH);
-        add(painelEditar,BorderLayout.SOUTH);
+        add(filtro.getFiltroGUI(), BorderLayout.NORTH);
+        add(painelEditar, BorderLayout.SOUTH);
         setBackground(Color.gray);
         setOpaque(true);
         setVisible(true);
@@ -100,6 +100,14 @@ public class TelaInicialGUI extends JPanel{
 
     public void setLayout(BoxLayout layout) {
         this.layout = layout;
+    }
+
+    public CategoriaController getCategoriaController() {
+        return categoriaController;
+    }
+
+    public void setCategoriaController(CategoriaController categoriaController) {
+        this.categoriaController = categoriaController;
     }
 
     public JPanel getPanelContatos() {
@@ -166,6 +174,14 @@ public class TelaInicialGUI extends JPanel{
         this.removerCategoria = removerCategoria;
     }
 
+    public JLabel getContador() {
+        return contador;
+    }
+
+    public void setContador(JLabel contador) {
+        this.contador = contador;
+    }
+
     public JScrollPane getScrollPane() {
         return scrollPane;
     }
@@ -174,6 +190,13 @@ public class TelaInicialGUI extends JPanel{
         this.scrollPane = scrollPane;
     }
 
+    public PessoaController getPessoaController() {
+        return pessoaController;
+    }
+
+    public void setPessoaController(PessoaController pessoaController) {
+        this.pessoaController = pessoaController;
+    }
 
     public FiltroController getFiltro() {
         return filtro;
@@ -183,27 +206,4 @@ public class TelaInicialGUI extends JPanel{
         this.filtro = filtro;
     }
 
-    public PessoaController getCaixaTextoGui() {
-        return caixaTextoGui;
-    }
-
-    public JLabel getContador() {
-        return contador;
-    }
-
-    public void setContador(JLabel contador) {
-        this.contador = contador;
-    }
-
-    public CategoriaController getCategoriaController() {
-        return categoriaController;
-    }
-
-    public void setCategoriaController(CategoriaController categoriaController) {
-        this.categoriaController = categoriaController;
-    }
-
-    public void setCaixaTextoGui(PessoaController caixaTextoGui) {
-        this.caixaTextoGui = caixaTextoGui;
-    }
 }

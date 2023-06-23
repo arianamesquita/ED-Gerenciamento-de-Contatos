@@ -3,7 +3,7 @@ package database.createList.NOs;
 import model.Categoria;
 
 public class CategoriaNO {
-    
+
     private Categoria categoria;
     private CategoriaNO anterior;
     private CategoriaNO proximo;
@@ -13,9 +13,6 @@ public class CategoriaNO {
         this.anterior = null;
         this.proximo = null;
     }
-    
-  
-
 
     public Categoria getCategoria() {
         return categoria;
@@ -37,11 +34,8 @@ public class CategoriaNO {
         this.proximo = proximo;
     }
 
-
-
-
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-    
+
 }

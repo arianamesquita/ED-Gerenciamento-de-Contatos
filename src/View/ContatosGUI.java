@@ -6,8 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import javax.swing.Icon;
@@ -57,12 +57,12 @@ public class ContatosGUI extends JPanel {
         numeroTelefone.setForeground(Color.white);
         nome.setForeground(Color.white);
 
-
-        Date dataAniversario = getContato().getPessoa().getDataAniversario();
-        dataAniversario.setYear(Calendar.getInstance().get(Calendar.YEAR) - 1900);
-        data = new JLabel("Data de Aniversario: "+new SimpleDateFormat("dd/MM/yyyy").format(dataAniversario));
+        Date dataAniversarioSql = getContato().getPessoa().getDataAniversario();
+        LocalDate dataAniversario = ((java.sql.Date) dataAniversarioSql).toLocalDate();
+        dataAniversario = dataAniversario.withYear(LocalDate.now().getYear());
+        String dataFormatada = dataAniversario.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        data = new JLabel("Data de Aniversario: " + dataFormatada);
         data.setForeground(Color.white);
-
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -87,7 +87,7 @@ public class ContatosGUI extends JPanel {
         paintMenu.add(email, c);
         c.gridx = 0;
         c.gridy = 3;
-        paintMenu.add(data,c);
+        paintMenu.add(data, c);
         c.insets = new Insets(10, 10, 10, 10);
         c.gridwidth = 2;
         c.gridx = 0;
@@ -104,7 +104,6 @@ public class ContatosGUI extends JPanel {
         setVisible(true);
 
     }
-
 
     public JLabel getFotoPerfil() {
         return fotoPerfil;
@@ -162,8 +161,6 @@ public class ContatosGUI extends JPanel {
         this.paintMenu = paintMenu;
     }
 
-
-
     public Contato getContato() {
         return contato;
     }
@@ -171,6 +168,5 @@ public class ContatosGUI extends JPanel {
     public void setContato(Contato contato) {
         this.contato = contato;
     }
-
 
 }

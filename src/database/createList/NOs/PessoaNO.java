@@ -33,5 +33,5 @@ public class PessoaNO {
     public Pessoa getPessoa() {
         return pessoa;
     }
-    
+
 }

@@ -26,13 +26,13 @@ public class PessoaGUI extends JPanel {
     private MaskFormatter telefoneFormatter;
     private MaskFormatter dataFormatter;
 
-    private JButton salvar,cancelar;
+    private JButton salvar, cancelar, atualizar;
 
     private PaintMenu paintmenu;
 
-    public PessoaGUI(){
-        setLayout(new BorderLayout());    
-        
+    public PessoaGUI() {
+        setLayout(new BorderLayout());
+
         this.paintmenu = new PaintMenu();
         this.jl = new JLabel[4];
         try {
@@ -49,6 +49,7 @@ public class PessoaGUI extends JPanel {
         this.dataField = new JFormattedTextField(dataFormatter);
         this.salvar = new JButton("salvar");
         this.cancelar = new JButton("cancelar");
+        this.atualizar = new JButton("atualizar");
 
         paintmenu.setLayout(new GridBagLayout());
         paintmenu.setOpaque(false);
@@ -56,8 +57,6 @@ public class PessoaGUI extends JPanel {
 
         GridBagConstraints c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-
-    
 
         jl[0] = new JLabel("nome");
         jl[1] = new JLabel("telefone");
@@ -104,6 +103,11 @@ public class PessoaGUI extends JPanel {
         c.gridx = 1;
         c.gridy = 4;
         paintmenu.add(salvar, c);
+        c.gridx = 1;
+        c.gridy = 4;
+        paintmenu.add(atualizar, c);
+        salvar.setVisible(false);
+        atualizar.setVisible(false);
         paintmenu.setBackground(Color.darkGray);
         setBackground(Color.gray);
         setOpaque(true);
@@ -111,7 +115,6 @@ public class PessoaGUI extends JPanel {
         setVisible(true);
 
     }
-
 
     public JLabel[] getJl() {
         return jl;
@@ -137,8 +140,6 @@ public class PessoaGUI extends JPanel {
         this.telefoneField = telefoneField;
     }
 
-
-
     public void setEmailField(JFormattedTextField emailField) {
         this.emailField = emailField;
     }
@@ -158,9 +159,6 @@ public class PessoaGUI extends JPanel {
     public void setTelefoneFormatter(MaskFormatter telefoneFormatter) {
         this.telefoneFormatter = telefoneFormatter;
     }
-
-
-
 
     public MaskFormatter getDataFormatter() {
         return dataFormatter;
@@ -200,6 +198,14 @@ public class PessoaGUI extends JPanel {
 
     public void setEmailField(JTextField emailField) {
         this.emailField = emailField;
+    }
+
+    public JButton getAtualizar() {
+        return atualizar;
+    }
+
+    public void setAtualizar(JButton atualizar) {
+        this.atualizar = atualizar;
     }
 
 }
