@@ -92,7 +92,7 @@ public class FiltroController implements ActionListener {
         for (JComboBox<String> comboBox : getFiltroGUI().getComboBoxes()) {
             String itemSelecionado = (String) comboBox.getSelectedItem();
             filtroSelecionado.append(itemSelecionado).append(" , ");
-            quickSort(getInicialScreenController().getListaContatoController());
+            quickSort(getInicialScreenController().getListaContatoController(), filtroSelecionado.toString());
             getInicialScreenController().updateInterface();
         }
         JOptionPane.showMessageDialog(getFiltroGUI(), "Filtro selecionado: " + filtroSelecionado);
@@ -107,36 +107,52 @@ public class FiltroController implements ActionListener {
 
 
 
-    public void quickSort(ContControlList contatos) {
-        quickSortRec(contatos, contatos.getInicio(), contatos.getFim());
+
+    public void quickSort(ContControlList contatos, String filtro) {
+        quickSortRec(contatos, contatos.getInicio(), contatos.getFim(), filtro);
     }
 
-    private void quickSortRec(ContControlList contatos, ContControlNO inicio, ContControlNO fim) {
+    private void quickSortRec(ContControlList contatos, ContControlNO inicio, ContControlNO fim, String filtro) {
         if (inicio != null && fim != null && inicio != fim && inicio != fim.getProximo()) {
-            ContControlNO pivot = partition(inicio, fim);
-            quickSortRec(contatos, inicio, pivot.getAnterior());
-            quickSortRec(contatos, pivot.getProximo(), fim);
+            ContControlNO pivot = partition(inicio, fim, filtro);
+            quickSortRec(contatos, inicio, pivot.getAnterior(), filtro);
+            quickSortRec(contatos, pivot.getProximo(), fim, filtro);
         }
     }
 
-    private ContControlNO partition(ContControlNO inicio, ContControlNO fim) {
+    private ContControlNO partition(ContControlNO inicio, ContControlNO fim, String filtro) {
         ContatoController pivot = fim.getContato();
         ContControlNO i = inicio.getAnterior();
-
-        StringBuilder filtroSelecionado = new StringBuilder();
-        for (JComboBox<String> comboBox : getFiltroGUI().getComboBoxes()) {
-            String itemSelecionado = (String) comboBox.getSelectedItem();
-            filtroSelecionado.append(itemSelecionado).append(" , ");
-        }
         
         for (ContControlNO j = inicio; j != fim; j = j.getProximo()) {
-            if (filtroSelecionado.equals("ddd")){
+            if (filtro.equals("ddd")){
                 if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0,2)) 
                     <= Integer.parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
-                i = (i == null) ? inicio : i.getProximo();
-                swap(i, j);
+                    i = (i == null) ? inicio : i.getProximo();
+                    swap(i, j);
+                }
             }
+            else if (filtro.equals("categoria")){
+                if (j.getContato().getContato().getCategoria().getId() <= pivot.getContato().getCategoria().getId()) {
+                    i = (i == null) ? inicio : i.getProximo();
+                    swap(i, j);
+                }
             }
+            else if (filtro.equals("nome")){ //esse acho q não precisa né, amigo?
+                if (j.getContato().getContato().getPessoa().getNome().charAt(0) <= 
+                        pivot.getContato().getPessoa().getNome().charAt(0)){
+                    i = (i == null) ? inicio : i.getProximo();
+                    swap(i, j); 
+                }
+            }
+            else if (filtro.equals("email")){ 
+                if (j.getContato().getContato().getPessoa().getEmail().charAt(0) <= 
+                        pivot.getContato().getPessoa().getEmail().charAt(0)){
+                    i = (i == null) ? inicio : i.getProximo();
+                    swap(i, j); 
+                }
+            }
+
 
         }
         
@@ -169,5 +185,8 @@ public class FiltroController implements ActionListener {
     public void setInicialScreenController(InicialScreenController inicialScreenController) {
         this.inicialScreenController = inicialScreenController;
     }
+
+    
 }
+
 

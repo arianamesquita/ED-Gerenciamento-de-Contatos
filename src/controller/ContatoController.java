@@ -6,11 +6,8 @@ import java.awt.event.MouseListener;
 
 import View.ContatosGUI;
 import database.ContatoDao;
-import database.PessoaDAO;
 import database.createList.DoublyLinkedLists.ContatoList;
-import database.createList.DoublyLinkedLists.PessoaList;
 import database.createList.NOs.ContatoNO;
-import database.createList.NOs.PessoaNO;
 import model.Contato;
 
 public class ContatoController {
@@ -159,8 +156,6 @@ public class ContatoController {
                 count = atual.getContato().getId();
             }
             atual = atual.getProximo();
-        
-     
         }
     return count + 1;
     }

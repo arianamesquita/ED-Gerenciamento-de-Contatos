@@ -8,11 +8,23 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import database.createList.DoublyLinkedLists.CategoriaList;
+import database.createList.NOs.CategoriaNO;
 import model.Categoria;
 
+/*
+ * Aqui temos:
+ * save --> através do nome da categoria gera um id de acordo com os que já existe;
+ * removeById --> apaga recebendo o id;
+ * removeByName --> apaga recebendo o nome;
+ * update --> recebe a categoria e o novo nome e atualiza somente o nome;
+ * List --> lista todas as categorias;
+ * searchById --> procura através do id;
+ * searchByName --> procura por nome.
+ * 
+ */
 public class CategoriaDAO{
 
-    public void save(Categoria categoria){
+    public void save(String categoriaNome){
         String sql = "insert into categoria(id, nome) values (?,?)";
 
         Connection conn = null;
@@ -22,8 +34,8 @@ public class CategoriaDAO{
             conn = ConnectionFactory.createConnectionToMySQL();
             pstm = conn.prepareStatement(sql);
 
-            pstm.setInt(1, categoria.getId());
-            pstm.setString(2, categoria.getNome());
+            pstm.setInt(1, geraId());
+            pstm.setString(2, categoriaNome);
 
             pstm.execute();
 
@@ -83,8 +95,9 @@ public class CategoriaDAO{
         }
     }
 
-    public void update(Categoria categoria){
-        String sql = "Update categoria set nome = ?";
+    public void removeByName(String name){
+
+        String sql = "Delete from categoria where nome = ?";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -94,7 +107,42 @@ public class CategoriaDAO{
 
             pstm = conn.prepareStatement(sql);
 
-            pstm.setString(1, categoria.getNome());
+            pstm.setString(1, name);
+
+            pstm.execute();
+
+            if (pstm.getUpdateCount()>0) 
+                JOptionPane.showMessageDialog(null, "Deletado com sucesso!");
+            else
+            JOptionPane.showMessageDialog(null, "Não foi possível apagar!");
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                if (pstm != null){
+                    pstm.close();
+                }
+                if (conn != null){
+                    conn.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void update(Categoria categoria, String novoNome){
+        String sql = "Update categoria set nome = ? where id = ?";
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try{
+            conn = ConnectionFactory.createConnectionToMySQL();
+
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setString(1, novoNome);
             pstm.setInt(2, categoria.getId());
 
             pstm.execute();
@@ -157,12 +205,13 @@ public class CategoriaDAO{
         }
         return lista;
     }
-        public Categoria ler(int id) {
-            String sql = "SELECT * FROM categoria WHERE id = ?";
+    
+    public Categoria searchById(int id) {
+        String sql = "SELECT * FROM categoria WHERE id = ?";
         Connection conn = null;
         PreparedStatement pstm = null;
         ResultSet rset = null;
-        Categoria categoria;
+        Categoria categoria = new Categoria();
 
 
         try {
@@ -171,15 +220,11 @@ public class CategoriaDAO{
             pstm.setInt(1, id);
             rset = pstm.executeQuery();
 
-      
-
+     
             if (rset.next()) {
-                int ide = rset.getInt("id");
-                String nome = rset.getString("nome");
-                categoria = new Categoria(ide, nome);
-
+                categoria.setNome(rset.getString("nome"));
+                categoria.setId(id);
             } 
-              return categoria;
 
 
         } catch (SQLException e) {
@@ -188,7 +233,7 @@ public class CategoriaDAO{
             // TODO Auto-generated catch block
             e.printStackTrace();
         } finally {
-                        try {
+            try {
                 if (pstm != null){
                     pstm.close();
                 }
@@ -199,10 +244,65 @@ public class CategoriaDAO{
                 e.printStackTrace();
             }
         }
-
-     
+        
+        return categoria;
     }
 
+    public Categoria searchByName(String name) {
+        String sql = "SELECT * FROM categoria WHERE nome = ?";
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+        Categoria categoria = new Categoria();
+
+
+        try {
+            conn = ConnectionFactory.createConnectionToMySQL();
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, name);
+            rset = pstm.executeQuery();
+
+     
+            if (rset.next()) {
+                categoria.setNome(rset.getString("nome"));
+                categoria.setId(rset.getInt("id"));
+            } 
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstm != null){
+                    pstm.close();
+                }
+                if (conn != null){
+                    conn.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        return categoria;
+    }
+
+    public static int geraId() {
+        int count = 0;
+        CategoriaList categoriaList =  new CategoriaDAO().Listar();
+        CategoriaNO atual = categoriaList.getInicio();
+        while(atual!= null ){
+                    
+            if (count < atual.getCategoria().getId()) {
+                count = atual.getCategoria().getId();
+            }
+            atual = atual.getProximo();
+        }
+        return count + 1;
+    }
 
 
 }

@@ -59,11 +59,11 @@ java.util.Date parsedDate;
           e.printStackTrace();
          return;
        }
-        Pessoa pessoa = new Pessoa(nome, geraId(), data, email, new java.sql.Date(parsedDate.getTime()));
+        Pessoa pessoa = new Pessoa(nome, geraId(), numero, email, new java.sql.Date(parsedDate.getTime()));
         PessoaDAO pessoaDAO = new PessoaDAO();
         pessoaDAO.save(pessoa);
     
-        ContatoController contatoController = new ContatoController(new Contato(ContatoController.geraId(), new CategoriaDAO().ler(12), pessoa));
+        ContatoController contatoController = new ContatoController(new Contato(ContatoController.geraId(), new CategoriaDAO().searchById(12), pessoa));
         getInicialScreenController().getListaContatoController().InsereNoInicio(contatoController);
         getInicialScreenController().updateInterface();
 
@@ -170,7 +170,7 @@ java.util.Date parsedDate;
     
     public static int geraId() {
         int count = 0;
-        PessoaList pessoaList =  new PessoaDAO().Listar();
+        PessoaList pessoaList =  new PessoaDAO().List();
         PessoaNO atual = pessoaList.getInicio();
         while(atual!= null ){
                     

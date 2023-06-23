@@ -9,7 +9,21 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 import database.createList.DoublyLinkedLists.PessoaList;
+import database.createList.NOs.PessoaNO;
 
+/**
+ * Aqui temos:
+ * 
+ * save --> salva uma pessoa
+ * removeById --> deleta através do id 
+ * removeByName --> deleta através do nome
+ * update --> atualiza os dados de pessoas através do id
+ * List --> lista as pessoas
+ * geraId --> gerando um id para nova pessoa
+ * searchById --> busca a pessoa através do id
+ * searchByName --> busca a pessoa através da string do nome
+ * 
+ */
 public class PessoaDAO {
 
     public void save(Pessoa pessoa){
@@ -22,7 +36,7 @@ public class PessoaDAO {
             conn = ConnectionFactory.createConnectionToMySQL();
             pstm = conn.prepareStatement(sql);
 
-            pstm.setInt(1, pessoa.getId());
+            pstm.setInt(1, geraId());
             pstm.setString(2, pessoa.getNome());
             pstm.setString(3, pessoa.getTelefone());
             pstm.setString(4, pessoa.getEmail());
@@ -67,7 +81,43 @@ public class PessoaDAO {
             pstm.execute();
 
             if (pstm.getUpdateCount()>0) 
-                JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
+                JOptionPane.showMessageDialog(null, "Deletado com sucesso!");
+            else
+            JOptionPane.showMessageDialog(null, "Não foi possível apagar!");
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                if (pstm != null){
+                    pstm.close();
+                }
+                if (conn != null){
+                    conn.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void removeByName(String name){
+
+        String sql = "Delete from pessoa where nome = ?";
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+
+        try{
+            conn = ConnectionFactory.createConnectionToMySQL();
+
+            pstm = conn.prepareStatement(sql);
+
+            pstm.setString(1, name);
+
+            pstm.execute();
+
+            if (pstm.getUpdateCount()>0) 
+                JOptionPane.showMessageDialog(null, "Deletado com sucesso!");
             else
             JOptionPane.showMessageDialog(null, "Não foi possível apagar!");
         } catch (Exception e){
@@ -87,7 +137,7 @@ public class PessoaDAO {
     }
 
     public void update(Pessoa pessoa){
-        String sql = "Update pessoa set nome = ?, telefone = ?,  email = ?, dataAniversario = ?";
+        String sql = "Update pessoa set nome = ?, telefone = ?,  email = ?, dataAniversario = ? where id = ?";
 
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -101,11 +151,12 @@ public class PessoaDAO {
             pstm.setString(2, pessoa.getTelefone());
             pstm.setString(3, pessoa.getEmail());
             pstm.setDate(4, pessoa.getDataAniversario());
+            pstm.setInt(5, pessoa.getId());
 
             pstm.execute();
 
             if (pstm.getUpdateCount()>0) 
-                JOptionPane.showMessageDialog(null, "Salvo com sucesso!");
+                JOptionPane.showMessageDialog(null, "Atualizado com sucesso!");
             else
             JOptionPane.showMessageDialog(null, "Não foi possível atualizar!");
         } catch (Exception e){
@@ -124,7 +175,7 @@ public class PessoaDAO {
         }
     }
 
-    public PessoaList Listar(){
+    public PessoaList List(){
         String sql = "Select * from pessoa";
         PessoaList lista = new PessoaList();
 
@@ -163,6 +214,100 @@ public class PessoaDAO {
             }
         }
         return lista;
+    }
+
+    public static int geraId() {
+        int count = 0;
+        PessoaList pessoaList =  new PessoaDAO().List();
+        PessoaNO atual = pessoaList.getInicio();
+        while(atual!= null ){
+            if (count < atual.getPessoa().getId()) {
+                count = atual.getPessoa().getId();
+            }
+            atual = atual.getProximo();
+        }
+        return count + 1;
+    }
+
+    public Pessoa searchById(int id){
+
+        String sql = "Select * from pessoa where id = ?";
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+        Pessoa pessoa = new Pessoa();
+        
+
+        try{
+            conn = ConnectionFactory.createConnectionToMySQL();
+            pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            rset = pstm.executeQuery();
+
+            if(rset.next()){
+                pessoa.setId(id);
+                pessoa.setNome(rset.getString("nome"));
+                pessoa.setTelefone(rset.getString("telefone"));
+                pessoa.setEmail(rset.getString("email"));
+                pessoa.setDataAniversario(rset.getDate("dataAniversario"));
+            }
+
+
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                if (pstm != null){
+                    pstm.close();
+                }
+                if (conn != null){
+                    conn.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return pessoa;
+    }
+
+    public Pessoa searchByName(String name){
+
+        String sql = "Select * from pessoa where nome = ?";
+
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rset = null;
+        Pessoa pessoa = new Pessoa();
+
+
+        try{
+            conn = ConnectionFactory.createConnectionToMySQL();
+            pstm = conn.prepareStatement(sql);
+            pstm.setString(1, name);
+            rset = pstm.executeQuery();
+
+            if(rset.next()){
+                pessoa.setId(rset.getInt("id"));
+                pessoa.setNome(name);
+                pessoa.setTelefone(rset.getString("telefone"));
+                pessoa.setEmail(rset.getString("email"));
+                pessoa.setDataAniversario(rset.getDate("dataAniversario"));
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally{
+            try {
+                if (pstm != null){
+                    pstm.close();
+                }
+                if (conn != null){
+                    conn.close();
+                }
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return pessoa;
     }
     
 }
