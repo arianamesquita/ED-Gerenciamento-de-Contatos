@@ -9,11 +9,10 @@ import java.awt.event.FocusListener;
 import javax.swing.JOptionPane;
 
 import View.CategoriaGUI;
-import database.CategoriaDAO;
-import database.ContatoDao;
-import database.createList.DoublyLinkedLists.CategoriaList;
-import database.createList.NOs.CategoriaNO;
-import database.createList.NOs.ContControlNO;
+import database.DoublyLinkedLists;
+import database.NO;
+import database.DAO.CategoriaDAO;
+import database.DAO.ContatoDAO;
 import model.Categoria;
 
 public class CategoriaController implements ActionListener, FocusListener {
@@ -74,6 +73,7 @@ public class CategoriaController implements ActionListener, FocusListener {
             getCategoriaGUI().getCategoriaText().setVisible(false);
             getInicialScreenController().getTelaInicialGUI().getEditar().setVisible(false);
             getInicialScreenController().getTelaInicialGUI().getApagar().setVisible(false);
+            getInicialScreenController().getTelaInicialGUI().getApagarTodos().setVisible(false);
 
         } else if (e.getSource() == getCategoriaGUI().getRemoverCategoria()) {
             getCategoriaGUI().getAdicionarCategoria().setVisible(false);
@@ -122,7 +122,14 @@ public class CategoriaController implements ActionListener, FocusListener {
             getCategoriaGUI().getCancelar().setVisible(false);
             getCategoriaGUI().getCategoriaText().setVisible(false);
             getInicialScreenController().getTelaInicialGUI().getEditar().setVisible(true);
-            getInicialScreenController().getTelaInicialGUI().getApagar().setVisible(true);
+
+            if(getInicialScreenController().getCountMouseClicked()>1){
+            getInicialScreenController().getTelaInicialGUI().getApagarTodos().setVisible(true);
+            getInicialScreenController().getTelaInicialGUI().getEditar().setVisible(false);
+
+            }else {getInicialScreenController().getTelaInicialGUI().getApagar().setVisible(true);}
+            
+
             getInicialScreenController().setMouseClicked(true);
         } else if (e.getSource() == getCategoriaGUI().getSalvar()) {
             addNovaCategoria();
@@ -160,14 +167,13 @@ public class CategoriaController implements ActionListener, FocusListener {
     }
 
     private void addNovaCategoria() {
-        ContControlNO current = getInicialScreenController().getListaContatoController().getInicio();
+        NO<ContatoController> current = getInicialScreenController().getListaContatoController().getInicio();
         while (current != null) {
-            if (current.getContato().isSelect()) {
-                Categoria categoria = new CategoriaDAO()
-                        .searchByName((String) getCategoriaGUI().getCategoriaExistente().getSelectedItem());
-                current.getContato().getContato().setCategoria(categoria);
-                current.getContato().updateGUI();
-                new ContatoDao().update(current.getContato().getContato(), categoria);
+            if (current.getData().isSelect()) {
+                Categoria categoria = new CategoriaDAO().findById(getCategoriaGUI().getCategoriaExistente().getSelectedIndex());
+                current.getData().getContato().setCategoria(categoria);
+                current.getData().updateGUI();
+                new ContatoDAO().update(current.getData().getContato());
 
                 getInicialScreenController()
                         .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() - 1);
@@ -179,14 +185,14 @@ public class CategoriaController implements ActionListener, FocusListener {
     }
 
     public void remove() {
-        ContControlNO current = getInicialScreenController().getListaContatoController().getInicio();
+        NO<ContatoController> current = getInicialScreenController().getListaContatoController().getInicio();
         while (current != null) {
-            if (current.getContato().isSelect()) {
-                Categoria categoria = new CategoriaDAO()
-                        .searchById(1);
-                current.getContato().getContato().setCategoria(categoria);
-                current.getContato().updateGUI();
-                new ContatoDao().update(current.getContato().getContato(), categoria);
+            if (current.getData().isSelect()) {
+                Categoria categoria = new CategoriaDAO().findById(0);
+                        
+                current.getData().getContato().setCategoria(categoria);
+                current.getData().updateGUI();
+                new ContatoDAO().update(current.getData().getContato());
 
                 getInicialScreenController()
                         .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() - 1);
@@ -204,11 +210,11 @@ public class CategoriaController implements ActionListener, FocusListener {
     }
 
     public static String[] buscarCategorias() {
-        CategoriaList categoriaList = new CategoriaDAO().Listar();
-        CategoriaNO current = categoriaList.getInicio();
+        DoublyLinkedLists<Categoria> categoriaList = new CategoriaDAO().findAll();
+        NO<Categoria> current = categoriaList.getInicio();
         StringBuilder sb = new StringBuilder();
         while (current != null) {
-            sb.append(current.getCategoria().getNome()).append(" - ");
+            sb.append(current.getData().getNome()).append(" - ");
             current = current.getProximo();
         }
         return String.valueOf(sb).split(" - ");

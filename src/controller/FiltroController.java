@@ -1,13 +1,15 @@
 package controller;
 
-import View.FiltroGUI;
-import database.createList.DoublyLinkedLists.ContControlList;
-import database.createList.NOs.ContControlNO;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+
+import View.FiltroGUI;
+import database.DoublyLinkedLists;
+import database.NO;
 
 public class FiltroController implements ActionListener {
     private FiltroGUI filtroGUI;
@@ -115,42 +117,42 @@ public class FiltroController implements ActionListener {
         }
     }
 
-    public void quickSortFiltro1(ContControlList contatos, String filtro) {
+    public void quickSortFiltro1(DoublyLinkedLists<ContatoController> contatos, String filtro) {
         quickSortRecFiltro1(contatos, contatos.getInicio(), contatos.getFim(), filtro);
     }
 
-    private void quickSortRecFiltro1(ContControlList contatos, ContControlNO inicio, ContControlNO fim, String filtro) {
+    private void quickSortRecFiltro1(DoublyLinkedLists<ContatoController> contatos, NO<ContatoController> inicio, NO<ContatoController> fim, String filtro) {
         if (inicio != null && fim != null && inicio != fim && inicio != fim.getProximo()) {
-            ContControlNO pivot = partitionFiltro1(inicio, fim, filtro);
+            NO<ContatoController> pivot = partitionFiltro1(inicio, fim, filtro);
             quickSortRecFiltro1(contatos, inicio, pivot.getAnterior(), filtro);
             quickSortRecFiltro1(contatos, pivot.getProximo(), fim, filtro);
         }
     }
 
-    private ContControlNO partitionFiltro1(ContControlNO inicio, ContControlNO fim, String filtro) {
-        ContatoController pivot = fim.getContato();
-        ContControlNO i = inicio.getAnterior();
+    private NO<ContatoController> partitionFiltro1(NO<ContatoController> inicio, NO<ContatoController> fim, String filtro) {
+        ContatoController pivot = fim.getData();
+        NO<ContatoController> i = inicio.getAnterior();
 
-        for (ContControlNO j = inicio; j != fim; j = j.getProximo()) {
+        for (NO<ContatoController> j = inicio; j != fim; j = j.getProximo()) {
             if (filtro.equals("ddd")) {
-                if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0, 2)) <= Integer
+                if (Integer.parseInt(j.getData().getContato().getPessoa().getTelefone().substring(0, 2)) <= Integer
                         .parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro1(i, j);
                 }
             } else if (filtro.equals("categoria")) {
-                if (j.getContato().getContato().getCategoria().getId() <= pivot.getContato().getCategoria().getId()) {
+                if (j.getData().getContato().getCategoria().getId() <= pivot.getContato().getCategoria().getId()) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro1(i, j);
                 }
             } else if (filtro.equals("nome")) { // esse acho q não precisa né, amigo?
-                if (j.getContato().getContato().getPessoa().getNome().charAt(0) <= pivot.getContato().getPessoa()
+                if (j.getData().getContato().getPessoa().getNome().charAt(0) <= pivot.getContato().getPessoa()
                         .getNome().charAt(0)) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro1(i, j);
                 }
             } else if (filtro.equals("email")) {
-                if (j.getContato().getContato().getPessoa().getEmail().charAt(0) <= pivot.getContato().getPessoa()
+                if (j.getData().getContato().getPessoa().getEmail().charAt(0) <= pivot.getContato().getPessoa()
                         .getEmail().charAt(0)) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro1(i, j);
@@ -165,48 +167,47 @@ public class FiltroController implements ActionListener {
         return i;
     }
 
-    private void swapFiltro1(ContControlNO no1, ContControlNO no2) {
-        ContatoController temp = no1.getContato();
-        no1.setContato(no2.getContato());
-        no2.setContato(temp);
-    }
+    private void swapFiltro1(NO<ContatoController> no1, NO<ContatoController> no2) {
+     ContatoController temp = no1.getData();
+        no1.setData(no2.getData());
+        no2.setData(temp);}
 
-    public void quickSortFiltro2(ContControlList contatos, String filtro) {
+    public void quickSortFiltro2(DoublyLinkedLists<ContatoController> contatos, String filtro) {
         quickSortRecFiltro2(contatos, contatos.getInicio(), contatos.getFim(), filtro);
     }
 
-    private void quickSortRecFiltro2(ContControlList contatos, ContControlNO inicio, ContControlNO fim, String filtro) {
+    private void quickSortRecFiltro2(DoublyLinkedLists<ContatoController> contatos, NO<ContatoController> inicio, NO<ContatoController> fim, String filtro) {
         if (inicio != null && fim != null && inicio != fim && inicio != fim.getProximo()) {
-            ContControlNO pivot = partitionFiltro2(inicio, fim, filtro);
+            NO<ContatoController> pivot = partitionFiltro2(inicio, fim, filtro);
             quickSortRecFiltro2(contatos, inicio, pivot.getAnterior(), filtro);
             quickSortRecFiltro2(contatos, pivot.getProximo(), fim, filtro);
         }
     }
 
-    private ContControlNO partitionFiltro2(ContControlNO inicio, ContControlNO fim, String filtro) {
-        ContatoController pivot = fim.getContato();
-        ContControlNO i = inicio.getAnterior();
+    private NO<ContatoController> partitionFiltro2(NO<ContatoController> inicio, NO<ContatoController> fim, String filtro) {
+        ContatoController pivot = fim.getData();
+        NO<ContatoController> i = inicio.getAnterior();
 
-        for (ContControlNO j = inicio; j != fim; j = j.getProximo()) {
+        for (NO<ContatoController> j = inicio; j != fim; j = j.getProximo()) {
             if (filtro.equals("ddd")) {
-                if (Integer.parseInt(j.getContato().getContato().getPessoa().getTelefone().substring(0, 2)) >= Integer
+                if (Integer.parseInt(j.getData().getContato().getPessoa().getTelefone().substring(0, 2)) >= Integer
                         .parseInt(pivot.getContato().getPessoa().getTelefone().substring(0, 2))) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro2(i, j);
                 }
             } else if (filtro.equals("categoria")) {
-                if (j.getContato().getContato().getCategoria().getId() >= pivot.getContato().getCategoria().getId()) {
+                if (j.getData().getContato().getCategoria().getId() >= pivot.getContato().getCategoria().getId()) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro2(i, j);
                 }
             } else if (filtro.equals("nome")) { // esse acho q não precisa né, amigo?
-                if (j.getContato().getContato().getPessoa().getNome().charAt(0) >= pivot.getContato().getPessoa()
+                if (j.getData().getContato().getPessoa().getNome().charAt(0) >= pivot.getContato().getPessoa()
                         .getNome().charAt(0)) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro2(i, j);
                 }
             } else if (filtro.equals("email")) {
-                if (j.getContato().getContato().getPessoa().getEmail().charAt(0) >= pivot.getContato().getPessoa()
+                if (j.getData().getContato().getPessoa().getEmail().charAt(0) >= pivot.getContato().getPessoa()
                         .getEmail().charAt(0)) {
                     i = (i == null) ? inicio : i.getProximo();
                     swapFiltro2(i, j);
@@ -221,10 +222,10 @@ public class FiltroController implements ActionListener {
         return i;
     }
 
-    private void swapFiltro2(ContControlNO no1, ContControlNO no2) {
-        ContatoController temp = no1.getContato();
-        no1.setContato(no2.getContato());
-        no2.setContato(temp);
+    private void swapFiltro2(NO<ContatoController> no1, NO<ContatoController> no2) {
+        ContatoController temp = no1.getData();
+        no1.setData(no2.getData());
+        no2.setData(temp);
     }
 
     public FiltroGUI getFiltroGUI() {

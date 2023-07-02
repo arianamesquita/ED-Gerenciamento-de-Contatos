@@ -1,22 +1,17 @@
-package database.createList.DoublyLinkedLists;
+package database;
 
-import database.createList.NOs.CategoriaNO;
-import model.Categoria;
+public class DoublyLinkedLists<T> {
 
-public class CategoriaList {
+    private NO<T> inicio;
+    private NO<T> fim;
 
-    Categoria categoria;
-
-    private CategoriaNO inicio;
-    private CategoriaNO fim;
-
-    public CategoriaList() {
+    public DoublyLinkedLists() {
         this.inicio = null;
         this.fim = null;
     }
 
-    public void InsereNoFim(Categoria categoria) {
-        CategoriaNO atual = new CategoriaNO(categoria);
+    public void InsereNoFim(T data) {
+        NO<T> atual = new NO<>(data);
         if (getInicio() == null) {
             setInicio(atual);
         } else {
@@ -26,8 +21,8 @@ public class CategoriaList {
         setFim(atual);
     }
 
-    public void InsereNoInicio(Categoria categoria) {
-        CategoriaNO atual = new CategoriaNO(categoria);
+    public void InsereNoInicio(T data) {
+        NO<T> atual = new NO<>(data);
         if (getInicio() == null) {
             setInicio(atual);
             setFim(atual);
@@ -63,10 +58,10 @@ public class CategoriaList {
         }
     }
 
-    public void ApagaCategoria(Categoria categoria) {
-        CategoriaNO atual = getInicio();
+    public void ApagaData(T data) {
+        NO<T> atual = getInicio();
         while (atual != null) {
-            if (atual.getCategoria().equals(categoria)) {
+            if (atual.getData().equals(data)) {
                 if (atual == getInicio()) {
                     ApagaNoInicio();
                 } else if (atual == getFim()) {
@@ -80,56 +75,32 @@ public class CategoriaList {
             }
             atual = atual.getProximo();
         }
-        System.out.println("A categoria '" + categoria + "' não foi encontrada na lista.");
+        System.out.println("O dado '" + data + "' não foi encontrado na lista.");
     }
 
     public void imprimir() {
-        CategoriaNO atual = getInicio();
+        NO<T> atual = getInicio();
         while (atual != null) {
-            System.out.print(atual.getCategoria().getNome() + " ");
+            System.out.print(atual.getData() + " ");
             atual = atual.getProximo();
         }
         System.out.println();
     }
 
-    public Categoria buscarPorID(int id) {
-        CategoriaNO atual = getInicio();
-        while (atual != null) {
-            if (atual.getCategoria().getId() == id) {
-                return atual.getCategoria();
-            }
-            atual = atual.getProximo();
-        }
-        return null;
-    }
 
-    public CategoriaNO getInicio() {
+    public NO<T> getInicio() {
         return inicio;
     }
 
-    public void setInicio(CategoriaNO inicio) {
+    public void setInicio(NO<T> inicio) {
         this.inicio = inicio;
     }
 
-    public CategoriaNO getFim() {
+    public NO<T> getFim() {
         return fim;
     }
 
-    public void setFim(CategoriaNO fim) {
+    public void setFim(NO<T> fim) {
         this.fim = fim;
     }
-
-    public Categoria getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
-    }
-
-    @Override
-    public String toString() {
-        return "Categoria = " + categoria;
-    }
-
 }

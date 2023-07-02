@@ -1,25 +1,28 @@
 package controller;
 
 import java.awt.BorderLayout;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import View.TelaInicialGUI;
-import database.ContatoDao;
-import database.createList.DoublyLinkedLists.ContatoList;
-import database.createList.DoublyLinkedLists.ContControlList;
-import database.createList.NOs.ContatoNO;
-import database.createList.NOs.ContControlNO;
+import database.DoublyLinkedLists;
+import database.NO;
+import database.DAO.ContatoDAO;
+import model.Contato;
 
 public class InicialScreenController implements ActionListener, MouseListener {
-    private ContControlList listaContatoController;
-    private ContatoList listaContatos;
+    private DoublyLinkedLists<ContatoController> listaContatoController;
+    private DoublyLinkedLists<Contato> listaContatos;
+
     private TelaInicialGUI telaInicialGUI;
     private int countMouseClicked;
     private boolean mouseClicked;
 
     public InicialScreenController() {
-        this.listaContatos = new ContatoDao().Listar();
-        this.listaContatoController = new ContControlList();
+        this.listaContatos = new ContatoDAO().findAll();
+        this.listaContatoController = new DoublyLinkedLists<>();
         this.telaInicialGUI = new TelaInicialGUI();
         this.countMouseClicked = 0;
 
@@ -47,27 +50,27 @@ public class InicialScreenController implements ActionListener, MouseListener {
     }
 
     public void PreencheContatos() {
-        ContatoNO current = getListaContatos().getInicio();
+        NO<Contato> current = getListaContatos().getInicio();
         while (current != null) {
-            getListaContatoController().InsereNoFim(new ContatoController(current.getContato()));
+            getListaContatoController().InsereNoFim(new ContatoController(current.getData()));
             current = current.getProximo();
         }
     }
 
     public void addContatoPanel() {
-        ContControlNO current = getListaContatoController().getInicio();
+        NO<ContatoController>current = getListaContatoController().getInicio();
         while (current != null) {
-            getTelaInicialGUI().getPanelContatos().add(current.getContato().getContatoGUI());
+            getTelaInicialGUI().getPanelContatos().add(current.getData().getContatoGUI());
             current = current.getProximo();
         }
     }
 
     private void addMouseListenerContatos() {
-        ContControlNO current = getListaContatoController().getInicio();
+        NO<ContatoController> current = getListaContatoController().getInicio();
         setMouseClicked(true);
         while (current != null) {
-            current.getContato().setInicialScreenController(this);
-            current.getContato().getContatoGUI().addMouseListener(this);
+            current.getData().setInicialScreenController(this);
+            current.getData().getContatoGUI().addMouseListener(this);
             current = current.getProximo();
         }
 
@@ -182,18 +185,18 @@ public class InicialScreenController implements ActionListener, MouseListener {
 
     public void setMouseClicked(boolean aFlag) {
         this.mouseClicked = aFlag;
-        ContControlNO current = getListaContatoController().getInicio();
+        NO<ContatoController> current = getListaContatoController().getInicio();
         while (current != null) {
-            current.getContato().setMouseClicked(aFlag);
+            current.getData().setMouseClicked(aFlag);
             current = current.getProximo();
         }
     }
 
     public ContatoController getContatoSelect() {
-        ContControlNO current = getListaContatoController().getInicio();
+        NO<ContatoController> current = getListaContatoController().getInicio();
         while (current != null) {
-            if (current.getContato().isSelect()) {
-                return current.getContato();
+            if (current.getData().isSelect()) {
+                return current.getData();
             }
             current = current.getProximo();
         }
@@ -201,28 +204,30 @@ public class InicialScreenController implements ActionListener, MouseListener {
     }
 
     public String[] getContatosSelects() {
-        ContControlNO current = getListaContatoController().getInicio();
+        NO<ContatoController> current = getListaContatoController().getInicio();
         StringBuilder sb = new StringBuilder();
         while (current != null) {
-            sb.append(current.getContato().getContato().getId()).append(" - ");
+            sb.append(current.getData().getContato().getId()).append(" - ");
             current = current.getProximo();
         }
         return String.valueOf(sb).split(" - ");
     }
 
-    public ContControlList getListaContatoController() {
+
+
+    public DoublyLinkedLists<ContatoController> getListaContatoController() {
         return listaContatoController;
     }
 
-    public void setListaContatoController(ContControlList listaContatoController) {
+    public void setListaContatoController(DoublyLinkedLists<ContatoController> listaContatoController) {
         this.listaContatoController = listaContatoController;
     }
 
-    public ContatoList getListaContatos() {
+    public DoublyLinkedLists<Contato> getListaContatos() {
         return listaContatos;
     }
 
-    public void setListaContatos(ContatoList listaContatos) {
+    public void setListaContatos(DoublyLinkedLists<Contato> listaContatos) {
         this.listaContatos = listaContatos;
     }
 

@@ -11,12 +11,11 @@ import java.text.SimpleDateFormat;
 import javax.swing.JOptionPane;
 
 import View.PessoaGUI;
-import database.CategoriaDAO;
-import database.ContatoDao;
-import database.PessoaDAO;
-import database.createList.DoublyLinkedLists.PessoaList;
-import database.createList.NOs.ContControlNO;
-import database.createList.NOs.PessoaNO;
+import database.DoublyLinkedLists;
+import database.NO;
+import database.DAO.CategoriaDAO;
+import database.DAO.ContatoDAO;
+import database.DAO.PessoaDAO;
 import model.Contato;
 import model.Pessoa;
 
@@ -74,12 +73,12 @@ public class PessoaController implements FocusListener, ActionListener {
         Pessoa pessoa = new Pessoa(nome, geraId(), numero, email, new java.sql.Date(parsedDate.getTime()));
         PessoaDAO pessoaDAO = new PessoaDAO();
 
-        pessoaDAO.save(pessoa);
+        pessoaDAO.insert(pessoa); 
 
         System.out.println("1");
-        Contato contato = new Contato(ContatoController.geraId(), new CategoriaDAO().searchById(1), pessoa);
-        ContatoDao contatoDao = new ContatoDao();
-        contatoDao.save(contato);
+        Contato contato = new Contato(ContatoController.geraId(), new CategoriaDAO().findById(1), pessoa);
+        ContatoDAO contatoDao = new ContatoDAO();
+        contatoDao.insert(contato);
         System.out.println("2");
 
         getInicialScreenController().getListaContatoController().InsereNoFim(new ContatoController(contato));
@@ -87,12 +86,12 @@ public class PessoaController implements FocusListener, ActionListener {
     }
 
     public void apaga() {
-        ContControlNO current = getInicialScreenController().getListaContatoController().getInicio();
+        NO<ContatoController> current = getInicialScreenController().getListaContatoController().getInicio();
         while (current != null) {
-            if (current.getContato().isSelect()) {
-                new PessoaDAO().removeById(current.getContato().getContato().getPessoa().getId());
-                new ContatoDao().removeById(current.getContato().getContato().getId());
-                getInicialScreenController().getListaContatoController().ApagaContatoController(current.getContato());
+            if (current.getData().isSelect()) {
+                new PessoaDAO().delete(current.getData().getContato().getPessoa().getId());
+                new ContatoDAO().delete(current.getData().getContato().getId());
+                getInicialScreenController().getListaContatoController().ApagaData(current.getData());
                 getInicialScreenController()
                         .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() - 1);
 
@@ -122,11 +121,11 @@ public class PessoaController implements FocusListener, ActionListener {
         PessoaDAO pessoaDAO = new PessoaDAO();
 
         pessoaDAO.update(pessoa);
-        ContControlNO current = getInicialScreenController().getListaContatoController().getInicio();
+        NO<ContatoController> current = getInicialScreenController().getListaContatoController().getInicio();
         while (current != null) {
-            if (current.getContato() == getContatoEdicao()) {
-                current.getContato().getContato().setPessoa(pessoa);
-                current.getContato().updateGUI();
+            if (current.getData() == getContatoEdicao()) {
+                current.getData().getContato().setPessoa(pessoa);
+                current.getData().updateGUI();
                 getInicialScreenController()
                         .setCountMouseClicked(getInicialScreenController().getCountMouseClicked() - 1);
             }
@@ -234,12 +233,12 @@ public class PessoaController implements FocusListener, ActionListener {
 
     public static int geraId() {
         int count = 0;
-        PessoaList pessoaList = new PessoaDAO().List();
-        PessoaNO atual = pessoaList.getInicio();
+        DoublyLinkedLists<Pessoa> pessoaList = new PessoaDAO().findAll();
+        NO<Pessoa> atual = pessoaList.getInicio();
         while (atual != null) {
 
-            if (count < atual.getPessoa().getId()) {
-                count = atual.getPessoa().getId();
+            if (count < atual.getData().getId()) {
+                count = atual.getData().getId();
             }
             atual = atual.getProximo();
 

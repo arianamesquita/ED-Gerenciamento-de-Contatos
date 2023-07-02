@@ -23,7 +23,6 @@ public class App {
 
         frame.add(iController.getTelaInicialGUI(), BorderLayout.CENTER);
         frame.setVisible(true);
-
     }
 
 }

@@ -20,7 +20,13 @@ public class Contato implements Serializable {
     public int getId() {
         return id;
     }
+    public int getIdPessoa(){
+        return pessoa.getId();
+    }
 
+    public int getIdCategoria(){
+        return categoria.getId();
+    }
     public void setId(int id) {
         this.id = id;
     }

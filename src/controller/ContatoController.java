@@ -5,9 +5,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import View.ContatosGUI;
-import database.ContatoDao;
-import database.createList.DoublyLinkedLists.ContatoList;
-import database.createList.NOs.ContatoNO;
+import database.DoublyLinkedLists;
+import database.NO;
+import database.DAO.ContatoDAO;
 import model.Contato;
 
 public class ContatoController {
@@ -153,12 +153,12 @@ public class ContatoController {
 
     public static int geraId() {
         int count = 0;
-        ContatoList contatoList = new ContatoDao().Listar();
-        ContatoNO atual = contatoList.getInicio();
+        DoublyLinkedLists<Contato> contatoList = new ContatoDAO().findAll();
+        NO<Contato> atual = contatoList.getInicio();
         while (atual != null) {
 
-            if (count < atual.getContato().getId()) {
-                count = atual.getContato().getId();
+            if (count < atual.getData().getId()) {
+                count = atual.getData().getId();
             }
             atual = atual.getProximo();
         }
