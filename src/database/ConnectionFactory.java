@@ -17,9 +17,9 @@ public class ConnectionFactory {
     public static Connection createConnectionToMySQL() throws Exception {
         Class.forName(DRIVER);
         return DriverManager . getConnection (
-  "jdbc:mysql://aws.connect.psdb.cloud/gerenciamentocontatos?sslMode=VERIFY_IDENTITY" ,
-  "lsjiv8m7k61df60yplmz" ,
-  "pscale_pw_tgLjXdusBwqmjA4KPPojN7aipjIYwJsPWh4Zxo8qDa7" );
+  "jdbc:mysql://aws.connect.psdb.cloud/gerenciamentocontatos" ,
+  "o8jpkz82igyfispi96rk" ,
+  "pscale_pw_cP6v7B3g44j911IXCH4USCDsCmO4zu1IzYZ3499Ji5U" );
 
     }
 
