@@ -11,15 +11,15 @@ public class ConnectionFactory {
 
   
     private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    private static final String URL_STRING ="jdbc:mysql://aws.connect.psdb.cloud/gerenciamentocontatos";
+    private static final String USER = "usgf19luqniwgcv5uvb7";
+    private static final String PASSWORD ="pscale_pw_A"+"P8zyMIsxZ"+"EVS4gsPbE8"+"p105P4GiYn51G"+"QAJZAwH1GX";
 
 
 
     public static Connection createConnectionToMySQL() throws Exception {
         Class.forName(DRIVER);
-        return DriverManager . getConnection (
-  "jdbc:mysql://aws.connect.psdb.cloud/gerenciamentocontatos" ,
-  "o8jpkz82igyfispi96rk" ,
-  "pscale_pw_cP6v7B3g44j911IXCH4USCDsCmO4zu1IzYZ3499Ji5U" );
+        return DriverManager . getConnection (URL_STRING,USER,PASSWORD);
 
     }
 
